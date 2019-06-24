@@ -1,3 +1,4 @@
+const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清理 /dist 文件夹
@@ -46,12 +47,11 @@ module.exports = merge(common, {
   },
   module: {
     rules: [
-      // import css
       {
-        test: /\.(c)ss$/,
+        test: /\.(le|sc|c)ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader:  MiniCssExtractPlugin.loader,
             options: {
               publicPath: '../'
             }
@@ -59,7 +59,18 @@ module.exports = merge(common, {
           {
             loader: 'css-loader'
           },
-        ]
+          {
+            loader: 'less-loader'
+          },
+          {
+            loader: 'sass-loader'
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ],
+        exclude: /(node_modules|bower_components)/,
+        include: path.join(__dirname, '../src'), //限制范围，提高打包速度
       }
     ]
   }

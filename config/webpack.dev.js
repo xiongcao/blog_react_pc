@@ -1,5 +1,7 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
+const path = require('path');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -17,24 +19,38 @@ module.exports = merge(common, {
     proxy: {
       '/api': 'http://localhost:8080' // 请求到 /api/users 现在会被代理到请求 http://localhost:8080/api/users
     },
-    https: true,
+    // https: true,
     // host: '0.0.0.0',
     open: true, // 启动后打开浏览器
     compress: true // 一切服务都启用 gzip 压缩
   },
+  plugins: [
+    new webpack.NamedModulesPlugin(), //当开启 HMR 的时候使用该插件会显示模块的相对路径，建议用于开发环境
+  ],
   module: {
     rules: [
-      // import css
       {
-        test: /\.css$/,
-        use: [
+        test: /\.(le|sc|c)ss$/,
+        use: 
+        [
           {
             loader: 'style-loader',
           },
           {
             loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader'
+          },
+          {
+            loader: 'sass-loader'
+          },
+          {
+            loader: 'postcss-loader'
           }
-        ]
+        ],
+        exclude: /(node_modules|bower_components)/,
+        include: path.join(__dirname, '../src'), //限制范围，提高打包速度
       }
     ]
   }
