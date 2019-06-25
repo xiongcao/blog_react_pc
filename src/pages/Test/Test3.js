@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class Header extends Component {
+class Test3 extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class Header extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#Header</h2>
+        <h2>#Test3</h2>
       </Fragment>
     )
   }
 }
 
-export default Header
+export default Test3

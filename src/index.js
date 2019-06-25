@@ -6,6 +6,7 @@ import App from './App'
 
 ReactDOM.render(<App/>, document.getElementById('app'))
 
+
 // 热更新
 if (module.hot) {
   module.hot.accept('./App', () => {

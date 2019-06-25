@@ -9,14 +9,6 @@ function resolve (dir) {
 }
 
 module.exports = {
-  // entry: [
-  //   {
-  //     app: '../src/index.js'
-  //   }
-  //   // path.resolve(__dirname, 'index.js'),
-  //   // 'react-hot-loader/patch', // 这里reload=true的意思是，如果碰到不能hot reload的情况，就整页刷新。
-  //   // 'webpack-hot-middleware/client?reload=true'
-  // ],
   entry: {
     app: './src/index.js'
   },
@@ -47,13 +39,14 @@ module.exports = {
       '@components':resolve('src/components'),
       '@libs':resolve('src/libs'),
       '@layouts':resolve('src/layouts'),
+      '@pages':resolve('src/pages'),
       '@utils':resolve('src/utils')
     }
   },
   module: {
     rules: [
       {
-        test: /\.(m?js)$/,
+        test: /\.(m?js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',

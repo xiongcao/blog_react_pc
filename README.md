@@ -9,3 +9,6 @@ http-server： 使用的是node http-server 搭建的服务器，可访问dist
 
 ### 二：技术栈   
 webapck4.x + react16.x + react-redux + redux + react-router + react-router-dom    
+
+### 三：注意事项    
+1.class中无法使用箭头函数，是因为缺少@babel/preset-stage-0,然后这个bable已经被弃用，可以使用 "@babel/plugin-syntax-dynamic-import", "@babel/plugin-syntax-import-meta", "@babel/plugin-proposal-class-properties", "@babel/plugin-proposal-json-strings" 替代

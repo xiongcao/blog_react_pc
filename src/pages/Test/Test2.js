@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class LeftMenu extends Component {
+class Test2 extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class LeftMenu extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#LeftMenu</h2>
+        <h2>#Test2</h2>
       </Fragment>
     )
   }
 }
 
-export default LeftMenu
+export default Test2

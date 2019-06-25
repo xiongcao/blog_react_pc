@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class Footer extends Component {
+class Exception400 extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class Footer extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#Footer</h2>
+        <h2>#Exception400</h2>
       </Fragment>
     )
   }
 }
 
-export default Footer
+export default Exception400
