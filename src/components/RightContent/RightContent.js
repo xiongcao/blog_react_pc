@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class RightLayout extends Component {
+class RightContent extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class RightLayout extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#RightLayout</h2>
+        <h2>#RightContent</h2>
       </Fragment>
     )
   }
 }
 
-export default RightLayout
+export default RightContent

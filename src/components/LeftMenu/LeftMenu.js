@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class LeftLayout extends Component {
+class LeftMenu extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class LeftLayout extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#LeftLayout</h2>
+        <h2>#LeftMenu</h2>
       </Fragment>
     )
   }
 }
 
-export default LeftLayout
+export default LeftMenu
