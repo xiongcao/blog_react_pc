@@ -31,6 +31,11 @@ export default [
         component: Home,
         children: [
           {
+            path: '/test2/:id',
+            name: '测试2',
+            component: Test2,
+          },
+          {
             path: '/test1',
             name: '测试1',
             component: Test1,
@@ -41,11 +46,6 @@ export default [
                 component: Test3,
               }
             ]
-          },
-          {
-            path: '/test2',
-            name: '测试2',
-            component: Test2,
           }
         ]
       },

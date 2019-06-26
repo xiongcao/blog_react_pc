@@ -9,11 +9,10 @@ import routerConfig from '@/router/router'
 import './BasicLayout.less'
 
 class BasicLayout extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
       collapsed: false,
-      rootPath: ''
     };
   }
 
@@ -23,14 +22,20 @@ class BasicLayout extends Component {
     });
   }
 
+  handleJoinPath = (router, path) => {
+    router.children && router.children.forEach((item) => {
+      this.handleJoinPath(item, path + item.path)
+    })
+    router.path1 = path
+  }
+
   filterLayout = (type) => {
-    let routers = []
-    let _rootPath
+    let _router
     try {
       routerConfig.forEach((router, i) => {
         if(router.name == 'BasicLayout'){
-          routers = router
-          this.state.rootPath = router.path
+          this.handleJoinPath(router, router.path)
+          _router = router
           throw new Error("EndIterative");
         }
       })
@@ -40,9 +45,9 @@ class BasicLayout extends Component {
       }
     }
     if (type == 'link') {
-      return this.eachAddLink(routers)
+      return this.eachAddLink(_router)
     } else {
-      return this.eachAddRoute(routers)
+      return this.eachAddRoute(_router)
     }
   }
 
@@ -50,25 +55,25 @@ class BasicLayout extends Component {
     return routers.children && routers.children.map((o, j) => {
       if (!o.hideInMenu) {
         if (o.children) {
-          return (<SubMenu
-              key={o.path}
-              title={
+          return (
+            <SubMenu
+              key = { o.path1 + j }
+              title = {
                 <span>
-                  <Icon type={o.icon} />
-                  <span>{o.name}</span>
+                  <Icon type = { o.icon } />
+                  <span>{ o.name }</span>
                 </span>
               }
             >
-            {
-              this.eachAddLink(o)
-            }
-          </SubMenu>)
+            { this.eachAddLink(o) }
+            </SubMenu>
+          )
         } else {
-          return (
-            <Menu.Item key={o.path}>
-              <Link to={this.state.rootPath + o.path}>
-                <Icon type={o.icon} />
-                <span>{o.name}</span>
+          return  (
+            <Menu.Item key = { o.path1 }>
+              <Link to = { o.path1 }>
+                <Icon type = { o.icon } />
+                <span>{ o.name }</span>
               </Link>
             </Menu.Item>
           )
@@ -83,8 +88,8 @@ class BasicLayout extends Component {
         if (o.children) {
           return this.eachAddRoute(o)
         } else {
-          return (
-            <Route path={o.path} key={j} component = {o.component}/>
+          return  (
+            <Route path = { o.path1 } key = { o.path1 } component = { o.component }/>
           )
         }
       }
@@ -95,25 +100,25 @@ class BasicLayout extends Component {
     return (
       <Layout>
         <Sider
-          style={{
+          style = {{
             height: '100vh'
           }}
-          trigger={null} collapsible collapsed={this.state.collapsed}>
+          trigger = { null } collapsible collapsed = { this.state.collapsed }>
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
             { this.filterLayout('link') }
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header style = {{ background: '#fff', padding: 0 }}>
             <Icon
-              className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
+              className = "trigger"
+              type = { this.state.collapsed ? 'menu-unfold' : 'menu-fold' }
+              onClick = { this.toggle }
             />
           </Header>
           <Content
-            style={{
+            style = {{
               margin: '24px 16px',
               padding: 24,
               background: '#fff',
