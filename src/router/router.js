@@ -31,7 +31,7 @@ export default [
         component: Home,
         children: [
           {
-            path: '/test2/:id',
+            path: '/test2',
             name: '测试2',
             component: Test2,
           },

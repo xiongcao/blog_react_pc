@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd';
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-import routerConfig from '@/router/router'
+import { handleJoinPath, filterLayout } from '@/router'
 
 import './BasicLayout.less'
 
@@ -22,28 +22,9 @@ class BasicLayout extends Component {
     });
   }
 
-  handleJoinPath = (router, path) => {
-    router.children && router.children.forEach((item) => {
-      this.handleJoinPath(item, path + item.path)
-    })
-    router.path1 = path
-  }
-
   filterLayout = (type) => {
-    let _router
-    try {
-      routerConfig.forEach((router, i) => {
-        if(router.name == 'BasicLayout'){
-          this.handleJoinPath(router, router.path)
-          _router = router
-          throw new Error("EndIterative");
-        }
-      })
-    } catch (e) {
-      if(e.message!='EndIterative'){
-        throw e;
-      }
-    }
+    let _router = filterLayout('BasicLayout')
+    handleJoinPath(_router, _router.path)
     if (type == 'link') {
       return this.eachAddLink(_router)
     } else {

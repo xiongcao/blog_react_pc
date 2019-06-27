@@ -6,11 +6,13 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 
 import BasicLayout from '@layouts/BasicLayout'
+import LoginLayout from '@layouts/LoginLayout'
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      token: false
     }
   }
 
@@ -18,7 +20,9 @@ class App extends Component {
     return (
       <LocaleProvider locale={zhCN}>
         <HashRouter>
-          <BasicLayout/>
+          {
+            this.state.token ? (<BasicLayout/>) : (<LoginLayout/>)
+          }
         </HashRouter>
       </LocaleProvider>
     );

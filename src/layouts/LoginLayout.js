@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-class BasicLayout extends Component {
+class LoginLayout extends Component {
   constructor(props){
     super(props)
   }
@@ -7,10 +7,10 @@ class BasicLayout extends Component {
   render() {
     return (
       <Fragment>
-        <h2>#BasicLayout</h2>
+        <h2>#LoginLayout</h2>
       </Fragment>
     )
   }
 }
 
-export default BasicLayout
+export default LoginLayout
