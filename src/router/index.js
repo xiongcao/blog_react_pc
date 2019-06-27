@@ -15,7 +15,7 @@ export const filterLayout = (type) => {
   let router
   try {
     routerConfig.forEach((item, i) => {
-      if(item.name == type){
+      if(item.layout == type){
         router = item
         throw new Error("EndIterative");
       }

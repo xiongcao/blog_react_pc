@@ -8,41 +8,40 @@ import User from '@pages/User/User.js'
 import Test1 from '@pages/Test/Test1.js'
 import Test2 from '@pages/Test/Test2.js'
 import Test3 from '@pages/Test/Test3.js'
+import Login from '@pages/Login/Login.js'
 
 export default [
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   meta: {
-  //     title: 'Login - 登录',
-  //     hideInMenu: true
-  //   },
-  //   component: () => import('@/view/login/login.vue')
-  // },
+  {
+    layout: 'LoginLayout',
+    path: '/login',
+    name: 'login',
+    title: '首页',
+    component: Login,
+  },
   {
     path: '/admin',
-    name: 'BasicLayout',
+    layout: 'BasicLayout',
     children: [
       {
         path: '/home',
         icon: 'home',
-        name: '首页',
+        title: '首页',
         // hideInMenu: true,
         component: Home,
         children: [
           {
             path: '/test2',
-            name: '测试2',
+            title: '测试2',
             component: Test2,
           },
           {
             path: '/test1',
-            name: '测试1',
+            title: '测试1',
             component: Test1,
             children: [
               {
                 path: '/test3',
-                name: '测试3',
+                title: '测试3',
                 component: Test3,
               }
             ]
@@ -52,7 +51,7 @@ export default [
       {
         path: '/user',
         icon: 'user',
-        name: '用户管理',
+        title: '用户管理',
         component: User,
       }
     ]

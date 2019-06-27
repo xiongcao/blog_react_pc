@@ -12,7 +12,6 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      token: false
     }
   }
 
@@ -20,9 +19,8 @@ class App extends Component {
     return (
       <LocaleProvider locale={zhCN}>
         <HashRouter>
-          {
-            this.state.token ? (<BasicLayout/>) : (<LoginLayout/>)
-          }
+          <BasicLayout/>
+          <LoginLayout/>
         </HashRouter>
       </LocaleProvider>
     );
