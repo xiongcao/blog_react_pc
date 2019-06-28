@@ -35,7 +35,9 @@
     "brorand": "^1.1.0",
     "buffer-from": "^1.1.1",
     "buffer-xor": "^1.0.3",
-    "builtin-status-codes": "^3.0.0"
+    "builtin-status-codes": "^3.0.0",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

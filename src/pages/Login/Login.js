@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { Route, Link, Redirect } from 'react-router-dom'
 import { Form, Input, Tooltip, Icon, Button } from 'antd';
-import { login } from '@/actions'
 
 import AccountLogin from '@/components/AccountLogin/AccountLogin.js'
 import CodeLogin from '@/components/CodeLogin/CodeLogin.js'
@@ -19,10 +18,17 @@ class Login extends Component {
 
   login = () => {
     if (this.state.loginType == 1) {
-      this.refs.accountLogin.onLogin()
+      this.accountLogin.onLogin()
     } else {
-      this.refs.codeLogin.onCodeLogin()
+      this.codeLogin.onCodeLogin()
     }
+  }
+
+  accountLoginRef = (ref) => {
+    this.accountLogin = ref
+  }
+  codeLoginRef = (ref) => {
+    this.codeLogin = ref
   }
 
   changeTabs = (type) => {
@@ -40,20 +46,18 @@ class Login extends Component {
         </div>
         {
           this.state.loginType == 1 ? (
-            <AccountLogin ref="accountLogin"/>
+            <AccountLogin accountLoginRef={this.accountLoginRef}/>
           ) : (
-            <CodeLogin ref="codeLogin"/>
+            <CodeLogin codeLoginRef={this.codeLoginRef}/>
           )
         }
         <div className="to-link">
           <div className="forget-password">忘记密码</div><div className="register">注册账号</div>
         </div>
         <button className="login-btn" onClick= { this.login }>登录</button>
-        {/* <h2>#Login</h2>
-        <button onClick = { this.login }>登录</button> */}
       </div>
     )
   }
 }
 
-export default connect()(Login)
+export default Login

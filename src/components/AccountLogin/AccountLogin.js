@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import { Form, Input, Icon, message } from 'antd';
+import { connect } from 'react-redux'
 
-import { loginIn } from '@/api/user'
+import { loginIn, getUserInfo } from '@/api/user'
+// import { handleLogin } from '@/actions/user'
 
 class AccountLogin extends Component {
   constructor(props){
     super(props)
+    this.props.accountLoginRef(this)
     this.state = {
       usernameTips: '',
       passwordTips: '',
@@ -34,6 +37,14 @@ class AccountLogin extends Component {
     }
   }
 
+  handleUserInfo = () => {
+    getUserInfo().then((res) => {
+
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
   onLogin = () => {
     let checkFlag = this.inputCheck()
     if (checkFlag) {
@@ -41,6 +52,8 @@ class AccountLogin extends Component {
       loginIn(this.state.username, this.state.password).then((res) => {
         if (res.code == 0) {
           message.success('登录成功')
+          // this.props.dispatch(handleLogin(res.data))
+          // this.handleUserInfo()
         } else {
           message.error(res.msg)
         }
@@ -96,4 +109,4 @@ class AccountLogin extends Component {
   }
 }
 
-export default AccountLogin
+export default connect()(AccountLogin)

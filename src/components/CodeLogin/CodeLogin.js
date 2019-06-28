@@ -4,11 +4,13 @@ import { Form, Input, Icon, Button, message } from 'antd';
 class CodeLogin extends Component {
   constructor(props){
     super(props)
+    this.props.codeLoginRef(this)
   }
 
   onCodeLogin = () => {
     message.error("此功能暂未开放")
   }
+
 
   render() {
     return (

@@ -13,6 +13,21 @@ export const loginIn = (username, password) => {
 
 export const getUserInfo = () => {
   return new Promise((resolve) => {
-    resolve()
+    let username = localStorage.getItem('username')
+    let userId = localStorage.getItem('userId')
+    let avatar = localStorage.getItem('avatar')
+    let logo = localStorage.getItem('logo')
+    let role = localStorage.getItem('role')
+    resolve({
+      code: 0,
+      data: {
+        username,
+        avatar,
+        logo,
+        userId,
+        role
+      },
+      msg: '成功'
+    })
   })
 }

@@ -1,4 +1,4 @@
-const login = (state = {}, action) => {
+const user = (state = {}, action) => {
     switch (action.type) {
         case 'LOGIN':
             return Object.assign({}, state, action.user)
@@ -7,4 +7,4 @@ const login = (state = {}, action) => {
     }
 }
 
-export default login
+export default user
