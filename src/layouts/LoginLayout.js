@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route } from 'react-router-dom'
-import Login from '@pages/Login/Login.js'
+import Login from '@/pages/Login/Login.js'
 import store from '@/libs/store'
+
+import '@/layouts/LoginLayout.less'
 
 
 class LoginLayout extends Component {
@@ -13,25 +15,35 @@ class LoginLayout extends Component {
       user: props.user
     };
 
-    if (!this.state.user) { // 未登录
-      this.props.history.push({ pathname: `/login` })
-    }
+ 
     store.subscribe(() => {
       let { user } = store.getState()
-      console.log(111111111111, user)
+      if (user) { // 已登录
+        this.props.history.push({ pathname: `/admin/home` })
+      }
       this.setState({
         user
       })
     })
   }
 
+  templateHtml = () => {
+    return (
+      <div className="login-layout">
+        <div className="login-box"></div>
+        <div className="layout-content">
+          <div className="title">Panda Blog Admin</div>
+          <Route path = '/login' component = { Login } />
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <Fragment>
         {
-          !this.state.user && (
-            <Route path = '/login' component = { Login } />
-          )
+          !this.state.user && this.templateHtml()
         }
       </Fragment>
     )

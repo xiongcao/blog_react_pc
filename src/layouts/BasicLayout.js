@@ -22,6 +22,9 @@ class BasicLayout extends Component {
     }
     store.subscribe(() => {
       let { user } = store.getState()
+      if (!user) { // 未登录
+        this.props.history.push({ pathname: `/login` })
+      }
       this.setState({
         user
       })
