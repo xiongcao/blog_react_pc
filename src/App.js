@@ -9,6 +9,11 @@ import zhCN from 'antd/es/locale-provider/zh_CN';
 import BasicLayout from '@layouts/BasicLayout'
 import LoginLayout from '@layouts/LoginLayout'
 
+import { PersistGate } from 'redux-persist/es/integration/react'
+import {persistStore} from 'redux-persist';
+import store from '@/libs/store'
+let persistor = persistStore(store);
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -18,12 +23,14 @@ class App extends Component {
 
   render () {
     return (
-      <LocaleProvider locale={zhCN}>
-        <HashRouter>
-          <BasicLayout/>
-          <LoginLayout/>
-        </HashRouter>
-      </LocaleProvider>
+      <PersistGate persistor={persistor}>
+        <LocaleProvider locale={zhCN}>
+          <HashRouter>
+            <BasicLayout/>
+            <LoginLayout/>
+          </HashRouter>
+        </LocaleProvider>
+      </PersistGate>
     );
   }
 }

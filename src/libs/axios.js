@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import { Spin } from 'iview'
 
 class HttpRequest {
   constructor (baseUrl = baseURL) {
@@ -15,17 +14,10 @@ class HttpRequest {
   }
   destroy (url) {
     delete this.queue[url]
-    if (!Object.keys(this.queue).length) {
-      // Spin.hide()
-    }
   }
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
-      // 添加全局的loading...
-      if (!Object.keys(this.queue).length) {
-        // Spin.show() // 不建议开启，因为界面不友好
-      }
       this.queue[url] = true
       return config
     }, error => {
@@ -48,8 +40,6 @@ class HttpRequest {
         }
       } else {
         if (error.response.data.code === -1) {
-          // store.dispatch('handleLogOut')
-          alert('登录失效')
           location.reload()
         }
       }

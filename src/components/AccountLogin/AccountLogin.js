@@ -3,7 +3,7 @@ import { Form, Input, Icon, message } from 'antd';
 import { connect } from 'react-redux'
 
 import { loginIn, getUserInfo } from '@/api/user'
-// import { handleLogin } from '@/actions/user'
+import { handleLogin } from '@/actions/user'
 
 class AccountLogin extends Component {
   constructor(props){
@@ -52,7 +52,7 @@ class AccountLogin extends Component {
       loginIn(this.state.username, this.state.password).then((res) => {
         if (res.code == 0) {
           message.success('登录成功')
-          // this.props.dispatch(handleLogin(res.data))
+          this.props.dispatch(handleLogin(res.data))
           // this.handleUserInfo()
         } else {
           message.error(res.msg)
