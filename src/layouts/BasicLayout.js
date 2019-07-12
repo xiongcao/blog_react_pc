@@ -6,6 +6,7 @@ const { SubMenu } = Menu;
 
 import { handleJoinPath, filterLayout } from '@/router'
 import store from '@/libs/store'
+import { MyHeader } from '@/components/index'
 
 import './BasicLayout.less'
 
@@ -15,7 +16,13 @@ class BasicLayout extends Component {
     this.state = {
       collapsed: false,
     };
+  }
 
+  componentWillMount () {
+    let { user } = store.getState()
+    if (!user.id) {
+      this.props.history.push('/login')
+    }
   }
 
   toggle = () => {
@@ -80,44 +87,40 @@ class BasicLayout extends Component {
   }
 
   render() {
-    let { user } = store.getState()
     return (
       <Fragment>
-        {
-          user.id && (
-            <Layout>
-              <Sider
-                style = {{
-                  height: '100vh'
-                }}
-                trigger = { null } collapsible collapsed = { this.state.collapsed }>
-                <div className="logo" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                  { this.filterLayout('link') }
-                </Menu>
-              </Sider>
-              <Layout>
-                <Header style = {{ background: '#fff', padding: 0 }}>
-                  <Icon
-                    className = "trigger"
-                    type = { this.state.collapsed ? 'menu-unfold' : 'menu-fold' }
-                    onClick = { this.toggle }
-                  />
-                </Header>
-                <Content
-                  style = {{
-                    margin: '24px 16px',
-                    padding: 24,
-                    background: '#fff',
-                    minHeight: 280,
-                  }}
-                >
-                  { this.filterLayout('route') }
-                </Content>
-              </Layout>
-            </Layout>
-          )
-        }
+        <Layout>
+          <Sider
+            style = {{
+              height: '100vh'
+            }}
+            trigger = { null } collapsible collapsed = { this.state.collapsed }>
+            <div className="logo" />
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              { this.filterLayout('link') }
+            </Menu>
+          </Sider>
+          <Layout>
+            <Header style = {{ background: '#fff', padding: 0 }}>
+              <Icon
+                className = "trigger"
+                type = { this.state.collapsed ? 'menu-unfold' : 'menu-fold' }
+                onClick = { this.toggle }
+              />
+              <MyHeader/>
+            </Header>
+            <Content
+              style = {{
+                margin: '24px 16px',
+                padding: 24,
+                background: '#fff',
+                minHeight: 280,
+              }}
+            >
+              { this.filterLayout('route') }
+            </Content>
+          </Layout>
+        </Layout>
       </Fragment>
     )
   }

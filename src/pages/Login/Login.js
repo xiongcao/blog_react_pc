@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from 'react'
-// import { connect } from 'react-redux'
-import { Route, Link, Redirect } from 'react-router-dom'
-import { Form, Input, Tooltip, Icon, Button } from 'antd';
 
-import AccountLogin from '@/components/AccountLogin/AccountLogin.js'
-import CodeLogin from '@/components/CodeLogin/CodeLogin.js'
+
+import { AccountLogin, CodeLogin } from '@/components/index'
 
 import '@/pages/Login/Login.less'
 

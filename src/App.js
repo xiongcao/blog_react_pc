@@ -26,8 +26,10 @@ class App extends Component {
       <PersistGate persistor={persistor}>
         <LocaleProvider locale={zhCN}>
           <HashRouter>
-            <BasicLayout/>
-            <LoginLayout/>
+            {/* <BasicLayout/> */}
+            {/* <LoginLayout/> */}
+            <Route path = '/admin/home' component = { BasicLayout } />
+            <Route path = '/login' component = { LoginLayout } />
           </HashRouter>
         </LocaleProvider>
       </PersistGate>

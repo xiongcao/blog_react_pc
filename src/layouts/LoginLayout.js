@@ -13,31 +13,21 @@ class LoginLayout extends Component {
 
   componentWillMount () {
     let { user } = store.getState()
-    console.log('login', user)
     if (user.id) {
       this.props.history.push('/admin/home')
     }
   }
 
-  templateHtml = () => {
-    return (
-      <div className="login-layout">
-        <div className="login-box"></div>
-        <div className="layout-content">
-          <div className="title">Panda Blog Admin</div>
-          <Route path = '/login' component = { Login } />
-        </div>
-      </div>
-    )
-  }
-
   render() {
-    let { user } = store.getState()
     return (
       <Fragment>
-        {
-          !user.id && this.templateHtml()
-        }
+        <div className="login-layout">
+          <div className="login-box"></div>
+          <div className="layout-content">
+            <div className="title">Panda Blog Admin</div>
+            <Login/>
+          </div>
+        </div>
       </Fragment>
     )
   }
