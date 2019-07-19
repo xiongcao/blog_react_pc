@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 class Test2 extends Component {
   constructor(props){
     super(props)
-    console.log(props, 12312321)
   }
 
   render() {

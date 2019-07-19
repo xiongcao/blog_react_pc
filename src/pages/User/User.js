@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 class User extends Component {
   constructor(props){
     super(props)
-    // console.log(props.match.params)
   }
 
   toTestPage = () => {

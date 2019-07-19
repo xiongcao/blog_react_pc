@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, HashRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, HashRouter, Route } from 'react-router-dom'
 import { LocaleProvider } from 'antd';
 import '@/assets/styles/app.less'
 
@@ -26,9 +26,7 @@ class App extends Component {
       <PersistGate persistor={persistor}>
         <LocaleProvider locale={zhCN}>
           <HashRouter>
-            {/* <BasicLayout/> */}
-            {/* <LoginLayout/> */}
-            <Route path = '/admin/home' component = { BasicLayout } />
+            <Route path = '/admin' component = { BasicLayout } />
             <Route path = '/login' component = { LoginLayout } />
           </HashRouter>
         </LocaleProvider>

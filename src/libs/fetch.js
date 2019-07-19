@@ -6,11 +6,13 @@ const request = (url, config) => {
   }).then((res) => {  // 所有成功失败都走这儿
     if (res.code || res.code === 0) {  // 即使请求失败，只要有code就是服务端给处理了异常
       if (res.code !== 0) {
+        message.error(res.msg);
         if (res.code === -1) {
           localStorage.clear()
-          window.location.replace('/')
+          console.log('跳login页')
+          // window.location.replace('/#/login')
+          // window.location.reload()
         }
-        message.error(res.msg);
       }
       return res;
     } else {  // 服务器异常 400 404 500
@@ -52,6 +54,18 @@ export const post = (url, data) => {
       'content-type': 'application/json'
     },
     method: 'POST',
+    credentials: 'include',
+    mode: 'cors'
+  });
+};
+
+// DELETE请求
+export const del = (url) => {
+  return request(url, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'DELETE',
     credentials: 'include',
     mode: 'cors'
   });

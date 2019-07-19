@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter, Route, Link, Redirect } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd';
+import Home from '@pages/Home/Home.js'
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
 import { handleJoinPath, filterLayout } from '@/router'
 import store from '@/libs/store'
 import { MyHeader } from '@/components/index'
+import logo from '@/assets/img/logo.svg';
 
 import './BasicLayout.less'
 
@@ -95,7 +97,10 @@ class BasicLayout extends Component {
               height: '100vh'
             }}
             trigger = { null } collapsible collapsed = { this.state.collapsed }>
-            <div className="logo" />
+            <div className="logo">
+              <img src={logo} alt="logo" />
+              <h1>&nbsp;&nbsp;React</h1>
+            </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               { this.filterLayout('link') }
             </Menu>
@@ -117,6 +122,7 @@ class BasicLayout extends Component {
                 minHeight: 280,
               }}
             >
+              <Route path="/admin" component={Home} exact />
               { this.filterLayout('route') }
             </Content>
           </Layout>

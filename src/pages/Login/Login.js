@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
-
-
+import { withRouter } from 'react-router-dom'
 import { AccountLogin, CodeLogin } from '@/components/index'
 
 import '@/pages/Login/Login.less'
@@ -43,7 +42,7 @@ class Login extends Component {
         </div>
         {
           this.state.loginType == 1 ? (
-            <AccountLogin accountLoginRef={this.accountLoginRef}/>
+            <AccountLogin accountLoginRef={this.accountLoginRef} history={this.props.history}/>
           ) : (
             <CodeLogin codeLoginRef={this.codeLoginRef}/>
           )
@@ -57,4 +56,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default withRouter(Login)

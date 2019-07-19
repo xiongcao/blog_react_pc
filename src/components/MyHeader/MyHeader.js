@@ -32,7 +32,7 @@ class MyHeader extends Component{
   render () {
     return <Fragment>
       <div className="breadcrumb">
-        <Breadcrumb>
+        {/* <Breadcrumb>
           <Breadcrumb.Item href="">
             <Icon type="home" />
           </Breadcrumb.Item>
@@ -41,7 +41,7 @@ class MyHeader extends Component{
             <span>Application List</span>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Application</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
       </div>
       <div className="userInfo">
         <Dropdown overlay={this.menu()} placement="bottomRight" style={{left: 'auto', top: 65}}>

@@ -9,7 +9,8 @@ export const login = (formVal, history) => {
       if (res.code === 0) {
         dispatch(heandlLogin(res.data))
         // 没有发生异常，跳转至主页
-        location.reload()
+        // location.reload()
+        history.push("/admin/home")
       }
     });
   };

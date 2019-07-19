@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, message } from 'antd';
 import { connect } from 'react-redux'
+// import { withRouter } from 'react-router-dom'
 
 import { login } from '@/actions/user'
 

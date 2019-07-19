@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { withRouter, Route } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Login from '@/pages/Login/Login.js'
 import store from '@/libs/store'
 import '@/layouts/LoginLayout.less'
