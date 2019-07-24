@@ -12,8 +12,6 @@
   /** *************** 开发环境 *************** */
   // const devRequestApi ='https://api.wantianqing.com/'
   // const devRequestApi ='http://192.168.1.24/'
-  // const devRequestApi ='http://192.168.1.202/' // 郭峰
-  // const devRequestApi ='http://192.168.1.57/' // 丁凡
   const devRequestApi ='http://192.168.1.83:8899/' // 小熊
   const api = process.env.NODE_ENV === 'production' ? requestApi : devRequestApi
 

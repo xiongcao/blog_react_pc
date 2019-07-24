@@ -91,7 +91,7 @@ class BasicLayout extends Component {
   render() {
     return (
       <Fragment>
-        <Layout>
+        <Layout style={{height: '100%'}}>
           <Sider
             style = {{
               height: '100vh'
@@ -116,14 +116,13 @@ class BasicLayout extends Component {
             </Header>
             <Content
               style = {{
-                margin: '24px 16px',
-                padding: 24,
-                background: '#fff',
-                minHeight: 280,
+                height: 'calc(100% - 64px)'
               }}
             >
-              <Route path="/admin" component={Home} exact />
-              { this.filterLayout('route') }
+              <div className="main-content">
+                <Route path="/admin" component={Home} exact />
+                { this.filterLayout('route') }
+              </div>
             </Content>
           </Layout>
         </Layout>

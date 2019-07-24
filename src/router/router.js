@@ -63,8 +63,8 @@ export default [
       },
       {
         path: '/user',
-        icon: 'user',
-        title: '用户管理',
+        icon: 'setting',
+        title: '个人设置',
         component: User,
       }
     ]

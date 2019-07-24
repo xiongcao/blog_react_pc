@@ -13,6 +13,11 @@ class MyHeader extends Component{
     this.state = {
       user: store.getState().user
     }
+    store.subscribe(() => {
+      this.setState({
+        user: store.getState().user
+      })
+    })
   }
 
   outLogin = () => {
@@ -48,7 +53,7 @@ class MyHeader extends Component{
           <span className='header-dropdown-link'>
           { `${this.state.user.name} (${this.state.user.nickname}) ` } 
           {
-            this.state.user.avatar ? <img className={styles.avatar} src={oss + this.state.user.avatar} alt=""/> : (<Icon type="user" style={{fontSize: '20px', marginLeft: '5px'}}/>)
+            this.state.user.avatar ? <img className="avatar" src={oss + this.state.user.avatar} alt=""/> : (<Icon type="user" style={{fontSize: '20px', marginLeft: '5px'}}/>)
           }
           </span>
         </Dropdown>
