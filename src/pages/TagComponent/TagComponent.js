@@ -4,7 +4,7 @@ import { Form, Input, Button, Table, Popconfirm, Modal, Radio, message, Tag } fr
 import * as Fetch from '@/libs/fetch';
 import { MyButton } from '@/components'
 
-import '@/pages/TagComponent/TagComponent.less'
+import '@/pages/tagComponent/tagComponent.less'
 
 class TagComponent extends Component {
   constructor(props){

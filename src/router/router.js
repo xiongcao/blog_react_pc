@@ -7,10 +7,10 @@
 // import Test2 from '@pages/Test/Test2.js'
 // import Test3 from '@pages/Test/Test3.js'
 // import Home from '@pages/Home/Home.js'
-import User from '@pages/User/User.js'
-import Login from '@pages/Login/Login.js'
-import Category from '@pages/Category/Category.js'
-import TagComponent from '@pages/TagComponent/TagComponent.js'
+import setUser from '@pages/user/setUser.js'
+import Login from '@pages/login/login.js'
+import Category from '@pages/category/category.js'
+import TagComponent from '@pages/tagComponent/tagComponent.js'
 
 export default [
   {
@@ -65,7 +65,7 @@ export default [
         path: '/user',
         icon: 'setting',
         title: '个人设置',
-        component: User,
+        component: setUser,
       }
     ]
   },
@@ -75,7 +75,7 @@ export default [
     meta: {
       hideInMenu: true
     },
-    component: () => import('@/pages/Exception/400.js')
+    component: () => import('@/pages/exception/400.js')
   },
   {
     path: '/500',
@@ -83,7 +83,7 @@ export default [
     meta: {
       hideInMenu: true
     },
-    component: () => import('@/pages/Exception/500.js')
+    component: () => import('@/pages/exception/500.js')
   },
   {
     path: '*',
@@ -91,6 +91,6 @@ export default [
     meta: {
       hideInMenu: true
     },
-    component: () => import('@/pages/Exception/404.js')
+    component: () => import('@/pages/exception/404.js')
   }
 ]

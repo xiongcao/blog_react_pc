@@ -7,7 +7,7 @@ import { heandlLogin } from '@/actions/user'
 import PageTitle from '@/components/PageTitle'
 import UploadImage from '@/components/UploadImage'
 import store from '@/libs/store.js';
-class User extends Component {
+class setUser extends Component {
   constructor(props){
 		super(props)
     this.state = {
@@ -218,4 +218,4 @@ class User extends Component {
   }
 }
 
-export default connect()(Form.create({ name: 'setUserInfo' })(User))
+export default connect()(Form.create({ name: 'setUserInfo' })(setUser))

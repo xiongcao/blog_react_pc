@@ -4,7 +4,7 @@ import { Form, Input, Button, Table, Popconfirm, Modal, Radio, message, Tag } fr
 import * as Fetch from '@/libs/fetch';
 import { MyButton } from '@/components'
 
-import '@/pages/Category/Category.less'
+import '@/pages/category/category.less'
 
 class Category extends Component {
   constructor(props){

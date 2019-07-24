@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { AccountLogin, CodeLogin } from '@/components/index'
 
-import '@/pages/Login/Login.less'
+import '@/pages/login/login.less'
 
 class Login extends Component {
   constructor(props){
