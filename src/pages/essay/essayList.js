@@ -26,10 +26,26 @@ class EssayList extends Component {
           width: 120
         },
         {
-          title: '浏览量',
-          dataIndex: 'browseNumber',
+          title: '类型',
+          dataIndex: 'categories',
           align: 'center',
-          width: 80
+          width: 80,
+          render: (categories, record) => {
+            return categories.map((categorie) => 
+              (<Tag>{categorie.name}</Tag>)
+            )
+          }
+        },
+        {
+          title: '标签',
+          dataIndex: 'tags',
+          align: 'center',
+          width: 80,
+          render: (tags, record) => {
+            return tags.map((tag) => 
+              (<Tag>{tag.name}</Tag>)
+            )
+          }
         },
         {
           title: '原创/转发',
@@ -51,16 +67,10 @@ class EssayList extends Component {
           width: 80
         },
         {
-          title: '创建时间',
-          dataIndex: 'createdDate',
+          title: '浏览量',
+          dataIndex: 'browseNumber',
           align: 'center',
-          width: 150
-        },
-        {
-          title: '最后修改时间',
-          dataIndex: 'lastModifiedDate',
-          align: 'center',
-          width: 150
+          width: 80
         },
         {
           title: '状态',
@@ -155,7 +165,7 @@ class EssayList extends Component {
     let { columns, essayList, tableLoading, tableHeight } = this.state
     return (
       <div className="essay-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton></div>
+        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.essayEdit.bind(this, -1) }>添 加</MyButton></div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}
