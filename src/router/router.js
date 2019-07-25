@@ -2,15 +2,13 @@
  *  hideInMenu: true 在侧边栏中不显示
  *  name: BasicLayout 后台管理工作台
  */
-
-// import Test1 from '@pages/Test/Test1.js'
-// import Test2 from '@pages/Test/Test2.js'
-// import Test3 from '@pages/Test/Test3.js'
 // import Home from '@pages/Home/Home.js'
 import setUser from '@pages/user/setUser.js'
 import Login from '@pages/login/login.js'
 import Category from '@pages/category/category.js'
 import TagComponent from '@pages/tagComponent/tagComponent.js'
+import EssayEdit from '@pages/essay/essayEdit.js'
+import EssayList from '@pages/essay/essayList.js'
 
 export default [
   {
@@ -29,25 +27,6 @@ export default [
       //   icon: 'home',
       //   title: '首页',
       //   component: Home,
-      //   children: [
-      //     {
-      //       path: '/test2',
-      //       title: '测试2',
-      //       component: Test2,
-      //     },
-      //     {
-      //       path: '/test1',
-      //       title: '测试1',
-      //       component: Test1,
-      //       children: [
-      //         {
-      //           path: '/test3',
-      //           title: '测试3',
-      //           component: Test3,
-      //         }
-      //       ]
-      //     }
-      //   ]
       // },
       {
         path: '/category',
@@ -60,6 +39,24 @@ export default [
         icon: 'tags',
         title: '标签管理',
         component: TagComponent,
+      },
+      {
+        path: '/essay',
+        icon: 'file-markdown',
+        title: '文章管理',
+        children: [
+          {
+            path: '/essayList',
+            title: '文章列表',
+            component: EssayList,
+          },
+          {
+            path: '/essayEdit/:id',
+            title: '文章编辑',
+            hideInMenu: true,
+            component: EssayEdit,
+          }
+        ]
       },
       {
         path: '/user',

@@ -76,14 +76,12 @@ class BasicLayout extends Component {
 
   eachAddRoute = (routers) => {
     return routers.children && routers.children.map((o, j) => {
-      if (!o.hideInMenu) {
-        if (o.children) {
-          return this.eachAddRoute(o)
-        } else {
-          return  (
-            <Route path = { o.path1 } key = { o.path1 } component = { o.component }/>
-          )
-        }
+      if (o.children) {
+        return this.eachAddRoute(o)
+      } else {
+        return  (
+          <Route path = { o.path1 } key = { o.path1 } component = { o.component }/>
+        )
       }
     })
   }

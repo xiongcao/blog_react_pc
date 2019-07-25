@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Form, Input, Button, Table, Popconfirm, Modal, Radio, message, Tag } from 'antd';
+import { Form, Input, Table, Popconfirm, Modal, Radio, message } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton } from '@/components'
 
