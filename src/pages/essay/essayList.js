@@ -27,12 +27,12 @@ class EssayList extends Component {
         },
         {
           title: '类型',
-          dataIndex: 'categories',
+          dataIndex: 'categorys',
           align: 'center',
           width: 80,
-          render: (categories, record) => {
-            return categories.map((categorie) => 
-              (<Tag>{categorie.name}</Tag>)
+          render: (categorys, record) => {
+            return categorys.map((category) => 
+              (<Tag key={category.id}>{category.name}</Tag>)
             )
           }
         },
@@ -43,7 +43,7 @@ class EssayList extends Component {
           width: 80,
           render: (tags, record) => {
             return tags.map((tag) => 
-              (<Tag>{tag.name}</Tag>)
+              (<Tag key={tag.id}>{tag.name}</Tag>)
             )
           }
         },

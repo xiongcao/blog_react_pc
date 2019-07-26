@@ -19,7 +19,11 @@ class EssayEdit extends Component {
   constructor(props){
     super(props)
     this.state = {
-      categoryForm: {},
+      essayData: {
+        content: '',
+        rank: 0,
+        status: 1
+      },
       categoryList: [],
       tagList: [],
       id: props.match.params.id,
@@ -43,9 +47,21 @@ class EssayEdit extends Component {
   componentDidMount () {
 		this.getCategoryList()
     this.getTagList()
-		this.props.form.setFieldsValue({
-      rank: 0,
-      status: 1
+    Number(this.state.id) !== -1 && this.getEssayDetail()
+  }
+
+  getEssayDetail () {
+    Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
+			if (res.code === 0) {
+        let tags = res.data.tags.map((tag) => tag.name)
+        let categorys = res.data.categorys.map((category) => category.name)
+        let essayData = Object.assign({}, res.data, {
+          categorys, tags
+        })
+				this.setState({
+					essayData
+				})
+			}
 		})
   }
   
@@ -74,27 +90,28 @@ class EssayEdit extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         Number(this.state.id) !== -1 && (values.id = this.state.id)
-        let { tagIds, categoryIds } = values
-        let _tagIds = [], _categoryIds = []
+        let { tags, categorys } = values
+        let _tags = [], _categorys = []
 
         let tagList = [...this.state.tagList]
         for (let i = 0; i < tagList.length; i++) {
           let tag = tagList[i]
-          this.inArrayIndexOf(tagIds, tag.name) && _tagIds.push(tag.id)
+          this.inArrayIndexOf(tags, tag.name) && _tags.push(tag)
         }
 
         let categoryList = [...this.state.categoryList]
         for (let i = 0; i < categoryList.length; i++) {
           let category = categoryList[i]
-          this.inArrayIndexOf(categoryIds, category.name) && _categoryIds.push(category.id)
+          this.inArrayIndexOf(categorys, category.name) && _categorys.push(category)
         }
 
-        values = Object.assign({}, values, {
-          tagIds: _tagIds,
-          categoryIds: _categoryIds,
+        values = Object.assign(this.state.essayData, values, {
+          tags: _tags,
+          categorys: _categorys,
           content: this.mdEditor.getHtmlValue()
         })
 
+        console.log(values, 'values')
         this.saveEssay(values)
       }
     })
@@ -122,7 +139,7 @@ class EssayEdit extends Component {
   }
 
   render() {
-    let { tagList, categoryList } = this.state
+    let { tagList, categoryList, essayData } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -154,19 +171,20 @@ class EssayEdit extends Component {
                     required: true,
                     message: '请输入名称',
                   }
-                ]
+                ],
+                initialValue: essayData.title
               })(<Input/>)
             }
           </Form.Item>
           <Form.Item label="标签">
-            {getFieldDecorator('tagIds', { 
+            {getFieldDecorator('tags', { 
               rules: [
                 {
                   required: true,
                   message: '请至少选择一个标签',
                 }
               ],
-              initialValue: []
+              initialValue: essayData.tags
             })(
               <Select mode="multiple" placeholder="选择标签" optionLabelProp="label">
               {
@@ -180,14 +198,14 @@ class EssayEdit extends Component {
             )}
           </Form.Item>
           <Form.Item label="类型">
-            {getFieldDecorator('categoryIds', { 
+            {getFieldDecorator('categorys', { 
               rules: [
                 {
                   required: true,
                   message: '请至少选择一个类型',
                 }
               ],
-              initialValue: []
+              initialValue: essayData.categorys
             })(
               <Select mode="multiple"placeholder="选择类型" optionLabelProp="label">
               {
@@ -202,12 +220,16 @@ class EssayEdit extends Component {
           </Form.Item>
           <Form.Item label="序号">
             {
-              getFieldDecorator('rank', { })(<InputNumber min={0} style={{ width: '100%' }}/>)
+              getFieldDecorator('rank', { 
+                initialValue: essayData.rank
+              })(<InputNumber min={0} style={{ width: '100%' }}/>)
             }
           </Form.Item>
           <Form.Item label="状态">
             {
-              getFieldDecorator('status')(
+              getFieldDecorator('status', {
+                initialValue: essayData.status
+              })(
                 <Radio.Group>
                   <Radio value={1}>公开</Radio>
                   <Radio value={2}>私密</Radio>
@@ -222,7 +244,7 @@ class EssayEdit extends Component {
               <MdEditor
                 ref={node => this.mdEditor = node}
                 style={{height: 500}}
-                value={''}
+                value={essayData.content + ''}
                 config={{
                   view: {
                     menu: true,
