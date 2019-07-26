@@ -22,7 +22,7 @@ class Category extends Component {
           width: 80
         },
         {
-          title: '标签名',
+          title: '类型',
           dataIndex: 'name',
           align: 'center',
           width: 120

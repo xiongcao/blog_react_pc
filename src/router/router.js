@@ -9,6 +9,7 @@ import Category from '@pages/category/category.js'
 import TagComponent from '@pages/tagComponent/tagComponent.js'
 import EssayEdit from '@pages/essay/essayEdit.js'
 import EssayList from '@pages/essay/essayList.js'
+import Comment from '@pages/comment/comment.js'
 
 export default [
   {
@@ -57,6 +58,12 @@ export default [
             component: EssayEdit,
           }
         ]
+      },
+      {
+        path: '/comment',
+        icon: 'tags',
+        title: '评论管理',
+        component: Comment,
       },
       {
         path: '/user',

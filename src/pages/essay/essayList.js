@@ -14,16 +14,10 @@ class EssayList extends Component {
       essayList: [],
       columns: [
         {
-          title: 'ID',
-          dataIndex: 'id',
-          align: 'center',
-          width: 80
-        },
-        {
           title: '标题',
           dataIndex: 'title',
           align: 'center',
-          width: 120
+          width: 180
         },
         {
           title: '类型',
@@ -171,7 +165,7 @@ class EssayList extends Component {
             pagination={false}
             columns={columns}
             dataSource={essayList}
-            scroll={{ x: 780, y: tableHeight }} 
+            scroll={{ x: 620, y: tableHeight }} 
           />
         </div>
       </div>
