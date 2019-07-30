@@ -1,5 +1,8 @@
 import { message } from 'antd';
 import { api } from '@/libs/publicPath.js'
+import store from '@/libs/store.js';
+import { heandlOutLogin } from '@/actions/user'
+
 const request = (url, config) => {
   return fetch(api + url, config).then((res) => {
     return res.json();
@@ -9,8 +12,8 @@ const request = (url, config) => {
         message.error(res.msg);
         if (res.code === -1) {
           localStorage.clear()
-          console.log('跳login页')
-          // window.location.replace('/#/login')
+          store.dispatch(heandlOutLogin())
+          window.location.replace('/#/login')
           // window.location.reload()
         }
       }
