@@ -48,6 +48,28 @@ export const get = (url, data) => {
 
 // POST请求
 export const post = (url, data) => {
+  if (data && data.params) {
+    let i = 0
+    for(let key in data.params) {
+      if (data.params.hasOwnProperty(key)) {
+        if (i === 0) {
+          url += `?${key}=${data.params[key]}`
+        } else {
+          url +=  `&${key}=${data.params[key]}`
+        }
+        i++
+      }
+    }
+
+    return request(url, {
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors'
+    });
+  }
   return request(url, {
     body: JSON.stringify(data),
     headers: {

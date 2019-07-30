@@ -5,7 +5,8 @@ import CodeLogin from './CodeLogin/CodeLogin'
 import ImagePreview from './ImagePreview'
 import PageTitle from './PageTitle'
 import UploadImage from './UploadImage'
+import TableEdit from './TableEdit'
 
 export {
-  MyHeader, AccountLogin, CodeLogin, MyButton, ImagePreview, PageTitle, UploadImage
+  MyHeader, AccountLogin, CodeLogin, MyButton, ImagePreview, PageTitle, UploadImage, TableEdit
 }

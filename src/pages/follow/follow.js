@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Table, Popconfirm, message, Tag, Button } from 'antd';
+import { Table, message, Tag } from 'antd';
 import * as Fetch from '@/libs/fetch';
-import { MyButton } from '@/components'
+import { MyButton, TableEdit } from '@/components'
 import './follow.less'
 
 class Follow extends Component {
@@ -11,6 +11,11 @@ class Follow extends Component {
     this.state = {
       tableHeight: 0,
       followList: [],
+      size: 50,
+      page: 0,
+      field: '',
+      value: '',
+      total: 0,
       columns: [
         {
           title: 'ID',
@@ -19,22 +24,46 @@ class Follow extends Component {
           width: 80
         },
         {
-          title: '文章',
-          dataIndex: 'title',
-          align: 'center',
-          width: 150
-        },
-        {
-          title: '博主',
-          dataIndex: 'name',
+          title: '头像',
+          dataIndex: 'avatar',
           align: 'center',
           width: 100
         },
         {
-          title: '收藏时间',
-          dataIndex: 'createdDate',
+          title: '用户名',
+          dataIndex: 'name',
           align: 'center',
-          width: 160
+          width: 120
+        },
+        {
+          title: '备注',
+          dataIndex: 'nickname',
+          align: 'center',
+          width: 160,
+          render: (nickname, record) => {
+            return (
+              <TableEdit field={nickname} id={record.id} confirm={this.editConfirm}/>
+            )
+          }
+        },
+        {
+          title: '状态',
+          dataIndex: 'mutualWatch',
+          align: 'center',
+          width: 100,
+          render: (mutualWatch) => {
+            return (
+              <>
+              {
+                mutualWatch ? (
+                  <Tag color="#2db7f5">互相关注</Tag>
+                ) : (
+                  <Tag>关注</Tag>
+                )
+              }
+              </>
+						)
+          }
         },
         {
           title: '操作',
@@ -44,9 +73,7 @@ class Follow extends Component {
           width: 100,
           render: (id, record) => {
             return (
-              <Popconfirm placement="left" title="删除后不可恢复，确认删除此数据吗" onConfirm={this.updateStatus.bind(this, record.id, 0)} okText="确认" cancelText="取消">
-                <MyButton size="small" color="#f50">删除</MyButton>
-              </Popconfirm>
+              <MyButton size="small" color="#f50" onClick={this.updateStatus.bind(this, record.id)}>取消关注</MyButton>
 						)
           }
         },
@@ -70,19 +97,36 @@ class Follow extends Component {
 			tableHeight
 		})
   }
+
+  editConfirm = (preValue, value, id) => {
+    Fetch.post(`follow/updateNickName`, {
+      params: {
+        id: id,
+        nickname: value
+      }
+    }).then((res) => {
+			if (res.code === 0) {
+        message.success("成功")
+				this.getFollowList()
+			}
+		})
+  }
   
   getFollowList () {
-    Fetch.get(`follow/findAll`).then((res) => {
+    let { page, size, field, value } = this.state
+    let data = { page, size, field, value }
+    Fetch.get(`follow/followList/1`, data).then((res) => {
 			if (res.code === 0) {
 				this.setState({
-					followList: res.data
+          followList: res.data.content,
+          total: res.data.totalElements
 				})
 			}
 		})
   }
 
-  updateStatus = (id, status) => {
-    Fetch.post(`follow/updateStatus/${id}/${status}`).then((res) => {
+  updateStatus = (id) => {
+    Fetch.post(`follow/unFollow/${id}`).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
 				this.getFollowList()

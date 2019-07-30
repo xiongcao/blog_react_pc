@@ -11,6 +11,11 @@ class Fans extends Component {
     this.state = {
       tableHeight: 0,
       fansList: [],
+      size: 50,
+      page: 0,
+      field: '',
+      value: '',
+      total: 0,
       columns: [
         {
           title: 'ID',
@@ -19,22 +24,41 @@ class Fans extends Component {
           width: 80
         },
         {
-          title: '文章',
-          dataIndex: 'title',
-          align: 'center',
-          width: 150
-        },
-        {
-          title: '博主',
-          dataIndex: 'name',
+          title: '头像',
+          dataIndex: 'avatar',
           align: 'center',
           width: 100
         },
         {
-          title: '收藏时间',
-          dataIndex: 'createdDate',
+          title: '用户名',
+          dataIndex: 'name',
           align: 'center',
-          width: 160
+          width: 120
+        },
+        {
+          title: '昵称',
+          dataIndex: 'nickname',
+          align: 'center',
+          width: 120
+        },
+        {
+          title: '状态',
+          dataIndex: 'mutualWatch',
+          align: 'center',
+          width: 100,
+          render: (mutualWatch) => {
+            return (
+              <>
+              {
+                mutualWatch ? (
+                  <Tag color="#2db7f5">互相关注</Tag>
+                ) : (
+                  <Tag>粉丝</Tag>
+                )
+              }
+              </>
+						)
+          }
         },
         {
           title: '操作',
@@ -44,12 +68,18 @@ class Fans extends Component {
           width: 100,
           render: (id, record) => {
             return (
-              <Popconfirm placement="left" title="删除后不可恢复，确认删除此数据吗" onConfirm={this.updateStatus.bind(this, record.id, 0)} okText="确认" cancelText="取消">
-                <MyButton size="small" color="#f50">删除</MyButton>
-              </Popconfirm>
+              <>
+              {
+                record.mutualWatch ? (
+                  <Button size="small" disabled>关注TA</Button>
+                ) : (
+                  <MyButton size="small" color="#f50" onClick={this.saveFollow.bind(this, record)}>关注TA</MyButton>
+                )
+              }
+              </>
 						)
           }
-        },
+        }
       ]
     }
   }
@@ -72,17 +102,22 @@ class Fans extends Component {
   }
   
   getFansList () {
-    Fetch.get(`fans/findAll`).then((res) => {
+    let { page, size, field, value } = this.state
+    let data = { page, size, field, value }
+    Fetch.get(`follow/followList/2`, data).then((res) => {
 			if (res.code === 0) {
 				this.setState({
-					fansList: res.data
+          fansList: res.data.content,
+          total: res.data.totalElements
 				})
 			}
 		})
   }
 
-  updateStatus = (id, status) => {
-    Fetch.post(`fans/updateStatus/${id}/${status}`).then((res) => {
+  saveFollow = (record) => {
+    Fetch.post(`follow/save`, {
+      followUserId: record.followUserId
+    }).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
 				this.getFansList()
