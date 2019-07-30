@@ -134,15 +134,24 @@ class Follow extends Component {
 		})
   }
 
+  handleTableChange = (e) => {
+		this.setState({
+			page: e.current - 1,
+		}, () => {
+			this.getFollowList()
+		})
+	}
+
   render() {
-    let { columns, followList, tableLoading, tableHeight } = this.state
+    let { columns, followList, tableLoading, tableHeight, total, size, page } = this.state
     return (
       <div className="follow-manage">
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
-            pagination={false}
+            pagination={{ total: total, showTotal: total => `共 ${total} 条，每页 ${size} 条`, defaultCurrent: page, defaultPageSize: size, showQuickJumper: true, size: 'default' }}
             columns={columns}
             dataSource={followList}
+            onChange = {this.handleTableChange.bind()}
             scroll={{ x: 780, y: tableHeight }} 
           />
         </div>

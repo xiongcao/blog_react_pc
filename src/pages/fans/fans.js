@@ -125,15 +125,24 @@ class Fans extends Component {
 		})
   }
 
+  handleTableChange = (e) => {
+		this.setState({
+			page: e.current - 1,
+		}, () => {
+			this.getFansList()
+		})
+	}
+
   render() {
-    let { columns, fansList, tableLoading, tableHeight } = this.state
+    let { columns, fansList, tableLoading, tableHeight, total, size, page } = this.state
     return (
       <div className="fans-manage">
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
-            pagination={false}
+            pagination={{ total: total, showTotal: total => `共 ${total} 条，每页 ${size} 条`, defaultCurrent: page, defaultPageSize: size, showQuickJumper: true, size: 'default' }}
             columns={columns}
             dataSource={fansList}
+            onChange = {this.handleTableChange.bind()}
             scroll={{ x: 780, y: tableHeight }} 
           />
         </div>
