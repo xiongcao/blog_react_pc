@@ -85,11 +85,6 @@ class setUser extends Component {
 		})
 	}
 
-	changeBirthday = () => {
-		
-	}
-
-
   render() {
     const formItemLayout = {
       labelCol: {
@@ -203,12 +198,11 @@ class setUser extends Component {
 						getFieldDecorator('nickname')(<Input/>)
 					}
         </Form.Item>
-				<Form.Item label="备注">
+				<Form.Item label="个人简介">
 					{
 						getFieldDecorator('remark')(<Input/>)
 					}
         </Form.Item>
-				
 				<Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">保存</Button>
         </Form.Item>

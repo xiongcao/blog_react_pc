@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import { message } from 'antd'
 import { withRouter } from 'react-router-dom'
 import { AccountLogin, CodeLogin } from '@/components/index'
 
@@ -33,24 +34,34 @@ class Login extends Component {
     })
   }
 
+  register = () => {
+    // this.props.onRegister()
+    this.props.history.push('/register')
+  }
+
+  forgetPassword = () => {
+    message.error("此功能暂未开发")
+  }
+
   render() {
+    let { loginType } = this.state
     return (
       <div className="login">
         <div className="tabs">
-          <div className={ this.state.loginType == 1 ? 'active' : '' } onClick={ this.changeTabs.bind(this, 1) }>账号密码登录</div>
-          <div className={ this.state.loginType == 2 ? 'active' : '' } onClick={ this.changeTabs.bind(this, 2) }>验证码登录</div>
+          <div className={ loginType == 1 ? 'active' : '' } onClick={ this.changeTabs.bind(this, 1) }>账号密码登录</div>
+          <div className={ loginType == 2 ? 'active' : '' } onClick={ this.changeTabs.bind(this, 2) }>验证码登录</div>
         </div>
         {
-          this.state.loginType == 1 ? (
+          loginType == 1 ? (
             <AccountLogin accountLoginRef={this.accountLoginRef} history={this.props.history}/>
           ) : (
             <CodeLogin codeLoginRef={this.codeLoginRef}/>
           )
         }
         <div className="to-link">
-          <div className="forget-password">忘记密码</div><div className="register">注册账号</div>
+          <div className="forget-password" onClick={this.forgetPassword}>忘记密码</div><div className="register" onClick={this.register.bind()}>注册账号</div>
         </div>
-        <button className="login-btn" onClick= { this.login }>登录</button>
+        <button className="login-btn" onClick= { this.login }>登 录</button>
       </div>
     )
   }

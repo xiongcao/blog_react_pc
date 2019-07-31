@@ -23,6 +23,13 @@ export default [
     component: Login,
   },
   {
+    layout: 'LoginLayout',
+    path: '/register',
+    name: 'register',
+    title: '注册',
+    component: Login,
+  },
+  {
     path: '/admin',
     layout: 'BasicLayout',
     children: [

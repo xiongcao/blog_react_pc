@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, message } from 'antd';
 import { connect } from 'react-redux'
-// import { withRouter } from 'react-router-dom'
 
 import { login } from '@/actions/user'
 
@@ -21,6 +20,13 @@ class AccountLogin extends Component {
     })
   }
 
+  keydownHandle = (e) => {
+    e.persist()
+    if (e.keyCode === 13) {
+      this.onLogin()
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -35,7 +41,7 @@ class AccountLogin extends Component {
                     message: '请输入用户名!',
                   }
                 ],
-              })(<Input placeholder="用户名" prefix = {<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} style = {{ height: '40px'}}/>)
+              })(<Input placeholder="用户名" onKeyDown={this.keydownHandle.bind(this)} prefix = {<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} style = {{ height: '40px'}}/>)
             }
           </Form.Item>
           <Form.Item hasFeedback>
@@ -47,7 +53,7 @@ class AccountLogin extends Component {
                     message: '请输入密码!',
                   }
                 ],
-              })(<Input.Password placeholder="密码" prefix = {<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} style = {{ height: '40px'}}/>)
+              })(<Input.Password placeholder="密码" onKeyDown={this.keydownHandle.bind(this)} prefix = {<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} style = {{ height: '40px'}}/>)
             }
           </Form.Item>
         </div>

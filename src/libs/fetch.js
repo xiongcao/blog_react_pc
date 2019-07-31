@@ -8,7 +8,7 @@ const request = (url, config) => {
     return res.json();
   }).then((res) => {  // 所有成功失败都走这儿
     if (res.code || res.code === 0) {  // 即使请求失败，只要有code就是服务端给处理了异常
-      if (res.code !== 0) {
+      if (res.code !== 0 && res.code !== 7) {
         message.error(res.msg);
         if (res.code === -1) {
           localStorage.clear()

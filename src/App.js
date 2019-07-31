@@ -28,6 +28,7 @@ class App extends Component {
           <HashRouter>
             <Route path = '/admin' component = { BasicLayout } />
             <Route path = '/login' component = { LoginLayout } />
+            <Route path = '/register' component = { LoginLayout } />
           </HashRouter>
         </LocaleProvider>
       </PersistGate>
