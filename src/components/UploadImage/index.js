@@ -24,6 +24,17 @@ class UploadImage extends Component {
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      fileList: [
+        {
+          uid: '-1',
+          url: nextProps.imagePath ? oss + nextProps.imagePath : require('@/assets/img/defaultComm.png')
+        }
+      ]
+    })
+  }
+
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = async file => {
@@ -55,7 +66,7 @@ class UploadImage extends Component {
     return (
       <Fragment>
         <Upload
-          action={`${api}oss/${this.props.folder}`}
+          action={`${api}file/${this.props.folder}`}
           accept="jpg,png,jpeg,gif"
           listType="picture-card"
           withCredentials={true}

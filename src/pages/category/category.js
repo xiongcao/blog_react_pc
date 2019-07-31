@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Table, Popconfirm, Modal, Radio, message } from 'antd';
 import * as Fetch from '@/libs/fetch';
-import { MyButton } from '@/components'
+import { MyButton, UploadImage } from '@/components'
+import { api, oss } from '@/libs/publicPath.js'
 
 import '@/pages/category/category.less'
 
@@ -25,7 +26,19 @@ class Category extends Component {
           title: '类型',
           dataIndex: 'name',
           align: 'center',
-          width: 120
+          width: 100
+        },
+        {
+          title: '封面',
+          dataIndex: 'cover',
+          align: 'center',
+          width: 100,
+          render: (cover) => {
+            let img = cover ? (oss + cover) : (require('@/assets/img/defaultComm.png'))
+            return (
+              <img src={img} style={{height: 80}}/>
+            )
+          }
         },
         {
           title: '序号',
@@ -90,7 +103,7 @@ class Category extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 280
+		let tableHeight = document.documentElement.clientHeight - 225
 		this.setState({
 			tableHeight
 		})
@@ -118,9 +131,9 @@ class Category extends Component {
   openModal = (record) => {
     let id = record && record.id
     if (id) {	// 编辑
-			let { name, rank, status } = record
+			let { name, rank, status, cover } = record
 			this.props.form.setFieldsValue({
-				name, rank, status
+				name, rank, status, cover
 			})
 		} else {
 			this.props.form.setFieldsValue({
@@ -131,7 +144,7 @@ class Category extends Component {
 		}
 		this.setState({
       visible: true,
-      categoryForm: record,
+      categoryForm: record || {},
 			id
 		})
   }
@@ -168,8 +181,14 @@ class Category extends Component {
     }
 	};
 
+  uploadSuccess = (cover) => {
+		this.props.form.setFieldsValue({
+			cover
+		})
+	}
+
   render() {
-    let { columns, categoryList, tableLoading, tableHeight, visible } = this.state
+    let { columns, categoryList, tableLoading, tableHeight, visible, categoryForm } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 4 },
@@ -210,6 +229,16 @@ class Category extends Component {
                       }
                     ]
                   })(<Input/>)
+                }
+              </Form.Item>
+              <Form.Item label="封面">
+                {
+                  getFieldDecorator('cover')(
+                    <Fragment>
+                      <Input hidden/>
+                      <UploadImage imagePath={categoryForm.cover} folder="category_cover" uploadSuccess={this.uploadSuccess.bind()} />
+                    </Fragment>
+                  )
                 }
               </Form.Item>
               <Form.Item label="序号">

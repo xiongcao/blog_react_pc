@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Table, message, Tag } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton, TableEdit } from '@/components'
+import { api, oss } from '@/libs/publicPath.js'
 import './follow.less'
 
 class Follow extends Component {
@@ -27,7 +28,13 @@ class Follow extends Component {
           title: '头像',
           dataIndex: 'avatar',
           align: 'center',
-          width: 100
+          width: 100,
+          render: (avatar) => {
+            let img = avatar ? (oss + avatar) : (require('@/assets/img/defaultComm.png'))
+            return (
+              <img src={img} style={{height: 80}}/>
+            )
+          }
         },
         {
           title: '用户名',
@@ -92,7 +99,7 @@ class Follow extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 280
+		let tableHeight = document.documentElement.clientHeight - 245
 		this.setState({
 			tableHeight
 		})

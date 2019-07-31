@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PageTitle from '@/components/PageTitle'
 import { Form, Input, Radio, message, Checkbox, Row, Col, Select, Button, InputNumber } from 'antd';
+import { api, oss } from '@/libs/publicPath.js'
+import UploadImage from '@/components/UploadImage'
 import * as Fetch from '@/libs/fetch';
 // import SimpleMDE from 'simplemde'
 // import marked from 'marked'
@@ -108,7 +110,8 @@ class EssayEdit extends Component {
         values = Object.assign(this.state.essayData, values, {
           tags: _tags,
           categorys: _categorys,
-          content: this.mdEditor.getHtmlValue()
+          // content: this.mdEditor.getHtmlValue()
+          content: this.mdEditor.getMdValue()
         })
 
         console.log(values, 'values')
@@ -138,6 +141,37 @@ class EssayEdit extends Component {
     }
   }
 
+  handleImageUpload = (file, callback) => {
+    const reader = new FileReader()
+    reader.onload = () => {      
+      const convertBase64UrlToBlob = (urlData) => {  
+        let arr = urlData.split(','), mime = arr[0].match(/:(.*?);/)[1]
+        let bstr = atob(arr[1])
+        let n = bstr.length
+        let u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new Blob([u8arr], {type:mime})
+      }
+      const blob = convertBase64UrlToBlob(reader.result)
+      const formData = new FormData()
+      formData.append('file', file)
+      Fetch.post(`file/essay`, formData, {}).then((res) => {
+        if (res.code === 0) {
+          callback(`${oss}${res.data}`)
+        }
+      })
+    }
+    reader.readAsDataURL(file)
+  }
+
+  uploadSuccess = (cover) => {
+		this.props.form.setFieldsValue({
+			cover
+		})
+	}
+
   render() {
     let { tagList, categoryList, essayData } = this.state
     const formItemLayout = {
@@ -163,6 +197,16 @@ class EssayEdit extends Component {
       <div className="essayEdit">
         <PageTitle>文章管理</PageTitle>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form.Item label="封面">
+            {
+              getFieldDecorator('cover')(
+                <Fragment>
+                  <Input hidden/>
+                  <UploadImage imagePath={essayData.cover} folder={'essay_cover'} uploadSuccess={this.uploadSuccess.bind()} />
+                </Fragment>
+              )
+            }
+          </Form.Item>
           <Form.Item label="标题">
             {
               getFieldDecorator('title', {
@@ -253,6 +297,7 @@ class EssayEdit extends Component {
                   }
                 }}
                 renderHTML={(text) => this.mdParser.render(text)}
+                onImageUpload={this.handleImageUpload}
               />
             </Col>
           </Row>

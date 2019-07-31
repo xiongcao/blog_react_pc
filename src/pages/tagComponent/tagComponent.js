@@ -90,7 +90,7 @@ class TagComponent extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 280
+		let tableHeight = document.documentElement.clientHeight - 225
 		this.setState({
 			tableHeight
 		})

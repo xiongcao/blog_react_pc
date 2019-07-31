@@ -50,7 +50,13 @@ export const get = (url, data) => {
 };
 
 // POST请求
-export const post = (url, data) => {
+/**
+ * 
+ * @param {*} url 
+ * @param {*} data 如果需要在路径后拼接参数则需要使用params:{id: 111}这种形式
+ * @param {*} headers 需要独立设置，并且不需要转data；不需要则不传，需要转data
+ */
+export const post = (url, data, headers) => {
   if (data && data.params) {
     let i = 0
     for(let key in data.params) {
@@ -74,8 +80,8 @@ export const post = (url, data) => {
     });
   }
   return request(url, {
-    body: JSON.stringify(data),
-    headers: {
+    body: headers ? data : JSON.stringify(data),
+    headers: headers || {
       'content-type': 'application/json'
     },
     method: 'POST',

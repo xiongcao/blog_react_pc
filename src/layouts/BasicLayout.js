@@ -92,7 +92,8 @@ class BasicLayout extends Component {
         <Layout style={{height: '100%'}}>
           <Sider
             style = {{
-              height: '100vh'
+              height: '100vh',
+              overflow: 'auto'
             }}
             trigger = { null } collapsible collapsed = { this.state.collapsed }>
             <div className="logo">

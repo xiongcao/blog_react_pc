@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Table, Popconfirm, message, Tag, Button } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton } from '@/components'
+import { api, oss } from '@/libs/publicPath.js'
 import './fans.less'
 
 class Fans extends Component {
@@ -27,7 +28,13 @@ class Fans extends Component {
           title: '头像',
           dataIndex: 'avatar',
           align: 'center',
-          width: 100
+          width: 100,
+          render: (avatar) => {
+            let img = avatar ? (oss + avatar) : (require('@/assets/img/defaultComm.png'))
+            return (
+              <img src={img} style={{height: 80}}/>
+            )
+          }
         },
         {
           title: '用户名',
@@ -95,7 +102,7 @@ class Fans extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 280
+		let tableHeight = document.documentElement.clientHeight - 225
 		this.setState({
 			tableHeight
 		})

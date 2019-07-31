@@ -6,7 +6,7 @@
 
   const requestApi ='http://192.168.1.24/'
   // const requestApi ='https://test.tamoegame.com/'
-  const oss ='http://oss.test.wantianqing.com/'
+  const oss ='http://192.168.1.83:8899/'
   const replaceHttp =false
 
   /** *************** 开发环境 *************** */
