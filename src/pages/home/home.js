@@ -8,6 +8,7 @@ class Home extends Component {
     return (
       <Fragment>
         <h2>#Home</h2>
+        <h2>这里展示统计数据</h2>
       </Fragment>
     )
   }

@@ -10,9 +10,9 @@ import store from '@/libs/store'
 import { MyHeader } from '@/components/index'
 import logo from '@/assets/img/logo.svg';
 
-import './BasicLayout.less'
+import './AdminLayout.less'
 
-class BasicLayout extends Component {
+class AdminLayout extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -34,7 +34,7 @@ class BasicLayout extends Component {
   }
 
   filterLayout = (type) => {
-    let _router = filterLayout('BasicLayout')
+    let _router = filterLayout('AdminLayout')
     handleJoinPath(_router, _router.path)
     if (type == 'link') {
       return this.eachAddLink(_router)
@@ -86,6 +86,10 @@ class BasicLayout extends Component {
     })
   }
 
+  goToFrontend = () => {
+    this.props.history.push('/index')
+  }
+
   render() {
     return (
       <Fragment>
@@ -97,8 +101,8 @@ class BasicLayout extends Component {
             }}
             trigger = { null } collapsible collapsed = { this.state.collapsed }>
             <div className="logo">
-              <img src={logo} alt="logo" />
-              <h1>&nbsp;&nbsp;React</h1>
+              <img src={logo} alt="logo" style={{cursor: 'pointer'}} onClick={this.goToFrontend}/>
+              <h1>&nbsp;&nbsp;工作台</h1>
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               { this.filterLayout('link') }
@@ -130,4 +134,4 @@ class BasicLayout extends Component {
   }
 }
 
-export default withRouter(BasicLayout)
+export default withRouter(AdminLayout)

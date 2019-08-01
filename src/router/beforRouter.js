@@ -13,7 +13,7 @@ class BeforRouter extends Component {
   }
 
   filterLayout = (type) => {
-    let _router = filterLayout('BasicLayout')
+    let _router = filterLayout('AdminLayout')
     handleJoinPath(_router, _router.path)
     if (type == 'link') {
       return this.eachAddLink(_router)

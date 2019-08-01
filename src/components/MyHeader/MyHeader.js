@@ -51,7 +51,7 @@ class MyHeader extends Component{
       <div className="userInfo">
         <Dropdown overlay={this.menu()} placement="bottomRight" style={{left: 'auto', top: 65}}>
           <span className='header-dropdown-link'>
-          { `${this.state.user.name} (${this.state.user.nickname}) ` } 
+          欢迎您：<span style={{fontWeight: 'bold'}}>{ this.state.user.nickname ? `${this.state.user.nickname} ` : `(${this.state.user.name}) ` } </span>！
           {
             this.state.user.avatar ? <img className="avatar" src={oss + this.state.user.avatar} alt=""/> : (<Icon type="user" style={{fontSize: '20px', marginLeft: '5px'}}/>)
           }

@@ -6,7 +6,7 @@ import '@/assets/styles/app.less'
 // 由于 antd 组件的默认文案是英文，所以需要修改为中文
 import zhCN from 'antd/es/locale-provider/zh_CN';
 
-import BasicLayout from '@layouts/BasicLayout'
+import AdminLayout from '@layouts/AdminLayout'
 import LoginLayout from '@layouts/LoginLayout'
 
 import { PersistGate } from 'redux-persist/es/integration/react'
@@ -26,7 +26,7 @@ class App extends Component {
       <PersistGate persistor={persistor}>
         <LocaleProvider locale={zhCN}>
           <HashRouter>
-            <Route path = '/admin' component = { BasicLayout } />
+            <Route path = '/admin' component = { AdminLayout } />
             <Route path = '/login' component = { LoginLayout } />
             <Route path = '/register' component = { LoginLayout } />
           </HashRouter>

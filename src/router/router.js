@@ -1,8 +1,8 @@
 /**
  *  hideInMenu: true 在侧边栏中不显示
- *  name: BasicLayout 后台管理工作台
+ *  name: AdminLayout 后台管理工作台
  */
-// import Home from '@pages/Home/Home.js'
+import Home from '@pages/Home/Home.js'
 import setUser from '@pages/user/setUser.js'
 import Login from '@pages/login/login.js'
 import Category from '@pages/category/category.js'
@@ -31,14 +31,14 @@ export default [
   },
   {
     path: '/admin',
-    layout: 'BasicLayout',
+    layout: 'AdminLayout',
     children: [
-      // {
-      //   path: '/home',
-      //   icon: 'home',
-      //   title: '首页',
-      //   component: Home,
-      // },
+      {
+        path: '/home',
+        icon: 'home',
+        title: '首页',
+        component: Home,
+      },
       {
         path: '/category',
         icon: 'global',

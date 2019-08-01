@@ -24,12 +24,6 @@ class Category extends Component {
           width: 80
         },
         {
-          title: '类型',
-          dataIndex: 'name',
-          align: 'center',
-          width: 100
-        },
-        {
           title: '封面',
           dataIndex: 'cover',
           align: 'center',
@@ -40,6 +34,12 @@ class Category extends Component {
               <img src={img} style={{height: 80}}/>
             )
           }
+        },
+        {
+          title: '类型',
+          dataIndex: 'name',
+          align: 'center',
+          width: 100
         },
         {
           title: '序号',
