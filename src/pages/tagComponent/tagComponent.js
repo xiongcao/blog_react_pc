@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Button, Table, Popconfirm, Modal, Radio, message, Tag } from 'antd';
 import * as Fetch from '@/libs/fetch';
-import { MyButton } from '@/components'
+import { MyButton, TagModal } from '@/components'
 
 import '@/pages/tagComponent/tagComponent.less'
 
@@ -11,6 +11,7 @@ class TagComponent extends Component {
     super(props)
     this.state = {
       visible: false,
+      listVisible: false,
       tableHeight: 0,
       tagList: [],
       tagForm: {},
@@ -80,7 +81,7 @@ class TagComponent extends Component {
   }
 
   componentDidMount () {
-		this.getCategoryList()
+		this.getTagList()
 		this.resizeTable()
 		window.onresize = this.resizeTable
 	}
@@ -96,7 +97,7 @@ class TagComponent extends Component {
 		})
   }
   
-  getCategoryList () {
+  getTagList () {
     Fetch.get(`tag/findAll`).then((res) => {
 			if (res.code === 0) {
 				this.setState({
@@ -110,7 +111,7 @@ class TagComponent extends Component {
     Fetch.post(`tag/updateStatus/${id}/${status}`).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
-				this.getCategoryList()
+				this.getTagList()
 			}
 		})
   }
@@ -136,6 +137,36 @@ class TagComponent extends Component {
 		})
   }
 
+  openListModal = () => {
+    this.setState({
+      listVisible: true
+    })
+  }
+
+  changeVisible = (list) => {
+    if (list) { // 确认
+      list = list.map((o) => {
+        return {
+          name: o.name,
+          rank: o.rank
+        }
+      })
+      Fetch.post(`tag/saveAll`, list).then((res) => {
+        if (res.code === 0) {
+          message.success("添加成功")
+          this.setState({
+            listVisible: false
+          })
+          this.getTagList()
+        }
+      })
+    } else {
+      this.setState({
+        listVisible: false
+      })
+    }
+  }
+
   handleOk = e => {
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -147,7 +178,7 @@ class TagComponent extends Component {
 						this.setState({
 							visible: false
 						})
-						this.getCategoryList()
+						this.getTagList()
 					}
 				})
       }
@@ -169,7 +200,7 @@ class TagComponent extends Component {
 	};
 
   render() {
-    let { columns, tagList, tableLoading, tableHeight, visible } = this.state
+    let { columns, tagList, tableLoading, tableHeight, visible, listVisible } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 4 },
@@ -183,7 +214,7 @@ class TagComponent extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="tag-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton></div>
+        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton><MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton></div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}
@@ -236,6 +267,7 @@ class TagComponent extends Component {
             </Form>
           </div>
         </Modal>
+        <TagModal visible={listVisible} onChange={this.changeVisible}/>
       </div>
     )
   }

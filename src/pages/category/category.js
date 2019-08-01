@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Table, Popconfirm, Modal, Radio, message } from 'antd';
 import * as Fetch from '@/libs/fetch';
-import { MyButton, UploadImage } from '@/components'
+import { MyButton, UploadImage, CategoryModal } from '@/components'
 import { api, oss } from '@/libs/publicPath.js'
 
 import '@/pages/category/category.less'
@@ -12,6 +12,7 @@ class Category extends Component {
     super(props)
     this.state = {
       visible: false,
+      listVisible: false,
       tableHeight: 0,
       categoryList: [],
       categoryForm: {},
@@ -149,6 +150,12 @@ class Category extends Component {
 		})
   }
 
+  openListModal = () => {
+    this.setState({
+      listVisible: true
+    })
+  }
+
   handleOk = e => {
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -185,10 +192,35 @@ class Category extends Component {
 		this.props.form.setFieldsValue({
 			cover
 		})
-	}
+  }
+  
+  changeVisible = (list) => {
+    if (list) { // 确认
+      list = list.map((o) => {
+        return {
+          name: o.name,
+          rank: o.rank,
+          cover: o.cover
+        }
+      })
+      Fetch.post(`category/saveAll`, list).then((res) => {
+        if (res.code === 0) {
+          message.success("添加成功")
+          this.setState({
+            listVisible: false
+          })
+          this.getCategoryList()
+        }
+      })
+    } else {
+      this.setState({
+        listVisible: false
+      })
+    }
+  }
 
   render() {
-    let { columns, categoryList, tableLoading, tableHeight, visible, categoryForm } = this.state
+    let { columns, categoryList, tableLoading, tableHeight, visible, categoryForm, listVisible } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 4 },
@@ -202,7 +234,7 @@ class Category extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="category-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton></div>
+        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton><MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton></div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}
@@ -265,6 +297,7 @@ class Category extends Component {
             </Form>
           </div>
         </Modal>
+        <CategoryModal visible={listVisible} onChange={this.changeVisible}/>
       </div>
     )
   }
