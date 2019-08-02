@@ -92,7 +92,7 @@ class AdminLayout extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div className="adminLayout">
         <Layout style={{height: '100%'}}>
           <Sider
             style = {{
@@ -129,7 +129,7 @@ class AdminLayout extends Component {
             </Content>
           </Layout>
         </Layout>
-      </Fragment>
+      </div>
     )
   }
 }

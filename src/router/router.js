@@ -2,6 +2,8 @@
  *  hideInMenu: true 在侧边栏中不显示
  *  name: AdminLayout 后台管理工作台
  */
+
+/*********************** 后台页面 ************************ */
 import Home from '@pages/Home/Home.js'
 import setUser from '@pages/user/setUser.js'
 import Login from '@pages/login/login.js'

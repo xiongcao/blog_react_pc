@@ -80,6 +80,8 @@ class setUser extends Component {
 	};
 
 	uploadSuccess = (avatar) => {
+		let user = Object.assign({}, user, {avatar})
+		this.setState({user})
 		this.props.form.setFieldsValue({
 			avatar
 		})

@@ -3,24 +3,34 @@
   height: 100%;
 }
 
+ol,
+ul {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*********************** 重置ant-design样式 **************************/
 .ant-table-fixed {
   table-layout: fixed;
 }
 
 .ant-table-body {
-  overflow-x: auto!important;
+  overflow-x: auto !important;
 }
 
-.ant-table-tbody > tr > td {
+.ant-table-tbody>tr>td {
   word-wrap: break-word;
   word-break: break-all;
 }
 
-.ant-table-middle > .ant-table-content > .ant-table-fixed-right > .ant-table-header > table > .ant-table-thead > tr > th,
-.ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead > tr > th {
-  padding: 10px 5px!important;
+.ant-table-middle>.ant-table-content>.ant-table-fixed-right>.ant-table-header>table>.ant-table-thead>tr>th,
+.ant-table-middle>.ant-table-content>.ant-table-scroll>.ant-table-header>table>.ant-table-thead>tr>th {
+  padding: 10px 5px !important;
 }
 
-.ant-table-middle > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td {
-  padding: 10px 5px!important;
+.ant-table-middle>.ant-table-content>.ant-table-scroll>.ant-table-body>table>.ant-table-tbody>tr>td {
+  padding: 10px 5px !important;
 }

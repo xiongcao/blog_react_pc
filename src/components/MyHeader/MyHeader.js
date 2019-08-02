@@ -35,7 +35,7 @@ class MyHeader extends Component{
   );
 
   render () {
-    return <Fragment>
+    return <div className="MyHeader">
       <div className="breadcrumb">
         {/* <Breadcrumb>
           <Breadcrumb.Item href="">
@@ -58,7 +58,7 @@ class MyHeader extends Component{
           </span>
         </Dropdown>
       </div>
-    </Fragment>
+    </div>
   }
 }
 

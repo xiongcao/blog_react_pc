@@ -9,6 +9,7 @@ import TableEdit from './TableEdit'
 import Register from './Register'
 import CategoryModal from './CategoryModal'
 import TagModal from './TagModal'
+import MyTag from './MyTag'
 
 export {
   MyHeader, 
@@ -21,5 +22,6 @@ export {
   TableEdit, 
   Register, 
   CategoryModal,
-  TagModal
+  TagModal,
+  MyTag
 }
