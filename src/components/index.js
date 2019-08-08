@@ -10,6 +10,8 @@ import Register from './Register'
 import CategoryModal from './CategoryModal'
 import TagModal from './TagModal'
 import MyTag from './MyTag'
+import DropdownLoading from './DropdownLoading'
+import EssayItem from './EssayItem'
 
 export {
   MyHeader, 
@@ -23,5 +25,7 @@ export {
   Register, 
   CategoryModal,
   TagModal,
-  MyTag
+  MyTag,
+  DropdownLoading,
+  EssayItem
 }

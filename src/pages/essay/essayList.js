@@ -12,6 +12,9 @@ class EssayList extends Component {
     this.state = {
       tableHeight: 0,
       essayList: [],
+      size: 50,
+      page: 0,
+      total: 0,
       columns: [
         {
           title: '标题',
@@ -133,10 +136,13 @@ class EssayList extends Component {
   }
   
   getEssayList () {
-    Fetch.get(`essay/findAll`).then((res) => {
+    let { page, size } = this.state
+    let data = { page, size }
+    Fetch.get(`essay/admin/findAll`, data).then((res) => {
 			if (res.code === 0) {
 				this.setState({
-					essayList: res.data
+          essayList: res.data.content,
+          total: res.data.totalElements
 				})
 			}
 		})
@@ -156,13 +162,13 @@ class EssayList extends Component {
   }
 
   render() {
-    let { columns, essayList, tableLoading, tableHeight } = this.state
+    let { columns, essayList, tableLoading, tableHeight, total, page, size } = this.state
     return (
       <div className="essay-manage">
         <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.essayEdit.bind(this, -1) }>添 加</MyButton></div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
-            pagination={false}
+            pagination={{ total: total, showTotal: total => `共 ${total} 条，每页 ${size} 条`, defaultCurrent: page, defaultPageSize: size, showQuickJumper: true, size: 'default' }}
             columns={columns}
             dataSource={essayList}
             scroll={{ x: 620, y: tableHeight }} 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Link } from 'react-router-dom'
-import Home from '@pages/frontend/index/index.js'
+import Home from '@pages/frontend/index/index'
+import EssayList from '@pages/frontend/essay/essayList'
+import EssayDetail from '@pages/frontend/essay/essayDetail'
 import store from '@/libs/store'
 import logo from '@/assets/img/logo.svg';
 import lingdang from '@/assets/icon/lingdang.svg';
@@ -19,6 +21,20 @@ class BasicLayout extends Component {
       notification: lingdang,
       current: 'index'
     };
+  }
+
+  componentWillMount () {
+    let pathname = this.props.location.pathname
+    let paths = pathname.split("/")
+    if (paths[1] === 'frontend' && !paths[2]) {
+      this.setState({
+        current: 'index'
+      })
+    } else {
+      this.setState({
+        current: paths[2]
+      })
+    }
   }
 
   toggle = () => {
@@ -80,12 +96,12 @@ class BasicLayout extends Component {
               selectedKeys={[current]} 
               mode="horizontal">
               <Menu.Item key="index">
-                <Link to="/index">
+                <Link to="/frontend/index">
                   <Icon type="home" /> 首页
                 </Link>
               </Menu.Item>
-              <Menu.Item key="ordered-list">
-                <Link to="/index">
+              <Menu.Item key="essay">
+                <Link to="/frontend/essay">
                   <Icon type="ordered-list" /> 文章
                 </Link>
               </Menu.Item>
@@ -123,15 +139,20 @@ class BasicLayout extends Component {
                     </Dropdown>
                   </>
                 ) : (
-                  <Button icon="profile" type="link" onClick={this.geToEssayPage}>写文章</Button> | 
-                  <Button type="link">登录 · 注册</Button>
+                  <>
+                    {/* <Button icon="profile" type="link" onClick={this.geToEssayPage}>写文章</Button> |  */}
+                    <Button type="link">登录 · 注册</Button>
+                  </>
                 )
               }
             </div>
           </nav>
         </header>
         <article>
-          <Route path="/index" component={Home} exact/>
+          <Route path="/frontend" render={() => <Redirect to='/frontend/index'></Redirect>} component={Home} exact/>
+          <Route path="/frontend/index" component={Home}/>
+          <Route path="/frontend/essay" component={EssayList}/>
+          <Route path="/frontend/essayDetail/:id" component={EssayDetail}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>
       </div>

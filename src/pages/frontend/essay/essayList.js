@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import './index.less'
-import { Icon, Empty, Calendar } from 'antd';
+import { Icon, Avatar } from 'antd';
 import { MyTag, EssayItem, DropdownLoading } from '@/components'
 import * as Fetch from '@/libs/fetch';
-import noResult from '@/assets/img/noResult.png'
+import { oss } from '@/libs/publicPath'
+import '../index/index.less'
+import './index.less'
 
-class Index extends Component {
+class EssayList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,6 +18,7 @@ class Index extends Component {
       tagId: '',
       properties: 'star',
       essayList: [],
+      userInfo: {},
       loadingCompleted: false,  // 请求是否完成，显示后续没有更多数据
       isScroll: false, // 是否允许滚动, true: 允许 false：不允许，初始化为false是为了初始只让加载一次，等第一次加载完再置为true
       isEmpty: false, // 没有数据
@@ -26,6 +28,7 @@ class Index extends Component {
 
   componentWillMount () {
     this.getEssayList()
+    this.getUserInfo()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }
 
@@ -39,7 +42,7 @@ class Index extends Component {
     this.setState(() => ({
       loading: true
     }))
-    Fetch.get(`essay/findAllAuthorList`, data).then((res) => {
+    Fetch.get(`essay/findAll`, data).then((res) => {
 			if (res.code === 0) {
         if (res.data.content.length != 0) {
           let _list = this.state.essayList.concat(res.data.content)
@@ -47,8 +50,7 @@ class Index extends Component {
             essayList: _list,
             page: page + 1,
             isScroll: true,
-            loading: false,
-            isEmpty: false
+            loading: false
           }))
         } else {
           if (this.state.essayList.length != 0) { // 有数据，但是最后一次请求没有数据
@@ -58,12 +60,20 @@ class Index extends Component {
             })
           } else {  // 没有数据，显示空数据样式
             this.setState({
-              isEmpty: true,
-              loadingCompleted: false,
-              loading: false,
+              isEmpty: true
             })
           }
         }
+			}
+		})
+  }
+
+  getUserInfo () {
+    Fetch.get(`user/findById?id=2`).then((res) => {
+			if (res.code === 0) {
+				this.setState({
+					userInfo: res.data
+				})
 			}
 		})
   }
@@ -100,8 +110,7 @@ class Index extends Component {
 
   search = () => {
     this.setState({
-      page: 0,
-      essayList: []
+      page: 0
     }, () => {
       this.getEssayList()
     })
@@ -115,42 +124,32 @@ class Index extends Component {
   }
 
   render() {
-    let { navActiveIndex, loadingCompleted, essayList, title, loading, isEmpty } = this.state
+    let { navActiveIndex, loadingCompleted, essayList, userInfo, title, loading } = this.state
 
     return (
-      <div className="frontend-home">
-        <nav>
-          <ul>
-            <li onClick={this.handleNavClick.bind(this, 1, 'star')} className={ navActiveIndex === 1 ? 'active' : '' }>热门</li>
-            <li onClick={this.handleNavClick.bind(this, 2, 'created_date')} className={ navActiveIndex === 2 ? 'active' : '' }>最新</li>
-            <li className="search"><input placeholder="搜索" value={title} onChange={this.searchChange.bind(this)} onKeyDown={this.keydownHandle.bind(this)}/><Icon style={{fontSize: 18}} type="search" onClick={this.search.bind()}/></li>
-          </ul>
-        </nav>
+      <div className="frontend-essay">
         <article>
           <div className="essay-list">
             {
-              essayList.length != 0 && essayList.map((item, i) => 
+              essayList.map((item, i) => 
                 <EssayItem item={item} key={i}/>
               )
-            }
-            {
-              isEmpty && <Empty style={{padding: '50px 0', color: 'rgb(153, 153, 153)'}} image={noResult} description={'啊哦，还没相关文章哟，赶快去写一篇吧！'}/>
             }
             <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
           </div>
           <div className="advert">
-            {/* <section className="detePicker">
-              <Calendar fullscreen={false} />
-            </section> */}
-            <section className="tags categorys">
-              <p>热门分类</p>
-              <div>
+            <section className="userInfo">
+              <div className="avatar">
                 {
-                  ['数据结构与算法', '前端', '后端', 'JS', 'H5',  'CSS3', '微信小程序'].map((item) => 
-                    <MyTag key={item} style={{marginRight: '8px', marginBottom: '8px'}}>{item}</MyTag>
+                  userInfo.avatar ? (
+                    <Avatar size={100} src={oss + userInfo.avatar}/>
+                  ) : (
+                    <Avatar size={100} icon="user"/>
                   )
                 }
               </div>
+              <div className="username">{ userInfo.nickname ? userInfo.nickname : userInfo.name }</div>
+              <div className="motto">{ userInfo.motto }</div>
             </section>
             <section className="tags">
               <p>热门标签</p>
@@ -178,4 +177,5 @@ class Index extends Component {
   }
 }
 
-export default Index
+
+export default EssayList

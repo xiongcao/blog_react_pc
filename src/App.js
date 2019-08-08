@@ -28,8 +28,8 @@ class App extends Component {
       <PersistGate persistor={persistor}>
         <LocaleProvider locale={zhCN}>
           <HashRouter>
-            <Route path = '/' render={() => <Redirect to='/index'></Redirect>}/>
-            <Route path = '/index' component = { BasicLayout }/>
+            <Route path = '/' render={() => <Redirect to='/frontend'></Redirect>} exact/>
+            <Route path = '/frontend' component = { BasicLayout }/>
             <Route path = '/admin' component = { AdminLayout } />
             <Route path = '/login' component = { LoginLayout } />
             <Route path = '/register' component = { LoginLayout } />

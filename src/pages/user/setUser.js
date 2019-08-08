@@ -19,9 +19,9 @@ class setUser extends Component {
 
 
   componentDidMount () {
-		let { name, phoneNumber, nickname, avatar, remark, email } = this.state.user
+		let { name, phoneNumber, nickname, avatar, introduce, email } = this.state.user
 		this.props.form.setFieldsValue({
-			name, phoneNumber: phoneNumber, nickname, avatar, remark, email
+			name, phoneNumber: phoneNumber, nickname, avatar, introduce, email
 		})
 	}
 
@@ -154,6 +154,11 @@ class setUser extends Component {
 						)
 					}
         </Form.Item>
+				<Form.Item label="昵称">
+					{
+						getFieldDecorator('nickname')(<Input/>)
+					}
+        </Form.Item>
 				<Form.Item label="生日">
 					{
 						getFieldDecorator('birthday', {initialValue: moment(this.state.user.birthday)})(
@@ -195,14 +200,9 @@ class setUser extends Component {
 						})(<Input maxLength={11} style={{width: 280}}/>)
 					}
         </Form.Item>
-				<Form.Item label="昵称">
-					{
-						getFieldDecorator('nickname')(<Input/>)
-					}
-        </Form.Item>
 				<Form.Item label="个人简介">
 					{
-						getFieldDecorator('remark')(<Input/>)
+						getFieldDecorator('introduce')(<Input/>)
 					}
         </Form.Item>
 				<Form.Item {...tailFormItemLayout}>

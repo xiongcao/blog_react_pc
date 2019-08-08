@@ -1,5 +1,5 @@
-.frontend-home {
-  nav {
+.frontend-home, .frontend-essay {
+  >nav {
     position: fixed;
     z-index: 1;
     top: 64px;
@@ -37,6 +37,34 @@
         }
 
       }
+      .search {
+        flex: 2;
+        text-align: right;
+        position: relative;
+
+        input {
+          height: 30px;
+          outline: none;
+          border: 1px solid hsla(0,0%,59.2%,.2);
+          background-color: rgba(227,231,236,.2);
+          border-radius: 2px;
+          padding: .2rem 25px .2rem 10px;
+          box-shadow: none;
+          color: #666;
+        }
+
+        i {
+          color: #c3ccd5;
+          position: absolute;
+          top: 14px;
+          right: 5px;
+        }
+
+        &:hover{
+          color: inherit;
+          cursor: default;
+        }
+      }
 
       .active {
         color: #007fff;
@@ -55,106 +83,18 @@
     .essay-list {
       width: 700px;
       background: #fff;
-
-      .loading-completed {
-        text-align: center;
-        color: #666;
-        font-size: 16px;
-        padding: 30px 0;
-      }
-
-      .essay-item {
-        display: flex;
-        justify-content: space-between;
-        margin: 0 0 15px;
-        padding: 15px 2px 20px 0;
-        border-bottom: 1px solid #f0f0f0;
-        word-wrap: break-word;
-
-        .content {
-          padding-right: 15px;
-          box-sizing: border-box;
-
-          h3 {
-            color: #333;
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 1.5;
-            cursor: pointer;
-
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-
-          p {
-            min-height: 50px;
-            margin: 0 0 8px;
-            font-size: 13px;
-            line-height: 24px;
-            color: #666;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-          }
-
-          .meta {
-            display: flex;
-            justify-content: flex-start;
-            font-size: 12px;
-
-            >section {
-              margin-right: 10px;
-              color: #b4b4b4;
-            }
-          }
-        }
-
-        .cover {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          cursor: pointer;
-
-          img {
-            width: 125px;
-            height: 100px;
-            border-radius: 4px;
-          }
-        }
-      }
     }
 
     .advert {
       width: 300px;
       background: #fff;
 
-      .userInfo {
-        padding: 15px;
+      .detePicker {
+        width: 280px;
+        height: 300px;
+        // padding: 15px;
         margin-top: 15px;
-        border-bottom: 1px solid #f0f0f0;
-
-        .avatar,
-        .username,
-        .motto {
-          text-align: center;
-          margin-bottom: 6px;
-        }
-
-        .avatar {
-          margin-bottom: 20px;
-        }
-
-        .username {
-          font-size: 20px;
-          color: rgba(0, 0, 0, .85);
-          font-weight: 500;
-        }
-
-        .motto {
-          // margin-bottom: 24px;
-        }
+        // border-bottom: 1px solid #f0f0f0;
       }
 
       .tags, .aboutUs {

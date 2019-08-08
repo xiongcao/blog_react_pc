@@ -53,7 +53,7 @@ class EssayEdit extends Component {
   }
 
   getEssayDetail () {
-    Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
+    Fetch.get(`essay/admin/detail/${this.state.id}`).then((res) => {
 			if (res.code === 0) {
         let tags = res.data.tags.map((tag) => tag.name)
         let categorys = res.data.categorys.map((category) => category.name)
@@ -68,7 +68,7 @@ class EssayEdit extends Component {
   }
   
   getCategoryList () {
-    Fetch.get(`category/findAll`).then((res) => {
+    Fetch.get(`category/findAll?status=1`).then((res) => {
 			if (res.code === 0) {
 				this.setState({
 					categoryList: res.data
@@ -78,7 +78,7 @@ class EssayEdit extends Component {
   }
 
   getTagList () {
-    Fetch.get(`tag/findAll`).then((res) => {
+    Fetch.get(`tag/findAll?status=1`).then((res) => {
 			if (res.code === 0) {
 				this.setState({
 					tagList: res.data
@@ -104,7 +104,7 @@ class EssayEdit extends Component {
         let categoryList = [...this.state.categoryList]
         for (let i = 0; i < categoryList.length; i++) {
           let category = categoryList[i]
-          this.inArrayIndexOf(categorys, category.name) && _categorys.push(category)
+          this.inArrayIndexOf([categorys], category.name) && _categorys.push(category)
         }
 
         values = Object.assign(this.state.essayData, values, {
@@ -127,9 +127,7 @@ class EssayEdit extends Component {
         setTimeout(() => {
           this.props.history.push({pathname: '/admin/essay/essayList'})
         }, 800)
-			} else {
-        message.success(res.msg)
-      }
+			}
 		})
   }
 
@@ -220,6 +218,27 @@ class EssayEdit extends Component {
               })(<Input/>)
             }
           </Form.Item>
+          <Form.Item label="类型">
+            {getFieldDecorator('categorys', { 
+              rules: [
+                {
+                  required: true,
+                  message: '请选择类型',
+                }
+              ],
+              initialValue: essayData.categorys && essayData.categorys[0]
+            })(
+              <Select placeholder="选择类型" optionLabelProp="label" showSearch>
+              {
+                categoryList.map((c, i) => {
+                  return (
+                    <Option key={i} value={c.name} label={c.name}>{c.name}</Option>
+                  )
+                })
+              }
+              </Select>
+            )}
+          </Form.Item>
           <Form.Item label="标签">
             {getFieldDecorator('tags', { 
               rules: [
@@ -241,26 +260,18 @@ class EssayEdit extends Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="类型">
-            {getFieldDecorator('categorys', { 
-              rules: [
-                {
-                  required: true,
-                  message: '请至少选择一个类型',
-                }
-              ],
-              initialValue: essayData.categorys
-            })(
-              <Select mode="multiple"placeholder="选择类型" optionLabelProp="label">
-              {
-                categoryList.map((c) => {
-                  return (
-                    <Option key={c.id} value={c.name} label={c.name}>{c.name}</Option>
-                  )
-                })
-              }
-              </Select>
-            )}
+          <Form.Item label="描述">
+            {
+              getFieldDecorator('describe', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入描述',
+                  }
+                ],
+                initialValue: essayData.describe
+              })(<Input.TextArea autosize={{ minRows: 2, maxRows: 6 }}/>)
+            }
           </Form.Item>
           <Form.Item label="序号">
             {
