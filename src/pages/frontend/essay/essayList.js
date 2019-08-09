@@ -1,71 +1,43 @@
 import React, { Component } from 'react'
-import { Icon, Avatar } from 'antd';
+import { Icon, Empty, Avatar } from 'antd';
 import { MyTag, EssayItem, DropdownLoading } from '@/components'
 import * as Fetch from '@/libs/fetch';
+import noResult from '@/assets/img/noResult.png'
 import { oss } from '@/libs/publicPath'
-import '../index/index.less'
 import './index.less'
+import '../index/index.less'
 
 class EssayList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      navActiveIndex: 1,
       page: 0,
-      size: 5,
-      title: '',
+      size: 20,
       categoryId: '',
       tagId: '',
       properties: 'star',
-      essayList: [],
       userInfo: {},
+      tagList: [],
+      categoryList: [],
+      essayList: [],
       loadingCompleted: false,  // 请求是否完成，显示后续没有更多数据
       isScroll: false, // 是否允许滚动, true: 允许 false：不允许，初始化为false是为了初始只让加载一次，等第一次加载完再置为true
       isEmpty: false, // 没有数据
       loading: false, // 数据加载中
+      isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
     };
   }
 
   componentWillMount () {
     this.getEssayList()
     this.getUserInfo()
+    this.getTagList()
+    this.getCategoryList()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }
 
   componentWillUnmount() { // 一定要最后移除监听器，以防多个组件之间导致this的指向紊乱
     window.removeEventListener('scroll', this.handleScroll.bind(this)) 
-  }
-
-  getEssayList () {
-    let { page, size, title, categoryId, tagId, properties } = this.state
-    let data = { page, size, title, categoryId, tagId, properties, direction: 'DESC' }
-    this.setState(() => ({
-      loading: true
-    }))
-    Fetch.get(`essay/findAll`, data).then((res) => {
-			if (res.code === 0) {
-        if (res.data.content.length != 0) {
-          let _list = this.state.essayList.concat(res.data.content)
-          this.setState(() => ({
-            essayList: _list,
-            page: page + 1,
-            isScroll: true,
-            loading: false
-          }))
-        } else {
-          if (this.state.essayList.length != 0) { // 有数据，但是最后一次请求没有数据
-            this.setState({
-              loadingCompleted: true,
-              loading: false
-            })
-          } else {  // 没有数据，显示空数据样式
-            this.setState({
-              isEmpty: true
-            })
-          }
-        }
-			}
-		})
   }
 
   getUserInfo () {
@@ -78,13 +50,70 @@ class EssayList extends Component {
 		})
   }
 
+  getTagList () {
+    Fetch.get(`tag/findTagNumbers`).then((res) => {
+			if (res.code === 0) {
+        this.setState({
+          tagList: res.data
+        })
+      }
+    })
+  }
+
+  getCategoryList () {
+    Fetch.get(`category/findCategoryNumbers`).then((res) => {
+			if (res.code === 0) {
+        this.setState({
+          categoryList: res.data
+        })
+      }
+    })
+  }
+
+  getEssayList () {
+    let { page, size, categoryId, tagId, properties, isScrollLoad } = this.state
+    let data = { page, size, categoryId, tagId, properties, direction: 'DESC' }
+    this.setState(() => ({
+      loading: isScrollLoad,
+      loadingCompleted: false
+    }))
+    Fetch.get(`essay/findAll`, data).then((res) => {
+			if (res.code === 0) {
+        if (res.data.content.length != 0) {
+          let _list = this.state.essayList.concat(res.data.content)
+          this.setState(() => ({
+            essayList: _list,
+            page: page + 1,
+            isScroll: true,
+            loading: false,
+            isEmpty: false
+          }))
+        } else {
+          if (this.state.essayList.length != 0) { // 有数据，但是最后一次请求没有数据
+            this.setState({
+              loadingCompleted: true,
+              loading: false
+            })
+          } else {  // 没有数据，显示空数据样式
+            this.setState({
+              isEmpty: true,
+              loadingCompleted: false,
+              loading: false,
+            })
+          }
+        }
+			}
+		})
+  }
+
   handleScroll = e => {
     let scrollTop = e.srcElement.scrollingElement.scrollTop // 为距离滚动条顶部高度
     let scrollHeight = e.srcElement.scrollingElement.scrollHeight // 为整个文档高度
     let clientHeight = document.documentElement.clientHeight // 文档可见区域高度
     if (scrollTop + clientHeight >= scrollHeight - 50 && this.state.isScroll) {
       this.setState({
-        isScroll: false
+        isScroll: false,
+        isScrollLoad: true
       }, () => {
         this.getEssayList();
       })
@@ -94,8 +123,10 @@ class EssayList extends Component {
 
   handleNavClick = (index, field) => {
     this.setState({
-      navActiveIndex: index,
-      properties: field
+      properties: field,
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
     }, () => {
       this.getEssayList()
     })
@@ -110,7 +141,9 @@ class EssayList extends Component {
 
   search = () => {
     this.setState({
-      page: 0
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
     }, () => {
       this.getEssayList()
     })
@@ -123,40 +156,87 @@ class EssayList extends Component {
     })
   }
 
+  changeCategory = (id) => {
+    this.setState({
+      categoryId: id || '',
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
+    }, () => {
+      this.getEssayList()
+    })
+  }
+
+  changeTag = (id) => {
+    this.setState({
+      tagId: id || '',
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
+    }, () => {
+      this.getEssayList()
+    })
+  }
+
   render() {
-    let { navActiveIndex, loadingCompleted, essayList, userInfo, title, loading } = this.state
+    let { loadingCompleted, essayList, tagList, categoryList, loading, isEmpty, tagId, categoryId, userInfo } = this.state
 
     return (
       <div className="frontend-essay">
         <article>
           <div className="essay-list">
             {
-              essayList.map((item, i) => 
+              essayList.length != 0 && essayList.map((item, i) => 
                 <EssayItem item={item} key={i}/>
               )
+            }
+            {
+              isEmpty && <Empty style={{padding: '50px 0', color: 'rgb(153, 153, 153)'}} image={noResult} description={'啊哦，还没相关文章哟，赶快去写一篇吧！'}/>
             }
             <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
           </div>
           <div className="advert">
             <section className="userInfo">
               <div className="avatar">
-                {
-                  userInfo.avatar ? (
-                    <Avatar size={100} src={oss + userInfo.avatar}/>
-                  ) : (
-                    <Avatar size={100} icon="user"/>
-                  )
-                }
+              {
+              userInfo.avatar ? (
+              <Avatar size={100} src={oss + userInfo.avatar}/>
+              ) : (
+              <Avatar size={100} icon="user"/>
+              )
+              }
               </div>
               <div className="username">{ userInfo.nickname ? userInfo.nickname : userInfo.name }</div>
               <div className="motto">{ userInfo.motto }</div>
+            </section>
+            <section className="tags categorys">
+              <p>热门分类</p>
+              <div>
+                {
+                  categoryList.map((item) => 
+                    <MyTag 
+                      key={item.id} 
+                      id={item.id}
+                      style={{marginRight: '8px', marginBottom: '8px'}} 
+                      checked={item.id === categoryId}
+                      onClick = {this.changeCategory.bind()}
+                    >{item.name}</MyTag>
+                  )
+                }
+              </div>
             </section>
             <section className="tags">
               <p>热门标签</p>
               <div>
                 {
-                  ['数据结构与算法', '前端', '后端', 'JS', 'H5',  'CSS3', '微信小程序'].map((item) => 
-                    <MyTag key={item} style={{marginRight: '8px', marginBottom: '8px'}}>{item}</MyTag>
+                  tagList.map((item) => 
+                    <MyTag 
+                    key={item.id} 
+                    id={item.id}
+                    checked={item.id === tagId}
+                    style={{marginRight: '8px', marginBottom: '8px'}}
+                    onClick = {this.changeTag.bind()}
+                  >{item.name}</MyTag>
                   )
                 }
               </div>
@@ -176,6 +256,5 @@ class EssayList extends Component {
     )
   }
 }
-
 
 export default EssayList

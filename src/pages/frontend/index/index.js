@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Icon, Empty, Calendar } from 'antd';
+import { Icon, Empty } from 'antd';
 import { MyTag, EssayItem, DropdownLoading } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import noResult from '@/assets/img/noResult.png'
@@ -192,9 +192,6 @@ class Index extends Component {
             <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
           </div>
           <div className="advert">
-            {/* <section className="detePicker">
-              <Calendar fullscreen={false} />
-            </section> */}
             <section className="tags categorys">
               <p>热门分类</p>
               <div>
