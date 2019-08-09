@@ -17,6 +17,12 @@ class EssayList extends Component {
       total: 0,
       columns: [
         {
+          title: 'ID',
+          dataIndex: 'id',
+          align: 'center',
+          width: 80
+        },
+        {
           title: '标题',
           dataIndex: 'title',
           align: 'center',

@@ -11,21 +11,26 @@ class Index extends Component {
     this.state = {
       navActiveIndex: 1,
       page: 0,
-      size: 5,
+      size: 20,
       title: '',
       categoryId: '',
       tagId: '',
       properties: 'star',
+      tagList: [],
+      categoryList: [],
       essayList: [],
       loadingCompleted: false,  // 请求是否完成，显示后续没有更多数据
       isScroll: false, // 是否允许滚动, true: 允许 false：不允许，初始化为false是为了初始只让加载一次，等第一次加载完再置为true
       isEmpty: false, // 没有数据
       loading: false, // 数据加载中
+      isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
     };
   }
 
   componentWillMount () {
     this.getEssayList()
+    this.getTagList()
+    this.getCategoryList()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }
 
@@ -33,11 +38,32 @@ class Index extends Component {
     window.removeEventListener('scroll', this.handleScroll.bind(this)) 
   }
 
+  getTagList () {
+    Fetch.get(`tag/findTagNumbers`).then((res) => {
+			if (res.code === 0) {
+        this.setState({
+          tagList: res.data
+        })
+      }
+    })
+  }
+
+  getCategoryList () {
+    Fetch.get(`category/findCategoryNumbers`).then((res) => {
+			if (res.code === 0) {
+        this.setState({
+          categoryList: res.data
+        })
+      }
+    })
+  }
+
   getEssayList () {
-    let { page, size, title, categoryId, tagId, properties } = this.state
+    let { page, size, title, categoryId, tagId, properties, isScrollLoad } = this.state
     let data = { page, size, title, categoryId, tagId, properties, direction: 'DESC' }
     this.setState(() => ({
-      loading: true
+      loading: isScrollLoad,
+      loadingCompleted: false
     }))
     Fetch.get(`essay/findAllAuthorList`, data).then((res) => {
 			if (res.code === 0) {
@@ -74,7 +100,8 @@ class Index extends Component {
     let clientHeight = document.documentElement.clientHeight // 文档可见区域高度
     if (scrollTop + clientHeight >= scrollHeight - 50 && this.state.isScroll) {
       this.setState({
-        isScroll: false
+        isScroll: false,
+        isScrollLoad: true
       }, () => {
         this.getEssayList();
       })
@@ -85,7 +112,10 @@ class Index extends Component {
   handleNavClick = (index, field) => {
     this.setState({
       navActiveIndex: index,
-      properties: field
+      properties: field,
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
     }, () => {
       this.getEssayList()
     })
@@ -101,7 +131,8 @@ class Index extends Component {
   search = () => {
     this.setState({
       page: 0,
-      essayList: []
+      essayList: [],
+      isScrollLoad: false
     }, () => {
       this.getEssayList()
     })
@@ -114,8 +145,30 @@ class Index extends Component {
     })
   }
 
+  changeCategory = (id) => {
+    this.setState({
+      categoryId: id || '',
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
+    }, () => {
+      this.getEssayList()
+    })
+  }
+
+  changeTag = (id) => {
+    this.setState({
+      tagId: id || '',
+      page: 0,
+      essayList: [],
+      isScrollLoad: false
+    }, () => {
+      this.getEssayList()
+    })
+  }
+
   render() {
-    let { navActiveIndex, loadingCompleted, essayList, title, loading, isEmpty } = this.state
+    let { navActiveIndex, loadingCompleted, essayList, tagList, categoryList, title, loading, isEmpty, tagId, categoryId } = this.state
 
     return (
       <div className="frontend-home">
@@ -146,8 +199,14 @@ class Index extends Component {
               <p>热门分类</p>
               <div>
                 {
-                  ['数据结构与算法', '前端', '后端', 'JS', 'H5',  'CSS3', '微信小程序'].map((item) => 
-                    <MyTag key={item} style={{marginRight: '8px', marginBottom: '8px'}}>{item}</MyTag>
+                  categoryList.map((item) => 
+                    <MyTag 
+                      key={item.id} 
+                      id={item.id}
+                      style={{marginRight: '8px', marginBottom: '8px'}} 
+                      checked={item.id === categoryId}
+                      onClick = {this.changeCategory.bind()}
+                    >{item.name}</MyTag>
                   )
                 }
               </div>
@@ -156,8 +215,14 @@ class Index extends Component {
               <p>热门标签</p>
               <div>
                 {
-                  ['数据结构与算法', '前端', '后端', 'JS', 'H5',  'CSS3', '微信小程序'].map((item) => 
-                    <MyTag key={item} style={{marginRight: '8px', marginBottom: '8px'}}>{item}</MyTag>
+                  tagList.map((item) => 
+                    <MyTag 
+                    key={item.id} 
+                    id={item.id}
+                    checked={item.id === tagId}
+                    style={{marginRight: '8px', marginBottom: '8px'}}
+                    onClick = {this.changeTag.bind()}
+                  >{item.name}</MyTag>
                   )
                 }
               </div>
