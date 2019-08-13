@@ -38,7 +38,6 @@
     "builtin-status-codes": "^3.0.0",
     "highlight.js": "^9.15.8",
     "markdown-it": "^9.0.1",
-    "marked": "^0.7.0",
     "normalize.css": "^8.0.1",
     "react-markdown-editor-lite": "^0.4.2",
     "redux-persist": "^5.10.0",

@@ -4,15 +4,19 @@ import { Form, Input, Radio, message, Checkbox, Row, Col, Select, Button, InputN
 import { api, oss } from '@/libs/publicPath.js'
 import UploadImage from '@/components/UploadImage'
 import * as Fetch from '@/libs/fetch';
+
 // import SimpleMDE from 'simplemde'
-// import marked from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-light.css'
 // import 'simplemde/dist/simplemde.min.css';
+// import marked from 'marked'
+
+import hljs from 'highlight.js'
+
+import 'highlight.js/styles/atom-one-light.css'
 import MdEditor from 'react-markdown-editor-lite'
 import MarkdownIt from 'markdown-it'
+
 import './essay.less'
-import './markdown.less'
+import '@/assets/styles/markdown.less'
 const { Option } = Select;
 
 class EssayEdit extends Component {

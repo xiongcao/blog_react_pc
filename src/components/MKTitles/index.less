@@ -1,0 +1,28 @@
+.nav-list {
+  margin-left: 15px;
+  list-style: square;
+  padding-left: 0;
+
+  a {
+    display: inline-block;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    vertical-align: bottom;
+
+    &:link, &:visited {
+      text-decoration: none;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: #FF4400;
+      font-weight: 600;
+    }
+  }
+}

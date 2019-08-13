@@ -210,7 +210,7 @@ class EssayList extends Component {
               <div className="motto">{ userInfo.motto }</div>
             </section>
             <section className="tags categorys">
-              <p>热门分类</p>
+              <p>分 类</p>
               <div>
                 {
                   categoryList.map((item) => 
@@ -226,7 +226,7 @@ class EssayList extends Component {
               </div>
             </section>
             <section className="tags">
-              <p>热门标签</p>
+              <p>标 签</p>
               <div>
                 {
                   tagList.map((item) => 

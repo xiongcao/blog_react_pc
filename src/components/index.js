@@ -12,6 +12,7 @@ import TagModal from './TagModal'
 import MyTag from './MyTag'
 import DropdownLoading from './DropdownLoading'
 import EssayItem from './EssayItem'
+import MKTitles from './MKTitles'
 
 export {
   MyHeader, 
@@ -27,5 +28,6 @@ export {
   TagModal,
   MyTag,
   DropdownLoading,
-  EssayItem
+  EssayItem,
+  MKTitles
 }
