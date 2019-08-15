@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Avatar } from 'antd';
+import { Icon, Modal } from 'antd';
 import { MyTag } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
@@ -22,11 +22,14 @@ class EssayDetail extends Component {
     super(props)
     this.state = {
       id: this.props.match.params.id,
-      essayData: {},
+      essayData: { },
       navList: [],
       renderer: {},
       mkTitlesLen: 0,
-      highlightIndex: 0
+      highlightIndex: 0,
+      markdownHtml: '',
+      visible: false,
+      modalImg: ''
     };
 
     this.mdParser = new MarkdownIt({
@@ -53,6 +56,26 @@ class EssayDetail extends Component {
     window.removeEventListener('scroll', this.handleScroll.bind(this)) 
   }
 
+  handleClickEvent = () => {
+    let imgDomList = document.getElementsByClassName("markdown-img")
+    console.log(imgDomList, 'imgDomList')
+    for (let i = 0;i < imgDomList.length; i++) {
+      let img = imgDomList[i]
+      img.onclick = () => {
+        this.setState({
+          visible: true,
+          modalImg: img.src
+        })
+      }
+    }
+  }
+
+  handleCancel = e => {
+    this.setState({
+      visible: false
+    })
+  }
+
   getEssayDetail () {
     Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
 			if (res.code === 0) {
@@ -69,10 +92,16 @@ class EssayDetail extends Component {
       }
     })
     let navList = getMKTitles(res.data.content)
+    this.setRenderer(renderer)
+    let markdownHtml = marked(res.data.content || ' ', { renderer: renderer })
+    markdownHtml = markdownHtml.replace(/<img/g, '<img class="markdown-img"')
     this.setState({
       navList,
       essayData: res.data,
+      markdownHtml,
       renderer
+    }, () => {
+      this.handleClickEvent()
     })
   }
 
@@ -89,7 +118,7 @@ class EssayDetail extends Component {
     const idPrefix = 'titleAnchor'
     const distance = 20
     let list = []
-    for (let i = 0; i < this.state.mkTitlesLen; i++) {
+    for (let i = 0; i <= this.state.mkTitlesLen; i++) {
       let dom = document.getElementById(`${idPrefix}${i}`)
       let domTitle = document.querySelector(`a[href="#titleAnchor${i}"]`)
       list.push({
@@ -108,28 +137,34 @@ class EssayDetail extends Component {
       titles[i].classList.remove("active")
     }
     domTitle.classList.add("active")
-    // this.setState({
-    //   highlightIndex: readingVO.index
-    // })
   }
 
   render () {
-    let { essayData, navList, renderer, highlightIndex } = this.state
-    this.setRenderer(renderer)
+    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg } = this.state
     return (
       <div className="frontend-essayDetail">
         <div className="content">
           <h1>{essayData.title}</h1>
           <div className="annotation">
             <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
-            <span><Icon type="folder"/> 分类于 前端</span> |
+            <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
             <span><Icon type="message"/> 评论 {essayData.comments && essayData.comments.length}</span> |
             <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
             <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
             <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
           </div>
           <section>
-            <img src="https://upload-images.jianshu.io/upload_images/12890819-9f08a1abed2d7caf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"/>
+            {
+              essayData.cover ? (
+                <img src={oss + essayData.cover}/>
+              ) : (
+                essayData.categorys && essayData.categorys[0].cover ? (
+                  <img src={oss + essayData.categorys[0].cover}/>
+                ) : (
+                  <img src="@/assets/img/defaultComm.png"/>
+                )
+              )
+            }
             <div className="desc">
               <div className="username">xiongchao</div>
               <div className="position">全栈攻城狮</div>
@@ -137,16 +172,26 @@ class EssayDetail extends Component {
             <div className="tags">
               <Icon type="tags" style={{fontSize: 16, verticalAlign: 'middle'}} />
               {
-                ['js', 'css', 'html'].map((tag, i) => (
+                essayData.tags && essayData.tags.map((tag, i) => (
                   <Fragment key={i}>
-                    <span className="tagName">{tag}</span><span className="split">|</span>
+                    <span className="tagName">{tag.name}</span><span className="split">|</span>
                   </Fragment>
                 ))
               }
             </div>
           </section>
           <div className="cover">
-            <img src="https://upload-images.jianshu.io/upload_images/12890819-9f08a1abed2d7caf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"/>
+            {
+              essayData.cover ? (
+                <img src={oss + essayData.cover}/>
+              ) : (
+                essayData.categorys && essayData.categorys[0].cover ? (
+                  <img src={oss + essayData.categorys[0].cover}/>
+                ) : (
+                  <img src="@/assets/img/defaultComm.png"/>
+                )
+              )
+            }
           </div>
           {/* <MdEditor
             ref={node => this.mdEditor = node}
@@ -161,11 +206,19 @@ class EssayDetail extends Component {
             renderHTML={(text) => this.mdParser.render(text)}
             onImageUpload={this.handleImageUpload}
           /> */}
-          <div className="markdown" dangerouslySetInnerHTML={{__html: marked(essayData.content || ' ', { renderer: renderer })}}></div>
+          <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
         </div>
         <div className="right-nav">
           <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
         </div>
+        <Modal
+          width="80vw"
+          visible={visible}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <img src={modalImg} style={{width: '100%'}}/>
+        </Modal>
       </div>
     )
   }
