@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, HashRouter, Route, Redirect } from 'react-router-dom'
-import { LocaleProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import 'normalize.css'
 import '@/assets/styles/app.less'
 
@@ -26,7 +26,7 @@ class App extends Component {
   render () {
     return (
       <PersistGate persistor={persistor}>
-        <LocaleProvider locale={zhCN}>
+        <ConfigProvider locale={zhCN}>
           <HashRouter>
             <Route path = '/' render={() => <Redirect to='/frontend'></Redirect>} exact/>
             <Route path = '/frontend' component = { BasicLayout }/>
@@ -34,7 +34,7 @@ class App extends Component {
             <Route path = '/login' component = { LoginLayout } />
             <Route path = '/register' component = { LoginLayout } />
           </HashRouter>
-        </LocaleProvider>
+        </ConfigProvider>
       </PersistGate>
     );
   }

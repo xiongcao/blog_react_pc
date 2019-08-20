@@ -3,6 +3,7 @@ import { withRouter, Route, Link } from 'react-router-dom'
 import Home from '@pages/frontend/index/index'
 import EssayList from '@pages/frontend/essay/essayList'
 import EssayDetail from '@pages/frontend/essay/essayDetail'
+import Archive from '@pages/frontend/archive/archive'
 import store from '@/libs/store'
 import logo from '@/assets/img/logo.svg';
 import lingdang from '@/assets/icon/lingdang.svg';
@@ -105,8 +106,8 @@ class BasicLayout extends Component {
                   <Icon type="ordered-list" /> 文章
                 </Link>
               </Menu.Item>
-              <Menu.Item key="project">
-                <Link to="/index">
+              <Menu.Item key="archive">
+                <Link to="/frontend/archive">
                   <Icon type="project" /> 归档
                 </Link>
               </Menu.Item>
@@ -153,6 +154,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/index" component={Home}/>
           <Route path="/frontend/essay" component={EssayList}/>
           <Route path="/frontend/essayDetail/:id" component={EssayDetail}/>
+          <Route path="/frontend/archive" component={Archive}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>
       </div>

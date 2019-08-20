@@ -5,8 +5,6 @@ import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
 
 import hljs from 'highlight.js'
-import MdEditor from 'react-markdown-editor-lite'
-import MarkdownIt from 'markdown-it'
 import 'highlight.js/styles/atom-one-light.css'
 
 import marked from 'marked';
@@ -17,7 +15,6 @@ import '@/assets/styles/markdown.less'
 import './index.less'
 
 class EssayDetail extends Component {
-  mdParser = null
   constructor(props) {
     super(props)
     this.state = {
@@ -31,20 +28,6 @@ class EssayDetail extends Component {
       visible: false,
       modalImg: ''
     };
-
-    this.mdParser = new MarkdownIt({
-      html: true,
-      linkify: true,
-      typographer: true,
-      highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value
-          } catch (__) {}
-        }    
-        return ''
-      }
-    })
   }
 
   componentWillMount () {
@@ -122,7 +105,7 @@ class EssayDetail extends Component {
       let dom = document.getElementById(`${idPrefix}${i}`)
       let domTitle = document.querySelector(`a[href="#titleAnchor${i}"]`)
       list.push({
-        y: dom.getBoundingClientRect().top + 10, // 利用dom.getBoundingClientRect().top可以拿到元素相对于显示器的动态y轴坐标
+        y: dom && dom.getBoundingClientRect().top + 10, // 利用dom.getBoundingClientRect().top可以拿到元素相对于显示器的动态y轴坐标
         index: i,
         domTitle
       })
@@ -131,12 +114,14 @@ class EssayDetail extends Component {
     readingVO = list.filter(item => item.y > distance).sort((a, b) => {
       return a.y - b.y
     })[0] // 对所有的y值为正标的题，按y值升序排序。第一个标题就是当前处于阅读中的段落的标题。也即要高亮的标题
-    let domTitle = document.querySelector(`a[href="#titleAnchor${readingVO.index || 0}"]`)
-    let titles = document.getElementsByClassName("nav-list-a")
-    for (let i = 0; i < titles.length; i++) {
-      titles[i].classList.remove("active")
+    if (readingVO) {
+      let domTitle = document.querySelector(`a[href="#titleAnchor${readingVO.index || 0}"]`)
+      let titles = document.getElementsByClassName("nav-list-a")
+      for (let i = 0; i < titles.length; i++) {
+        titles[i].classList.remove("active")
+      }
+      domTitle.classList.add("active")
     }
-    domTitle.classList.add("active")
   }
 
   render () {
@@ -193,20 +178,9 @@ class EssayDetail extends Component {
               )
             }
           </div>
-          {/* <MdEditor
-            ref={node => this.mdEditor = node}
-            value={essayData.content + ''}
-            config={{
-              view: {
-                menu: false,
-                md: false,
-                html: true
-              }
-            }}
-            renderHTML={(text) => this.mdParser.render(text)}
-            onImageUpload={this.handleImageUpload}
-          /> */}
           <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
+          {/* {this.commentHtml()} */}
+          {/* 评论系统参考百度贴吧 */}
         </div>
         <div className="right-nav">
           <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>

@@ -118,7 +118,6 @@ class EssayList extends Component {
         this.getEssayList();
       })
     }
-    
   }
 
   handleNavClick = (index, field) => {

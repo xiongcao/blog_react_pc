@@ -20,7 +20,9 @@ module.exports = merge(common, {
       '/api': 'http://localhost:8080' // 请求到 /api/users 现在会被代理到请求 http://localhost:8080/api/users
     },
     // https: true,
-    host: '192.168.1.83',
+    // host: '192.168.1.83',
+    // host: '127.0.0.1',
+    host: '0.0.0.0',
     open: true, // 启动后打开浏览器
     compress: true // 一切服务都启用 gzip 压缩
   },

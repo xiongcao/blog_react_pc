@@ -1,5 +1,5 @@
-.frontend-home, .frontend-essay {
-  >nav {
+.frontend-home {
+  > nav {
     position: fixed;
     z-index: 1;
     top: 64px;
@@ -8,8 +8,8 @@
     line-height: 46px;
     left: 0;
     background-color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
-    transition: all .2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
     transform: translateZ(0);
 
     ul {
@@ -35,7 +35,6 @@
         &:hover {
           color: #007fff;
         }
-
       }
       .search {
         flex: 2;
@@ -45,10 +44,10 @@
         input {
           height: 30px;
           outline: none;
-          border: 1px solid hsla(0,0%,59.2%,.2);
-          background-color: rgba(227,231,236,.2);
+          border: 1px solid hsla(0, 0%, 59.2%, 0.2);
+          background-color: rgba(227, 231, 236, 0.2);
           border-radius: 2px;
-          padding: .2rem 25px .2rem 10px;
+          padding: 0.2rem 25px 0.2rem 10px;
           box-shadow: none;
           color: #666;
         }
@@ -60,7 +59,7 @@
           right: 5px;
         }
 
-        &:hover{
+        &:hover {
           color: inherit;
           cursor: default;
         }
@@ -71,12 +70,15 @@
       }
     }
   }
+}
 
+.frontend-home,
+.frontend-essay {
   article {
     display: flex;
     justify-content: space-between;
     position: relative;
-    top: 46px;
+    // top: 46px;
     width: 1024px;
     margin: 0 auto;
 
@@ -92,12 +94,11 @@
       .detePicker {
         width: 280px;
         height: 300px;
-        // padding: 15px;
         margin-top: 15px;
-        // border-bottom: 1px solid #f0f0f0;
       }
 
-      .tags, .aboutUs {
+      .tags,
+      .aboutUs {
         padding: 30px 15px;
         border-bottom: 1px solid #f0f0f0;
 
@@ -109,12 +110,15 @@
         }
       }
 
-      .aboutUs>div{
+      .aboutUs > div {
         text-align: center;
         display: flex;
         justify-content: space-around;
       }
     }
   }
+}
 
+.frontend-home>article{
+  margin-top: 46px;
 }
