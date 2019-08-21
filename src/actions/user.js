@@ -1,6 +1,6 @@
 import * as Fetch from '@/libs/fetch'
 
-export const login = (formVal, history) => {
+export const login = (formVal, history, type) => {
   return (dispatch) => {
     // dispatch(loadingActions.showLoading());
 
@@ -8,8 +8,12 @@ export const login = (formVal, history) => {
       // dispatch(loadingActions.hideLoading());
       if (res.code === 0) {
         dispatch(heandlLogin(res.data))
-        // 没有发生异常，跳转至主页
-        history.push("/admin/home")
+        if (type === 1) { // 前台登录弹窗
+          location.reload()
+        } else {
+          // 没有发生异常，跳转至主页
+          history.push("/admin/home")
+        }
       }
     });
   };

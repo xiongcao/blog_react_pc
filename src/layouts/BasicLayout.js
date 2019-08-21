@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 import Home from '@pages/frontend/index/index'
 import EssayList from '@pages/frontend/essay/essayList'
 import EssayDetail from '@pages/frontend/essay/essayDetail'
 import Archive from '@pages/frontend/archive/archive'
 import store from '@/libs/store'
+import { oss } from '@/libs/publicPath.js'
+import { Menu, Icon, Button, Avatar, Dropdown } from 'antd';
+import { LoginModal } from '@/components'
+import { heandlOutLogin } from '@/actions/user'
 import logo from '@/assets/img/logo.svg';
 import lingdang from '@/assets/icon/lingdang.svg';
 import lingdang_active from '@/assets/icon/lingdang_active.svg';
-import { oss } from '@/libs/publicPath.js'
-import { Menu, Icon, Button, Avatar, Dropdown } from 'antd';
 
 import './BasicLayout.less'
 
@@ -20,7 +23,8 @@ class BasicLayout extends Component {
       collapsed: false,
       user: store.getState().user,
       notification: lingdang,
-      current: 'index'
+      current: 'index',
+      loginVisible: false
     };
   }
 
@@ -71,15 +75,40 @@ class BasicLayout extends Component {
     });
   }
 
+  login = () => {
+    this.setState({
+      loginVisible: true,
+    });
+  }
+
+  handleOk = e => {
+    this.setState({
+      loginVisible: e,
+    });
+  };
+
+  handleCancel = e => {
+    this.setState({
+      loginVisible: e,
+    });
+  };
+
+  handleLoginOut = () => {
+    localStorage.clear()
+    this.props.dispatch(heandlOutLogin())
+    this.props.history.push('/')
+  }
+
 
   render() {
-    let { user, notification, current } = this.state
+    let { user, notification, current, loginVisible } = this.state
     const menu = (
       <Menu>
         <Menu.Item key="1">
-          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-            1st menu item
-          </a>
+          <span>写文章</span>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Icon  type="logout"/><span onClick={this.handleLoginOut.bind()}>退出登录</span>
         </Menu.Item>
       </Menu>
     );
@@ -142,7 +171,8 @@ class BasicLayout extends Component {
                 ) : (
                   <>
                     {/* <Button icon="profile" type="link" onClick={this.geToEssayPage}>写文章</Button> |  */}
-                    <Button type="link">登录 · 注册</Button>
+                    <Button type="link" onClick={this.login.bind()}>登录 · 注册</Button>
+                    <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
                   </>
                 )
               }
@@ -162,4 +192,4 @@ class BasicLayout extends Component {
   }
 }
 
-export default withRouter(BasicLayout)
+export default connect()(withRouter(BasicLayout))
