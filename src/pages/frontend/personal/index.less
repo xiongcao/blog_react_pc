@@ -1,0 +1,168 @@
+.frntend-personal {
+  width: 100%;
+  background: #f5f6f7;
+  // position: absolute;
+  // height: calc(100% - 65px);
+
+  > section {
+    width: 1024px;
+    position: relative;
+    height: calc(100% - 25px);
+    margin: 0 auto;
+    top: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+
+    .sidebar {
+      width: 160px;
+      height: 100%;
+
+      .frontend-user-menu {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    .content {
+      flex: 2;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+      padding: 0 32px 15px;
+      background: #ffffff;
+
+      .personal {
+        .title {
+          font-size: 20px;
+          font-weight: 700;
+          color: #3d3d3d;
+          height: 60px;
+          line-height: 60px;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .userInfo {
+          display: flex;
+          justify-content: start;
+          margin-top: 15px;
+
+          .avatar {
+            margin-right: 15px;
+            text-align: center;
+
+            .ant-avatar {
+              cursor: pointer;
+            }
+
+            .modify {
+              font-size: 14px;
+              color: #3399ea;
+              margin-top: 8px;
+              cursor: pointer;
+            }
+          }
+
+          .right-info {
+            font-size: 14px;
+            color: #4d4d4d;
+            flex: 2;
+
+            > div {
+              height: 32px;
+              line-height: 32px;
+            }
+
+            .top {
+              display: flex;
+              justify-content: space-between;
+
+              .ID {
+                color: #999;
+              }
+
+              .edit {
+                font-size: 14px;
+                color: #3399ea;
+                cursor: pointer;
+              }
+            }
+
+            .number > span {
+              margin-right: 15px;
+            }
+          }
+        }
+      }
+
+      .follow {
+        .header {
+          display: flex;
+          justify-content: space-between;
+          height: 60px;
+          line-height: 60px;
+
+          .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3d3d3d;
+          }
+
+          .number {
+            font-size: 14px;
+            color: #4d4d4d;
+          }
+        }
+
+        .follow-itme {
+          height: 80px;
+          line-height: 80px;
+          border-top: 1px solid #e0e0e0;
+          display: flex;
+          justify-content: space-between;
+
+          .avatar {
+            width: 50px;
+            height: 50xp;
+            margin-right: 15px;
+          }
+
+          .nickname {
+            font-size: 16px;
+            color: #4d4d4d;
+            flex: 2;
+          }
+
+          .btn {
+            span {
+              border-radius: 4px;
+              font-size: 14px;
+              text-align: center;
+              cursor: pointer;
+              padding: 6px 12px;
+              background: #fff;
+            }
+
+            .follow-btn {
+              color: #ca0c16;
+              border: 1px solid #ca0c16;
+              padding: 6px 26px;
+
+              &:hover {
+                background: #fde3e4;
+              }
+            }
+
+            .cancel {
+              color: #999;
+              border: 1px solid #999;
+
+              &:hover {
+                color: #ca0c16;
+                background: #fde3e4;
+                border: 1px solid #ca0c16;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

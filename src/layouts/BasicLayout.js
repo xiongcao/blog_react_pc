@@ -5,6 +5,7 @@ import Home from '@pages/frontend/index/index'
 import EssayList from '@pages/frontend/essay/essayList'
 import EssayDetail from '@pages/frontend/essay/essayDetail'
 import Archive from '@pages/frontend/archive/archive'
+import Personal from '@pages/frontend/personal/personal'
 import store from '@/libs/store'
 import { oss } from '@/libs/publicPath.js'
 import { Menu, Icon, Button, Avatar, Dropdown } from 'antd';
@@ -103,12 +104,32 @@ class BasicLayout extends Component {
   render() {
     let { user, notification, current, loginVisible } = this.state
     const menu = (
-      <Menu>
-        <Menu.Item key="1">
-          <span>写文章</span>
+      <Menu className="frontend-user-menu">
+        <Menu.Item key="essay">
+          <Icon type="edit"/><span>写文章</span>
         </Menu.Item>
-        <Menu.Item key="2">
-          <Icon  type="logout"/><span onClick={this.handleLoginOut.bind()}>退出登录</span>
+        <Menu.Item key="draft">
+          <Icon type="file-text"/><span>草稿</span>
+        </Menu.Item>
+        <span className="lineBar"></span>
+        <Menu.Item key="follow">
+          <Icon type="eye"/><span>我的关注</span>
+        </Menu.Item>
+        <Menu.Item key="collect">
+          <Icon type="star"/><span>我的收藏</span>
+        </Menu.Item>
+        <Menu.Item key="user">
+          <Link to="/frontend/personal"><Icon type="user"/><span>个人中心</span></Link>
+        </Menu.Item>
+        <Menu.Item key="setting">
+          <Icon type="setting"/><span>账号设置</span>
+        </Menu.Item>
+        <span className="lineBar"></span>
+        <Menu.Item key="manage">
+          <Icon type="dashboard"/><span>后台管理</span>
+        </Menu.Item>
+        <Menu.Item key="logout" onClick={this.handleLoginOut.bind()}>
+          <Icon type="logout"/><span>退出登录</span>
         </Menu.Item>
       </Menu>
     );
@@ -164,7 +185,6 @@ class BasicLayout extends Component {
                     <Dropdown overlay={menu} placement="bottomRight">
                       <div className="ant-dropdown-link" style={{display: 'inline-block', height: '100%', cursor: 'pointer'}}>
                         { user.avatar ? <Avatar src={oss + user.avatar}/> : <Avatar  type="user"/> }
-                        <Icon type="caret-down" style={{fontSize: '14px', color: '#a0a0a0'}}/>
                       </div>
                     </Dropdown>
                   </>
@@ -185,6 +205,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/essay" component={EssayList}/>
           <Route path="/frontend/essayDetail/:id" component={EssayDetail}/>
           <Route path="/frontend/archive" component={Archive}/>
+          <Route path="/frontend/personal" component={Personal}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>
       </div>

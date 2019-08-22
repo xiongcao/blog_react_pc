@@ -128,71 +128,73 @@ class EssayDetail extends Component {
     let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg } = this.state
     return (
       <div className="frontend-essayDetail">
-        <div className="content">
-          <h1>{essayData.title}</h1>
-          <div className="annotation">
-            <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
-            <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
-            <span><Icon type="message"/> 评论 {essayData.comments && essayData.comments.length}</span> |
-            <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
-            <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
-            <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
-          </div>
-          <section>
-            {
-              essayData.cover ? (
-                <img src={oss + essayData.cover}/>
-              ) : (
-                essayData.categorys && essayData.categorys[0].cover ? (
-                  <img src={oss + essayData.categorys[0].cover}/>
-                ) : (
-                  <img src="@/assets/img/defaultComm.png"/>
-                )
-              )
-            }
-            <div className="desc">
-              <div className="username">xiongchao</div>
-              <div className="position">全栈攻城狮</div>
+        <article>
+          <div className="content">
+            <h1>{essayData.title}</h1>
+            <div className="annotation">
+              <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
+              <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
+              <span><Icon type="message"/> 评论 {essayData.comments && essayData.comments.length}</span> |
+              <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
+              <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
+              <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
             </div>
-            <div className="tags">
-              <Icon type="tags" style={{fontSize: 16, verticalAlign: 'middle'}} />
+            <section>
               {
-                essayData.tags && essayData.tags.map((tag, i) => (
-                  <Fragment key={i}>
-                    <span className="tagName">{tag.name}</span><span className="split">|</span>
-                  </Fragment>
-                ))
+                essayData.cover ? (
+                  <img src={oss + essayData.cover}/>
+                ) : (
+                  essayData.categorys && essayData.categorys[0].cover ? (
+                    <img src={oss + essayData.categorys[0].cover}/>
+                  ) : (
+                    <img src="@/assets/img/defaultComm.png"/>
+                  )
+                )
+              }
+              <div className="desc">
+                <div className="username">xiongchao</div>
+                <div className="position">全栈攻城狮</div>
+              </div>
+              <div className="tags">
+                <Icon type="tags" style={{fontSize: 16, verticalAlign: 'middle'}} />
+                {
+                  essayData.tags && essayData.tags.map((tag, i) => (
+                    <Fragment key={i}>
+                      <span className="tagName">{tag.name}</span><span className="split">|</span>
+                    </Fragment>
+                  ))
+                }
+              </div>
+            </section>
+            <div className="cover">
+              {
+                essayData.cover ? (
+                  <img src={oss + essayData.cover}/>
+                ) : (
+                  essayData.categorys && essayData.categorys[0].cover ? (
+                    <img src={oss + essayData.categorys[0].cover}/>
+                  ) : (
+                    <img src="@/assets/img/defaultComm.png"/>
+                  )
+                )
               }
             </div>
-          </section>
-          <div className="cover">
-            {
-              essayData.cover ? (
-                <img src={oss + essayData.cover}/>
-              ) : (
-                essayData.categorys && essayData.categorys[0].cover ? (
-                  <img src={oss + essayData.categorys[0].cover}/>
-                ) : (
-                  <img src="@/assets/img/defaultComm.png"/>
-                )
-              )
-            }
+            <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
+            {/* {this.commentHtml()} */}
+            {/* 评论系统参考百度贴吧 */}
           </div>
-          <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
-          {/* {this.commentHtml()} */}
-          {/* 评论系统参考百度贴吧 */}
-        </div>
-        <div className="right-nav">
-          <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
-        </div>
-        <Modal
-          width="80vw"
-          visible={visible}
-          footer={null}
-          onCancel={this.handleCancel}
-        >
-          <img src={modalImg} style={{width: '100%'}}/>
-        </Modal>
+          <div className="right-nav">
+            <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
+          </div>
+          <Modal
+            width="80vw"
+            visible={visible}
+            footer={null}
+            onCancel={this.handleCancel}
+          >
+            <img src={modalImg} style={{width: '100%'}}/>
+          </Modal>
+        </article>
       </div>
     )
   }
