@@ -43,8 +43,7 @@ class Login extends Component {
     }
   }
 
-  handleLogin = (e) => {
-    e.persist()
+  handleLogin = () => {
     let { username, password } = this.state
     if (!username) {
       message.error("请输入账号")

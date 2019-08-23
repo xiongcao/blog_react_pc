@@ -23,7 +23,7 @@ class EssayItem extends Component {
         <section className="essay-item">
           <div className="content">
             <h3 onClick={this.geToEssayDetail.bind(this, item.id)}>{item.title}</h3>
-            <p dangerouslySetInnerHTML={{__html:item.describe}} onClick={this.geToEssayDetail.bind(this, item.id)}></p>
+            <p dangerouslySetInnerHTML={{__html:item.des}} onClick={this.geToEssayDetail.bind(this, item.id)}></p>
             <div className="meta">
               <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
               <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>

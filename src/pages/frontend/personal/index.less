@@ -1,8 +1,6 @@
 .frntend-personal {
   width: 100%;
   background: #f5f6f7;
-  // position: absolute;
-  // height: calc(100% - 65px);
 
   > section {
     width: 1024px;
@@ -92,7 +90,10 @@
         }
       }
 
-      .follow {
+      .follow,
+      .category,
+      .conllect,
+      .archive-category {
         .header {
           display: flex;
           justify-content: space-between;
@@ -110,8 +111,70 @@
             color: #4d4d4d;
           }
         }
+      }
 
-        .follow-itme {
+      .conllect {
+        .conllect-item {
+          height: 80px;
+          line-height: 80px;
+          border-top: 1px solid #e0e0e0;
+          display: flex;
+          justify-content: space-between;
+
+          .left {
+            width: 716px;
+            padding-right: 15px;
+
+            .title {
+              height: 24px;
+              line-height: 24px;
+              font-size: 16px;
+              color: #4d4d4d;
+              margin-top: 20px;
+              margin-bottom: 5px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              cursor: pointer;
+            }
+
+            .left-btm {
+              height: 17px;
+              line-height: 17px;
+              font-size: 12px;
+              color: #999;
+
+              .author {
+                margin-right: 15px;
+              }
+            }
+          }
+          .btn {
+            span {
+              border-radius: 4px;
+              font-size: 14px;
+              text-align: center;
+              cursor: pointer;
+              padding: 6px 12px;
+              background: #fff;
+            }
+
+            .cancel {
+              color: #999;
+              border: 1px solid #999;
+
+              &:hover {
+                color: #ca0c16;
+                background: #fde3e4;
+                border: 1px solid #ca0c16;
+              }
+            }
+          }
+        }
+      }
+
+      .follow {
+        .follow-item {
           height: 80px;
           line-height: 80px;
           border-top: 1px solid #e0e0e0;
@@ -161,6 +224,84 @@
               }
             }
           }
+        }
+      }
+
+      .category {
+        .header {
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .category-item {
+          border-bottom: 1px solid #f5f6f7;
+          padding: 16px;
+          display: flex;
+          justify-content: space-between;
+          
+          &:hover {
+            background: rgba(0,0,0,.01);
+            cursor: pointer;
+          }
+
+          .name {
+            font-size: 16px;
+            color: #3d3d3d;
+            user-select: none;
+          }
+
+          .count {
+            margin-left: 16px;
+            font-size: 12px;
+            line-height: 24px;
+            color: #999;
+            flex: 2;
+          }
+
+          > i {
+            padding-left: 15px;
+            line-height: 24px;
+          }
+        }
+      }
+
+      .archive-category {
+        .header {
+          border-bottom: 1px solid #e0e0e0;
+
+          .title {
+            font-size: 16px;
+            cursor: pointer;
+          }
+        }
+
+        .essay-card {
+          padding: 15px;
+          border-bottom: 1px solid #f0f0f0;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba(0,0,0,.01);
+          }
+
+          .title {
+            color: #333;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 10px;
+          }
+
+          .meta {
+            display: flex;
+            justify-content: flex-start;
+            font-size: 12px;
+      
+            >section {
+              margin-right: 10px;
+              color: #b4b4b4;
+            }
+          }
+
         }
       }
     }

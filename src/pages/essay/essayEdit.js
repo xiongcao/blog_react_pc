@@ -266,14 +266,14 @@ class EssayEdit extends Component {
           </Form.Item>
           <Form.Item label="描述">
             {
-              getFieldDecorator('describe', {
+              getFieldDecorator('des', {
                 rules: [
                   {
                     required: true,
                     message: '请输入描述',
                   }
                 ],
-                initialValue: essayData.describe
+                initialValue: essayData.des
               })(<Input.TextArea autosize={{ minRows: 2, maxRows: 6 }}/>)
             }
           </Form.Item>

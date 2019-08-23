@@ -29,7 +29,17 @@ class BasicLayout extends Component {
     };
   }
 
+  componentWillReceiveProps () {
+    let userId = this.state.user.id
+    let pathname = this.props.history.location.pathname
+    let paths = pathname.split("/")
+    if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
+      this.props.history.push("/frontend")
+    }
+  }
+
   componentWillMount () {
+    let userId = this.state.user.id
     let pathname = this.props.location.pathname
     let paths = pathname.split("/")
     if (paths[1] === 'frontend' && !paths[2]) {
@@ -37,6 +47,9 @@ class BasicLayout extends Component {
         current: 'index'
       })
     } else {
+      if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
+        this.props.history.push("/frontend")
+      }
       this.setState({
         current: paths[2]
       })
@@ -52,10 +65,6 @@ class BasicLayout extends Component {
 
   goToAdminPage = () => {
     this.props.history.push('/admin/home')
-  }
-  
-  geToEssayPage = () => {
-    this.props.history.push('/admin/essay/essayEdit/-1')
   }
 
   handleEnter = () => {
@@ -106,30 +115,40 @@ class BasicLayout extends Component {
     const menu = (
       <Menu className="frontend-user-menu">
         <Menu.Item key="essay">
-          <Icon type="edit"/><span>写文章</span>
+          <Link to="/admin/essay/essayEdit/-1">
+            <Icon type="edit"/><span>写文章</span>
+          </Link>
         </Menu.Item>
         <Menu.Item key="draft">
-          <Icon type="file-text"/><span>草稿</span>
+          <Link to="/admin/essay/essayEdit/-1">
+            <Icon type="file-text"/><span>草稿</span>
+          </Link>
         </Menu.Item>
         <span className="lineBar"></span>
         <Menu.Item key="follow">
-          <Icon type="eye"/><span>我的关注</span>
+          <Link to="/frontend/personal/follow">
+            <Icon type="eye"/><span>我的关注</span>
+          </Link>
         </Menu.Item>
         <Menu.Item key="collect">
+        <Link to="/frontend/personal/conllect">
           <Icon type="star"/><span>我的收藏</span>
+        </Link>
         </Menu.Item>
         <Menu.Item key="user">
-          <Link to="/frontend/personal"><Icon type="user"/><span>个人中心</span></Link>
+          <Link to="/frontend/personal/personal"><Icon type="user"/><span>个人中心</span></Link>
         </Menu.Item>
         <Menu.Item key="setting">
-          <Icon type="setting"/><span>账号设置</span>
+          <Link to="/frontend/setting">
+            <Icon type="setting"/><span>账号设置</span>
+          </Link>
         </Menu.Item>
         <span className="lineBar"></span>
         <Menu.Item key="manage">
-          <Icon type="dashboard"/><span>后台管理</span>
+          <Link to="/admin"><Icon type="dashboard"/><span>后台管理</span></Link>
         </Menu.Item>
         <Menu.Item key="logout" onClick={this.handleLoginOut.bind()}>
-          <Icon type="logout"/><span>退出登录</span>
+          <Icon type="logout"/>退出登录
         </Menu.Item>
       </Menu>
     );
@@ -190,7 +209,6 @@ class BasicLayout extends Component {
                   </>
                 ) : (
                   <>
-                    {/* <Button icon="profile" type="link" onClick={this.geToEssayPage}>写文章</Button> |  */}
                     <Button type="link" onClick={this.login.bind()}>登录 · 注册</Button>
                     <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
                   </>
@@ -205,7 +223,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/essay" component={EssayList}/>
           <Route path="/frontend/essayDetail/:id" component={EssayDetail}/>
           <Route path="/frontend/archive" component={Archive}/>
-          <Route path="/frontend/personal" component={Personal}/>
+          <Route path="/frontend/personal/:id" component={Personal}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>
       </div>

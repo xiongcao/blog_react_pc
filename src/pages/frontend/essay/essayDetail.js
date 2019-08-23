@@ -41,7 +41,6 @@ class EssayDetail extends Component {
 
   handleClickEvent = () => {
     let imgDomList = document.getElementsByClassName("markdown-img")
-    console.log(imgDomList, 'imgDomList')
     for (let i = 0;i < imgDomList.length; i++) {
       let img = imgDomList[i]
       img.onclick = () => {
