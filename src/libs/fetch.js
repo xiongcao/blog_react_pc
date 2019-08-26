@@ -13,8 +13,8 @@ const request = (url, config) => {
         if (res.code === -1) {
           localStorage.clear()
           store.dispatch(heandlOutLogin())
-          window.location.replace('/#/login')
-          // window.location.reload()
+          // window.location.replace('/#/login')
+          window.location.reload()
         }
       }
       return res;

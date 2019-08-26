@@ -131,7 +131,7 @@ class BasicLayout extends Component {
           </Link>
         </Menu.Item>
         <Menu.Item key="collect">
-        <Link to="/frontend/personal/conllect">
+        <Link to="/frontend/personal/collect">
           <Icon type="star"/><span>我的收藏</span>
         </Link>
         </Menu.Item>

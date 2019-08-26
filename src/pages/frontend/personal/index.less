@@ -27,6 +27,15 @@
       padding: 0 32px 15px;
       background: #ffffff;
 
+      .empty {
+        text-align: center;
+        margin-top: 30px;
+        
+        img {
+          width: 120px;
+        }
+      }
+
       .personal {
         .title {
           font-size: 20px;
@@ -39,7 +48,7 @@
 
         .userInfo {
           display: flex;
-          justify-content: start;
+          justify-content: flex-start;
           margin-top: 15px;
 
           .avatar {
@@ -92,7 +101,7 @@
 
       .follow,
       .category,
-      .conllect,
+      .collect,
       .archive-category {
         .header {
           display: flex;
@@ -113,8 +122,8 @@
         }
       }
 
-      .conllect {
-        .conllect-item {
+      .collect {
+        .collect-item {
           height: 80px;
           line-height: 80px;
           border-top: 1px solid #e0e0e0;
@@ -210,6 +219,17 @@
 
               &:hover {
                 background: #fde3e4;
+              }
+            }
+
+            .follow-fans-btn {
+              border: 1px solid #ca0c16;
+              background: #ca0c16;
+              color: #ffffff;
+
+              &:hover {
+                background: #fde3e4;
+                color: #ca0c16;
               }
             }
 
