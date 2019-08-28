@@ -14,6 +14,7 @@ import DropdownLoading from './DropdownLoading'
 import EssayItem from './EssayItem'
 import MKTitles from './MKTitles'
 import LoginModal from './LoginModal'
+import BaseComponent from './BaseComponent'
 
 export {
   MyHeader, 
@@ -31,5 +32,6 @@ export {
   DropdownLoading,
   EssayItem,
   MKTitles,
-  LoginModal
+  LoginModal,
+  BaseComponent
 }

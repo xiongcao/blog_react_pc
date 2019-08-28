@@ -27,6 +27,11 @@ class EssayList extends Component {
       isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
     };
   }
+  componentWillUnmount () {
+    this.setState = () => {
+      return
+    }
+  }
 
   componentWillMount () {
     this.getEssayList()

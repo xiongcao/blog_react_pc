@@ -4,8 +4,9 @@ import { Upload, Avatar, Modal, Form, Input, Button, DatePicker, Radio, Cascader
 import * as Fetch from '@/libs/fetch';
 import options from '@/utils/area.js'
 import { heandlLogin } from '@/actions/user'
-import { oss } from '@/libs/publicPath.js'
+import { api, oss } from '@/libs/publicPath.js'
 import moment from 'moment'
+import UploadImage from '@/components/UploadImage'
 import store from '@/libs/store'
 
 class User extends Component {
@@ -54,23 +55,24 @@ class User extends Component {
       }
       values = Object.assign({}, this.state.userInfo, values)
       if (!err) {
-				Fetch.post(`user/save`, values).then((res) => {
-					if (res.code === 0) {
-						message.success('保存成功')
-            this.props.dispatch(heandlLogin(values))
-            this.setState({visible: false})
-					}
-				});
+				this.saveUserInfo(values)
+      }
+    });
+  }
+
+  saveUserInfo (values) {
+    Fetch.post(`user/save`, values).then((res) => {
+      if (res.code === 0) {
+        message.success('保存成功')
+        this.props.dispatch(heandlLogin(values))
+        this.setState({visible: false})
       }
     });
   }
   
   uploadSuccess = (avatar) => {
-		let user = Object.assign({}, this.state.userInfo, {avatar})
-		this.setState({user})
-		this.props.form.setFieldsValue({
-			avatar
-		})
+    let user = Object.assign({}, this.state.userInfo, {avatar})
+    this.saveUserInfo(user)
   }
   
   renderUserModal = () => {
@@ -171,10 +173,11 @@ class User extends Component {
         <p className="title">个人资料</p>
         <div className="userInfo">
           <div className="avatar">
-            <Upload>
-              <Avatar size={100} src={oss + userInfo.avatar}/>
-              <p className="modify">修改头像</p>
-            </Upload>
+            <UploadImage 
+              imagePath={userInfo.avatar} 
+              folder="avatar" 
+              uploadSuccess={this.uploadSuccess.bind()}
+            />
           </div>
           <div className="right-info">
             <div className="top">
