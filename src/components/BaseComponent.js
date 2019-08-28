@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 function inject_unount(target) {
-  alert(1)
   // 改装componentWillUnmount，销毁的时候记录一下
   let next = target.prototype.componentWillUnmount;
   target.prototype.componentWillUnmount = function() {
@@ -16,7 +15,7 @@ function inject_unount(target) {
   };
 }
 
-@inject_unount
+// @inject_unount
 class BaseComponent extends Component {
 }
 

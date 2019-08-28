@@ -24,7 +24,7 @@ class User extends Component {
     })
   }
 
-  componentWillReceiveProps (props) {
+  UNSAFE_componentWillReceiveProps (props) {
     this.setState({
       userInfo: Object.assign({}, props.userInfo)
     })

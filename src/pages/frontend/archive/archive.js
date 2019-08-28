@@ -21,7 +21,7 @@ class Archive extends Component {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.getArchiveListData()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }

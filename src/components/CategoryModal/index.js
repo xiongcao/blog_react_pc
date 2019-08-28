@@ -44,7 +44,7 @@ class CategoryModal extends Component {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.getCategoryList()
   }
 
@@ -58,7 +58,7 @@ class CategoryModal extends Component {
 		})
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       visible: nextProps.visible,
       selectedRowKeys: [],

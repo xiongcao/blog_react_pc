@@ -12,7 +12,7 @@ class DropdownLoading extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       loadingCompleted: nextProps.loadingCompleted,
       loading: nextProps.loading

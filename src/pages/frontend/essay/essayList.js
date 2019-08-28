@@ -33,7 +33,7 @@ class EssayList extends Component {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.getEssayList()
     this.getUserInfo()
     this.getTagList()

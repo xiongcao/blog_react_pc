@@ -13,7 +13,7 @@ class UploadImage extends Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       fileList: [
         {
@@ -24,7 +24,7 @@ class UploadImage extends Component {
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       fileList: [
         {

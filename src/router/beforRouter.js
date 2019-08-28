@@ -35,7 +35,7 @@ class BeforRouter extends Component {
       }
     })
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     console.log('路由跳转前的拦截', this.props)
   }
 

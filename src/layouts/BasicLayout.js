@@ -35,7 +35,7 @@ class BasicLayout extends Component {
     })
   }
 
-  componentWillReceiveProps () {
+  UNSAFE_componentWillReceiveProps () {
     let userId = this.state.user.id
     let pathname = this.props.history.location.pathname
     let paths = pathname.split("/")
@@ -44,7 +44,7 @@ class BasicLayout extends Component {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     let userId = this.state.user.id
     let pathname = this.props.location.pathname
     let paths = pathname.split("/")

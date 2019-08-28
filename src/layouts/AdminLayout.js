@@ -20,7 +20,7 @@ class AdminLayout extends Component {
     };
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     let { user } = store.getState()
     if (!user.id) {
       this.props.history.push('/login')

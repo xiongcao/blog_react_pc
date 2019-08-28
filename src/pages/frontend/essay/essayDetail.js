@@ -30,7 +30,7 @@ class EssayDetail extends Component {
     };
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.getEssayDetail()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }

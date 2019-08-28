@@ -27,7 +27,7 @@ class Index extends Component {
     };
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.getEssayList()
     this.getTagList()
     this.getCategoryList()
