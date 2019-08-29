@@ -197,7 +197,6 @@ class Personal extends Component {
     let current = this.state.current
     switch (current) {
       case "personal":
-        console.log(userInfo, 'userinfo')
         nodeHtml = (<User userInfo={userInfo}/>)
         break;
       case "collect":
@@ -297,7 +296,7 @@ class Personal extends Component {
   render() {
     let { current, type, essayList, typeName } = this.state
     return (
-      <div className="frntend-personal">
+      <div className="frontend-personal">
         <section>
           <div className="sidebar">
             <Menu className="frontend-user-menu" 

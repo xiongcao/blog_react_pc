@@ -87,7 +87,7 @@ class AdminLayout extends Component {
   }
 
   goToFrontend = () => {
-    this.props.history.push('/index')
+    this.props.history.push('/')
   }
 
   render() {
