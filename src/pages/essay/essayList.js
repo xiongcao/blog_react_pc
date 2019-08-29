@@ -135,7 +135,7 @@ class EssayList extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 225
+		let tableHeight = document.documentElement.clientHeight - 282
 		this.setState({
 			tableHeight
 		})
@@ -164,7 +164,7 @@ class EssayList extends Component {
   }
 
   essayEdit = (id) => {
-    this.props.history.push({pathname:"/admin/essay/essayEdit/" + id});
+    this.props.history.push({pathname:"/admin/essayEdit/" + id});
   }
 
   render() {

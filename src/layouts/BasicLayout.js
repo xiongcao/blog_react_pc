@@ -121,13 +121,8 @@ class BasicLayout extends Component {
     const menu = (
       <Menu className="frontend-user-menu">
         <Menu.Item key="essay">
-          <Link to="/admin/essay/essayEdit/-1">
+          <Link to="/admin/essayEdit/-1">
             <Icon type="edit"/><span>写文章</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="draft">
-          <Link to="/admin/essay/essayEdit/-1">
-            <Icon type="file-text"/><span>草稿</span>
           </Link>
         </Menu.Item>
         <span className="lineBar"></span>

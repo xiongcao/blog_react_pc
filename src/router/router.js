@@ -53,23 +53,35 @@ export default [
         title: '标签管理',
         component: TagComponent,
       },
+      // {
+      //   path: '/essay',
+      //   icon: 'file-markdown',
+      //   title: '文章管理',
+      //   children: [
+      //     {
+      //       path: '/essayList',
+      //       title: '文章列表',
+      //       component: EssayList,
+      //     },
+      //     {
+      //       path: '/essayEdit/:id',
+      //       title: '文章编辑',
+      //       hideInMenu: true,
+      //       component: EssayEdit,
+      //     }
+      //   ]
+      // },
       {
-        path: '/essay',
+        path: '/essayList',
         icon: 'file-markdown',
         title: '文章管理',
-        children: [
-          {
-            path: '/essayList',
-            title: '文章列表',
-            component: EssayList,
-          },
-          {
-            path: '/essayEdit/:id',
-            title: '文章编辑',
-            hideInMenu: true,
-            component: EssayEdit,
-          }
-        ]
+        component: EssayList
+      },
+      {
+        path: '/essayEdit/:id',
+        title: '文章编辑',
+        hideInMenu: true,
+        component: EssayEdit,
       },
       {
         path: '/comment',
