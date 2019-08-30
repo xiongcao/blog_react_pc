@@ -15,13 +15,17 @@ class Setting extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: 'index',
+      current: '',
     }
   }
 
   UNSAFE_componentWillMount () {
+    this.initData()
+  }
+
+  initData () {
     this.getUserInfo()
-    let pathname = this.props.location.pathname
+    let pathname = this.props.history.location.pathname
     let paths = pathname.split("/")
     this.setState({
       current: paths[paths.length - 1]
@@ -29,7 +33,7 @@ class Setting extends Component {
   }
 
   UNSAFE_componentWillReceiveProps () {
-    this.getUserInfo()
+    this.initData()
   }
 
   getUserInfo () {
@@ -45,6 +49,7 @@ class Setting extends Component {
   render() {
     let { match } = this.props
     let { current } = this.state
+    console.log(current, 'current')
     return (
       <div className="frontend-setting">
         <section>

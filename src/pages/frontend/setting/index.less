@@ -18,14 +18,84 @@
           color: #3d3d3d;
         }
       }
+
+      .form {
+        display: flex;
+        justify-content: flex-start;
+        padding: 30px 0;
+        width: 480px;
+        margin: 0 auto;
+
+        .input {
+          display: flex;
+          flex-direction: column;
+          >input {
+            width: 360px;
+            height: 40px;
+            border-radius: 2px;
+            background-color: #ffffff;
+            border: 1px solid #d8d8d8;
+            box-sizing: border-box;
+            padding: 0 10px;
+            outline: none;
+            margin-bottom: 20px;
+          }
+
+        }
+
+        button {
+          border-radius: 2px;
+        }
+      }
+    }
+
+    .index {
+      .header .title span {
+        color: #7ed321;
+      }
+
+      .account-item {
+        display: flex;
+        justify-content: flex-start;
+        height: 80px;
+        line-height: 80px;
+        border-bottom: 1px solid #e0e0e0;
+
+        span {
+          display: inline-block;
+        }
+
+        .name {
+          width: 70%;
+          font-size: 16px;
+          color: #4d4d4d;
+        }
+
+        .tips {
+          width: 16%;
+          font-size: 14px;
+        }
+
+        .warn {
+          color: #f5a623;
+        }
+
+        .success {
+          color: #7ed321;
+        }
+
+        .btn {
+          width: 12%;
+          text-align: right;
+          font-size: 14px;
+          color: #3399ea;
+          cursor: pointer;
+        }
+      }
     }
 
     .password {
       .form {
-        display: flex;
-        justify-content: flex-start;
-        padding: 30px 20px 30px 30px;
-
         .label, .input {
           display: flex;
           flex-direction: column;
@@ -43,24 +113,79 @@
             margin-bottom: 20px;
           }
         }
+      }
+    }
 
-        .input {
-          >input {
-            width: 360px;
-            height: 40px;
-            border-radius: 2px;
-            background-color: #ffffff;
-            border: 1px solid #d8d8d8;
-            box-sizing: border-box;
-            padding: 0 10px;
-            outline: none;
-            margin-bottom: 20px;
+    .phone, .email {
+      .form {
+        width: 360px;
+        position: relative;
 
-            button {
-              border-radius: 2px;
-            }
+        input[name='code'] {
+          padding-right: 80px;
+        }
+
+        .input>span {
+          width: 80px;
+          height: 40px;
+          line-height: 40px;
+          position: absolute;
+          top: 90px;
+          right: 0;
+          color: #1890ff;
+
+          &:hover {
+            cursor: pointer;
+            color: #40a9ff;
           }
+        }
+      }
+    }
 
+    .bindaccount {
+      .bind-item {
+        display: flex;
+        justify-content: flex-start;
+        height: 68px;
+        line-height: 68px;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 0 20px;
+
+        .name {
+          width: 220px;
+          font-size: 16px;
+          color: #4d4d4d;
+
+          >span {
+            margin-right: 15px;
+          }
+        }
+
+        .nickname {
+          flex: 2;
+          font-size: 14px;
+          color: #ccc;
+        }
+
+        .btn {
+          padding-left: 15px;
+          cursor: pointer;
+        }
+
+        .btn-bind {
+          color: #3399ea;
+
+          &:hover {
+            color: #157dcf
+          }
+        }
+        
+        .btn-unbind {
+          color: #ca0c16;
+
+          &:hover {
+            color: #b60b14;
+          }
         }
       }
     }

@@ -24,30 +24,38 @@ class Personal extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    this.initData()
+    this.initData(this.state.current)
   }
 
-  initData () {
-    switch(this.state.current) {
-      case "personal" :
-        this.getUserInfo()
+  UNSAFE_componentWillReceiveProps () {
+    let pathname = this.props.history.location.pathname
+    let paths = pathname.split("/")
+    this.initData(paths[paths.length - 1])
+  }
+
+  initData (current) {
+    this.setState({current, type: ''}, () => {
+      switch(current) {
+        case "personal" :
+          this.getUserInfo()
+          break
+        case "collect" :
+          this.getConllectListData()
         break
-      case "collect" :
-        this.getConllectListData()
-      break
-      case "follow" :
-        this.getFollowtListData(1)
-      break
-      case "fans" :
-        this.getFollowtListData(2)
-      break
-      case "category" :
-        this.getCategoryListData()
-      break
-      case "tag" :
-        this.getTagListData()
-      break
-    }
+        case "follow" :
+          this.getFollowtListData(1)
+        break
+        case "fans" :
+          this.getFollowtListData(2)
+        break
+        case "category" :
+          this.getCategoryListData()
+        break
+        case "tag" :
+          this.getTagListData()
+        break
+      }
+    })
   }
 
   getUserInfo () {
@@ -119,12 +127,6 @@ class Personal extends Component {
 
   handleNavClick = (e) => {
     this.props.history.push("/frontend/personal/" + e.key)
-    this.setState({
-      current: e.key,
-      type: ''
-    }, () => {
-      this.initData()
-    });
   }
 
   goToArchive = (type, id, name) => {
@@ -290,8 +292,6 @@ class Personal extends Component {
     }
     return nodeHtml
   }
-
-  
 
   render() {
     let { current, type, essayList, typeName } = this.state
