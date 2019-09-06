@@ -66,7 +66,7 @@ class Register extends Component {
     })
   }
 
-  async handlePhonelur () {
+  async handlePhoneBlur () {
     let phone = this.state.phone
     if (phone) {
 			if (phone.toString().length === 11) {
@@ -97,7 +97,7 @@ class Register extends Component {
     let { usernameFlag, passwordFlag, phoneFloag, username, password, phone } = this.state
     await this.handleUsernameBlur()
     await usernameFlag && this.handlePasswordBlur()
-    await usernameFlag && passwordFlag && this.handlePhonelur()
+    await usernameFlag && passwordFlag && this.handlePhoneBlur()
     if (usernameFlag && passwordFlag && phoneFloag) {
       Fetch.post(`user/register`, {
         name: username,
@@ -121,7 +121,7 @@ class Register extends Component {
         onChange={this.handleUsernameChange.bind()} />
 
         <input name="phone" type="text" placeholder="请输入手机号" 
-        onBlur={this.handlePhonelur.bind(this)}
+        // onBlur={this.handlePhoneBlur.bind(this)}
         onChange={this.handlePhoneChange.bind()} maxLength="11"/>
 
         <input name="password" type="password" placeholder="请输入密码" 

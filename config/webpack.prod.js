@@ -63,14 +63,9 @@ module.exports = merge(common, {
             loader: 'less-loader'
           },
           {
-            loader: 'sass-loader'
-          },
-          {
             loader: 'postcss-loader'
           }
-        ],
-        exclude: /(node_modules|bower_components)/,
-        include: path.join(__dirname, '../src'), //限制范围，提高打包速度
+        ]
       }
     ]
   }

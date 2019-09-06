@@ -21,7 +21,7 @@ class Eamil extends Component {
           <div className="input">
             <input name="phone" placeholder="请输入新邮箱"/>
             <input name="code" placeholder="请输入验证码"/>
-            <span>发送验证码</span>
+            <button className="sendCode">发送验证码</button>
             <Button type="primary" size="large" onClick={this.confirmUpdate.bind()}>确认</Button>
           </div>
         </div>

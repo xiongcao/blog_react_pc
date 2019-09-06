@@ -4,6 +4,7 @@ import { Form, Input, Table, Popconfirm, Modal, Radio, message } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton, UploadImage, CategoryModal } from '@/components'
 import { api, oss } from '@/libs/publicPath.js'
+import store from '@/libs/store.js';
 
 import '@/pages/category/category.less'
 
@@ -11,6 +12,7 @@ class Category extends Component {
   constructor(props){
     super(props)
     this.state = {
+      user: store.getState().user,
       visible: false,
       listVisible: false,
       tableHeight: 0,
@@ -121,6 +123,10 @@ class Category extends Component {
   }
 
   updateStatus = (id, status) => {
+    if (this.state.user.role !== 'ROLE_SUPER') {
+      message.warning('您没有权限哟')
+      return
+    }
     Fetch.post(`category/updateStatus/${id}/${status}`).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
@@ -130,6 +136,10 @@ class Category extends Component {
   }
 
   openModal = (record) => {
+    if (this.state.user.role !== 'ROLE_SUPER') {
+      message.warning('您没有权限哟')
+      return
+    }
     let id = record && record.id
     if (id) {	// 编辑
 			let { name, rank, status, cover } = record
@@ -234,7 +244,10 @@ class Category extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="category-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton><MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton></div>
+        <div style={{marginBottom: '15px'}}>
+          <MyButton type="error" onClick={ this.openModal }>添 加</MyButton>
+          {/* <MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton> */}
+          </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}

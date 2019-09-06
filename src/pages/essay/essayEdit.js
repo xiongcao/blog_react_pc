@@ -129,7 +129,7 @@ class EssayEdit extends Component {
 			if (res.code === 0) {
         message.success("成功")
         setTimeout(() => {
-          this.props.history.push({pathname: '/admin/essay/essayList'})
+          this.props.history.push({pathname: '/admin/essayList'})
         }, 800)
 			}
 		})

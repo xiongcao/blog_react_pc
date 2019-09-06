@@ -28,10 +28,19 @@ class EssayDetail extends Component {
       visible: false,
       modalImg: ''
     };
+    console.log(props, 'props')
   }
 
   UNSAFE_componentWillMount () {
-    this.getEssayDetail()
+    if (this.props.location.pathname.indexOf('about') !== -1) {
+      this.setState({
+        id: 0
+      }, () => {
+        this.getEssayDetail()
+      })
+    } else {
+      this.getEssayDetail()
+    }
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }
 

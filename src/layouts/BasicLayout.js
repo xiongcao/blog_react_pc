@@ -187,18 +187,18 @@ class BasicLayout extends Component {
                   <Icon type="project" /> 归档
                 </Link>
               </Menu.Item>
-              <Menu.Item key="question-circle">
-                <Link to="/index">
-                  <Icon type="question-circle" /> 问答
+              <Menu.Item key="project">
+                <Link to="/frontend/project">
+                  <Icon type="question-circle" /> 项目
                 </Link>
               </Menu.Item>
-              <Menu.Item key="message">
+              {/* <Menu.Item key="message">
                 <Link to="/index">
                   <Icon type="message" /> 留言
                 </Link>
-              </Menu.Item>
-              <Menu.Item key="user">
-                <Link to="/index1">
+              </Menu.Item> */}
+              <Menu.Item key="about">
+                <Link to="/frontend/about">
                   <Icon type="user" /> 关于
                 </Link>
               </Menu.Item>
@@ -232,6 +232,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/archive" component={Archive}/>
           <Route path="/frontend/personal/:id" component={Personal}/>
           <Route path="/frontend/setting" component={Setting}/>
+          <Route path="/frontend/about" component={EssayDetail}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>
       </div>

@@ -5,11 +5,13 @@ import * as Fetch from '@/libs/fetch';
 import { MyButton, TagModal } from '@/components'
 
 import '@/pages/tagComponent/tagComponent.less'
+import store from '@/libs/store.js';
 
 class TagComponent extends Component {
   constructor(props){
     super(props)
     this.state = {
+      user: store.getState().user,
       visible: false,
       listVisible: false,
       tableHeight: 0,
@@ -108,6 +110,10 @@ class TagComponent extends Component {
   }
 
   updateStatus = (id, status) => {
+    if (this.state.user.role !== 'ROLE_SUPER') {
+      message.warning('您没有权限哟')
+      return
+    }
     Fetch.post(`tag/updateStatus/${id}/${status}`).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
@@ -117,6 +123,10 @@ class TagComponent extends Component {
   }
 
   openModal = (record) => {
+    if (this.state.user.role !== 'ROLE_SUPER') {
+      message.warning('您没有权限哟')
+      return
+    }
     let id = record && record.id
     if (id) {	// 编辑
 			let { name, rank, status } = record
