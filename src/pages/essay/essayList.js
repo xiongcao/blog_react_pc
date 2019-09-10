@@ -135,7 +135,7 @@ class EssayList extends Component {
 	}
 
 	resizeTable = () => {
-		let tableHeight = document.documentElement.clientHeight - 282
+		let tableHeight = document.documentElement.clientHeight - 286
 		this.setState({
 			tableHeight
 		})

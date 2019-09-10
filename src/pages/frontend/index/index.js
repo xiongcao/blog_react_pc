@@ -9,13 +9,13 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      navActiveIndex: 1,
+      navActiveIndex: 2,
       page: 0,
       size: 20,
       title: '',
       categoryId: '',
       tagId: '',
-      properties: 'star',
+      properties: 'created_date',
       tagList: [],
       categoryList: [],
       essayList: [],
@@ -174,8 +174,8 @@ class Index extends Component {
       <div className="frontend-home">
         <nav>
           <ul>
-            <li onClick={this.handleNavClick.bind(this, 1, 'star')} className={ navActiveIndex === 1 ? 'active' : '' }>热门</li>
             <li onClick={this.handleNavClick.bind(this, 2, 'created_date')} className={ navActiveIndex === 2 ? 'active' : '' }>最新</li>
+            <li onClick={this.handleNavClick.bind(this, 1, 'star')} className={ navActiveIndex === 1 ? 'active' : '' }>热门</li>
             <li className="search"><input placeholder="搜索" value={title} onChange={this.searchChange.bind(this)} onKeyDown={this.keydownHandle.bind(this)}/><Icon style={{fontSize: 18}} type="search" onClick={this.search.bind()}/></li>
           </ul>
         </nav>

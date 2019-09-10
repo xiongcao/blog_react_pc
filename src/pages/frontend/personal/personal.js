@@ -273,7 +273,7 @@ class Personal extends Component {
           <div className="category">
             <div className="header">
               <span className="title">{ current === 'tag' ? '标签' : '分类'}统计</span>
-              <span className="number">共7个分类</span>
+              <span className="number">共7个{ current === 'tag' ? '标签' : '分类'}</span>
             </div>
             {
                 typeList.length !== 0 ? typeList.map((o) => {

@@ -224,7 +224,10 @@ class TagComponent extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="tag-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.openModal }>添 加</MyButton><MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton></div>
+        <div style={{marginBottom: '15px'}}>
+          <MyButton type="error" onClick={ this.openModal }>添 加</MyButton>
+          {/* <MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton> */}
+        </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}

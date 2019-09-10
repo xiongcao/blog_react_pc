@@ -1,13 +1,14 @@
   /** *************** 部署环境 *************** */
 
-  // const requestApi ='https://www.cwsoy.com:81/'
-  // const oss ='https://www.cwsoy.com/images/' // 官网
-  // const replaceHttp = true
+  const requestApi ='https://www.cwsoy.com:81/'
+  const oss ='https://www.cwsoy.com/images/' // 官网
+  const replaceHttp = true
 
   // const requestApi ='http://192.168.1.24/'
   // const oss ='http://192.168.1.87:8899/'
-  const oss ='http://192.168.1.239:8899/'
-  const replaceHttp =false
+
+  // const oss ='http://192.168.1.239:8899/'
+  // const replaceHttp =false
 
   /** *************** 开发环境 *************** */
   // const devRequestApi ='https://api.wantianqing.com/'
