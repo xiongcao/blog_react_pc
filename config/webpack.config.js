@@ -13,6 +13,7 @@ module.exports = {
     app: './src/index.js'
   },
   output: {
+    // historyApiFallback: true,
     filename: 'js/[name]-[hash].js',
     path: path.resolve(__dirname, '../dist'),
     // publicPath: '/' // 与server.js 对应

@@ -2,7 +2,7 @@
 
   const requestApi ='https://www.cwsoy.com:81/'
   const oss ='https://www.cwsoy.com/images/' // 官网
-  const replaceHttp = true
+  const replaceHttp = false
 
   // const requestApi ='http://192.168.1.24/'
   // const oss ='http://192.168.1.87:8899/'
