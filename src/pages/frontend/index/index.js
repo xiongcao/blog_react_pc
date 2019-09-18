@@ -175,7 +175,7 @@ class Index extends Component {
         <nav>
           <ul>
             <li onClick={this.handleNavClick.bind(this, 2, 'created_date')} className={ navActiveIndex === 2 ? 'active' : '' }>最新</li>
-            <li onClick={this.handleNavClick.bind(this, 1, 'star')} className={ navActiveIndex === 1 ? 'active' : '' }>热门</li>
+            <li onClick={this.handleNavClick.bind(this, 1, 'star_count')} className={ navActiveIndex === 1 ? 'active' : '' }>热门</li>
             <li className="search"><input placeholder="搜索" value={title} onChange={this.searchChange.bind(this)} onKeyDown={this.keydownHandle.bind(this)}/><Icon style={{fontSize: 18}} type="search" onClick={this.search.bind()}/></li>
           </ul>
         </nav>

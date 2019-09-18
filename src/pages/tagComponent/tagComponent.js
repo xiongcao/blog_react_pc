@@ -17,6 +17,7 @@ class TagComponent extends Component {
       tableHeight: 0,
       tagList: [],
       tagForm: {},
+      name: '',
       columns: [
         {
           title: 'ID',
@@ -100,7 +101,7 @@ class TagComponent extends Component {
   }
   
   getTagList () {
-    Fetch.get(`tag/findAll`).then((res) => {
+    Fetch.get(`tag/findAll`, { name: this.state.name}).then((res) => {
 			if (res.code === 0) {
 				this.setState({
 					tagList: res.data
@@ -195,6 +196,14 @@ class TagComponent extends Component {
     })
   }
 
+  searchFn = (v) => {
+    this.setState({
+      name: v
+    }, () => {
+      this.getTagList()
+    })
+  }
+
   handleCancel = e => {
     this.setState({
       visible: false
@@ -224,9 +233,18 @@ class TagComponent extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="tag-manage">
-        <div style={{marginBottom: '15px'}}>
+        <div className="top-tool">
+          <div className="left">
           <MyButton type="error" onClick={ this.openModal }>添 加</MyButton>
           {/* <MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton> */}
+          </div>
+          <div className="right">
+            <Input.Search
+              placeholder="请输入标签名称"
+              enterButton="搜索"
+              onSearch={this.searchFn.bind(this)}
+            />
+          </div>
         </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}

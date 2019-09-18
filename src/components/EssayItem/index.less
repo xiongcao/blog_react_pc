@@ -1,15 +1,15 @@
 .essay-item {
   display: flex;
   justify-content: space-between;
-  margin: 0 0 15px;
-  padding: 15px 2px 20px 0;
+  // margin: 0 0 15px;
+  padding: 20px 2px 20px 0;
   border-bottom: 1px solid #f0f0f0;
   word-wrap: break-word;
 
   .content {
     padding-right: 15px;
     box-sizing: border-box;
-    width: calc(100% - 125px);
+    width: calc(100% - 100px);
 
     >h3 {
       color: #333;
@@ -17,10 +17,15 @@
       font-weight: 700;
       line-height: 1.5;
       cursor: pointer;
+      margin-bottom: 30px;
 
       &:hover {
         text-decoration: underline;
       }
+    }
+
+    .active {
+      color: #969696;
     }
 
     >p {
@@ -40,6 +45,7 @@
       display: flex;
       justify-content: flex-start;
       font-size: 12px;
+      margin-top: 15px;
 
       >section {
         margin-right: 10px;
@@ -55,8 +61,8 @@
     cursor: pointer;
 
     img {
-      width: 125px;
-      height: 100px;
+      max-width: 100px;
+      height: 80px;
       border-radius: 4px;
     }
   }

@@ -8,31 +8,47 @@ class EssayItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      item: props.item
+      item: props.item,
+      active: false
     }
   }
 
-  geToEssayDetail = (id) => {
-    this.props.history.push('/frontend/essayDetail/' + id)
+  geToEssayDetail = (id, i) => {
+    // this.props.history.push('/frontend/essayDetail/' + id)
+    // window.open(location.protocol + '//' + location.host + '/#/frontend/essayDetail/' + id, '_blank')
+    this.setState({
+      active: true
+    })
+    window.open('/#/frontend/essayDetail/' + id, '_blank')
   }
 
   render() {
-    let { item } = this.state
+    let { item, active } = this.state
     return (
       <>
         <section className="essay-item">
           <div className="content">
-            <h3 onClick={this.geToEssayDetail.bind(this, item.id)}>{item.title}</h3>
-            <p dangerouslySetInnerHTML={{__html:item.des}} onClick={this.geToEssayDetail.bind(this, item.id)}></p>
+            <h3 onClick={this.geToEssayDetail.bind(this, item.id)} className={active ? 'active' : ''}>{item.title}</h3>
+            {/* <p dangerouslySetInnerHTML={{__html:item.des}} onClick={this.geToEssayDetail.bind(this, item.id)}></p> */}
             <div className="meta">
               <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
               <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
-              <section className="follow_number"><Icon type="heart"/> {item.star || 0}</section>
-              <section className="created_time">{item.createdDate}</section>
+              <section className="follow_number"><Icon type="heart"/> {item.starCount || 0}</section>
+              {/* <section className="created_time">{item.createdDate}</section> */}
+            </div>
+            <div className="meta">
+              <section className="created_time">发表于：{item.createdDate} · {item.categorys.length != 0 && item.categorys[0].name}/{item.tags.length != 0 && item.tags[0].name}</section>
             </div>
           </div>
           <div className="cover" onClick={this.geToEssayDetail.bind(this, item.id)}>
-            <img src={item.cover ? (oss + item.cover) : ((item.categorys.length != 0 && item.categorys[0].cover) ? (oss + item.categorys[0].cover) : require('@/assets/img/defaultComm.png'))} />
+            {
+              item.cover ? (
+                <img src={oss + item.cover}/>
+              ) : ((item.categorys.length != 0 && item.categorys[0].cover) ? (
+                <img src={oss + item.categorys[0].cover}/>
+              ) : '')
+            }
+            {/* <img src={item.cover ? (oss + item.cover) : ((item.categorys.length != 0 && item.categorys[0].cover) ? (oss + item.categorys[0].cover) : require('@/assets/img/defaultComm.png'))} /> */}
           </div>
         </section>
       </>

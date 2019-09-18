@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Modal } from 'antd';
-import { MyTag } from '@/components'
+import { Icon, Modal, Badge } from 'antd';
+import { LoginModal } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
 
@@ -11,6 +11,8 @@ import marked from 'marked';
 import { MKTitles } from '@/components/index'
 import getMKTitles from '@/utils/mkTitles'
 
+import store from '@/libs/store'
+
 import '@/assets/styles/markdown.less'
 import './index.less'
 
@@ -19,6 +21,7 @@ class EssayDetail extends Component {
     super(props)
     this.state = {
       id: this.props.match.params.id,
+      user: store.getState().user,
       essayData: { },
       navList: [],
       renderer: {},
@@ -26,9 +29,11 @@ class EssayDetail extends Component {
       highlightIndex: 0,
       markdownHtml: '',
       visible: false,
-      modalImg: ''
+      modalImg: '',
+      loginVisible: false,
+      star: {},
+      collect: {}
     };
-    console.log(props, 'props')
   }
 
   UNSAFE_componentWillMount () {
@@ -63,7 +68,93 @@ class EssayDetail extends Component {
 
   handleCancel = e => {
     this.setState({
-      visible: false
+      visible: false,
+      loginVisible: false
+    })
+  }
+
+  handleOk = e => {
+    this.setState({
+      loginVisible: e,
+    });
+  };
+
+
+  handleLike = () => {
+    if (!this.state.user.id) {
+      this.setState({
+        loginVisible: true,
+      });
+      return
+    }
+    this.saveLike()
+  }
+
+  handleComment = () => {
+    
+  }
+
+  handleStar = () => {
+    if (!this.state.user.id) {
+      this.setState({
+        loginVisible: true,
+      });
+      return
+    }
+    this.saveCollect()
+  }
+
+  saveCollect () {
+    let data = { essayId: this.state.essayData.id }
+    let collectCount = this.state.essayData.collectCount
+    if (this.state.collect.id) {
+      if (this.state.collect.status === 1) {  // 取消点赞
+        data.status = 0
+        collectCount -= 1
+      } else {
+        data.status = 1
+        collectCount += 1
+      }
+      data = Object.assign({}, this.state.collect, data)
+    } else {
+      data.status = 1
+      collectCount += 1
+    }
+    Fetch.post(`collect/save`, data).then((res) => {
+			if (res.code === 0) {
+        let collect = Object.assign({}, this.state.collect, res.data)
+        let essayData = Object.assign({}, this.state.essayData, { collectCount })
+        this.setState({
+          essayData, collect
+        })
+      }
+    })
+  }
+
+  saveLike () {
+    let data = { essayId: this.state.essayData.id }
+    let starCount = this.state.essayData.starCount
+    if (this.state.star.id) {
+      if (this.state.star.status === 1) {  // 取消点赞
+        data.status = 0
+        starCount -= 1
+      } else {
+        data.status = 1
+        starCount += 1
+      }
+      data = Object.assign({}, this.state.star, data)
+    } else {
+      data.status = 1
+      starCount += 1
+    }
+    Fetch.post(`star/save`, data).then((res) => {
+			if (res.code === 0) {
+        let star = Object.assign({}, this.state.star, res.data)
+        let essayData = Object.assign({}, this.state.essayData, { starCount })
+        this.setState({
+          essayData, star
+        })
+      }
     })
   }
 
@@ -89,6 +180,8 @@ class EssayDetail extends Component {
     this.setState({
       navList,
       essayData: res.data,
+      star: res.data.star || {},
+      collect: res.data.collect || {},
       markdownHtml,
       renderer
     }, () => {
@@ -133,16 +226,29 @@ class EssayDetail extends Component {
   }
 
   render () {
-    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg } = this.state
+    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect } = this.state
     return (
       <div className="frontend-essayDetail">
         <article>
+          <div className="left">
+            <div className="item" onClick={this.handleLike.bind()}>
+              <Icon type="like" theme="filled" className={ star.status === 1 ? 'like-active' : ''}/>
+              <Badge count={essayData.starCount} style={ star.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+            </div>
+            <div className="item" onClick={this.handleComment.bind()}>
+              <Icon type="message" theme="filled" />
+              <Badge count={essayData.comments && essayData.comments.length} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
+            </div>
+            <div className="item" onClick={this.handleStar.bind()}>
+              <Icon type="star" theme="filled" className={ collect.status === 1 ? 'like-active' : ''}/>
+              <Badge count={essayData.collectCount} style={collect.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+            </div>
+          </div>
           <div className="content">
             <h1>{essayData.title}</h1>
             <div className="annotation">
               <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
               <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
-              <span><Icon type="message"/> 评论 {essayData.comments && essayData.comments.length}</span> |
               <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
               <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
               <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
@@ -194,6 +300,7 @@ class EssayDetail extends Component {
           <div className="right-nav">
             <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
           </div>
+          <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
           <Modal
             width="80vw"
             visible={visible}

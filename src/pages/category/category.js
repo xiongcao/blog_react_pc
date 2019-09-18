@@ -18,6 +18,7 @@ class Category extends Component {
       tableHeight: 0,
       categoryList: [],
       categoryForm: {},
+      name: '',
       columns: [
         {
           title: 'ID',
@@ -38,7 +39,7 @@ class Category extends Component {
           }
         },
         {
-          title: '类型',
+          title: '名称',
           dataIndex: 'name',
           align: 'center',
           width: 100
@@ -113,7 +114,9 @@ class Category extends Component {
   }
   
   getCategoryList () {
-    Fetch.get(`category/findAll`).then((res) => {
+    Fetch.get(`category/findAll`, {
+      name: this.state.name
+    }).then((res) => {
 			if (res.code === 0) {
 				this.setState({
 					categoryList: res.data
@@ -229,6 +232,14 @@ class Category extends Component {
     }
   }
 
+  searchFn = (v) => {
+    this.setState({
+      name: v
+    }, () => {
+      this.getCategoryList()
+    })
+  }
+
   render() {
     let { columns, categoryList, tableLoading, tableHeight, visible, categoryForm, listVisible } = this.state
     const formItemLayout = {
@@ -244,10 +255,19 @@ class Category extends Component {
 		const { getFieldDecorator } = this.props.form;
     return (
       <div className="category-manage">
-        <div style={{marginBottom: '15px'}}>
+        <div className="top-tool">
+          <div className="left">
           <MyButton type="error" onClick={ this.openModal }>添 加</MyButton>
           {/* <MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton> */}
           </div>
+          <div className="right">
+            <Input.Search
+              placeholder="请输入类型名称"
+              enterButton="搜索"
+              onSearch={this.searchFn.bind(this)}
+            />
+          </div>
+        </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}

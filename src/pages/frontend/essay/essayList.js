@@ -15,7 +15,7 @@ class EssayList extends Component {
       size: 20,
       categoryId: '',
       tagId: '',
-      properties: 'star',
+      properties: 'star_count',
       userInfo: {},
       tagList: [],
       categoryList: [],
