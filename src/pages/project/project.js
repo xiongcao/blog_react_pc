@@ -2,24 +2,21 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Table, Popconfirm, Modal, Radio, message } from 'antd';
 import * as Fetch from '@/libs/fetch';
-import { MyButton, UploadImage, CategoryModal } from '@/components'
-import { api, oss } from '@/libs/publicPath.js'
+import { MyButton, UploadImage } from '@/components'
+import { oss } from '@/libs/publicPath.js'
 import store from '@/libs/store.js';
 
 import '@/assets/styles/table-search.less';
-import '@/pages/category/category.less'
 
-class Category extends Component {
+class Project extends Component {
   constructor(props){
     super(props)
     this.state = {
       user: store.getState().user,
       visible: false,
-      listVisible: false,
       tableHeight: 0,
-      categoryList: [],
-      categoryForm: {},
-      name: '',
+      projectList: [],
+      projectForm: {},
       columns: [
         {
           title: 'ID',
@@ -46,22 +43,28 @@ class Category extends Component {
           width: 100
         },
         {
+          title: '简介',
+          dataIndex: 'introduction',
+          align: 'center',
+          width: 180
+        },
+        {
+          title: '项目周期',
+          dataIndex: 'cycle',
+          align: 'center',
+          width: 120
+        },
+        {
+          title: '链接',
+          dataIndex: 'url',
+          align: 'center',
+          width: 120
+        },
+        {
           title: '序号',
           dataIndex: 'rank',
           align: 'center',
           width: 80
-        },
-        {
-          title: '创建时间',
-          dataIndex: 'createdDate',
-          align: 'center',
-          width: 150
-        },
-        {
-          title: '最后修改时间',
-          dataIndex: 'lastModifiedDate',
-          align: 'center',
-          width: 150
         },
         {
           title: '状态',
@@ -92,13 +95,13 @@ class Category extends Component {
               </>
 						)
           }
-        },
+        }
       ]
     }
   }
 
   componentDidMount () {
-		this.getCategoryList()
+		this.getProjectList()
 		this.resizeTable()
 		window.onresize = this.resizeTable
 	}
@@ -114,41 +117,31 @@ class Category extends Component {
 		})
   }
   
-  getCategoryList () {
-    Fetch.get(`category/findAll`, {
-      name: this.state.name
-    }).then((res) => {
+  getProjectList () {
+    Fetch.get(`project/admin/findAll`).then((res) => {
 			if (res.code === 0) {
 				this.setState({
-					categoryList: res.data
+					projectList: res.data
 				})
 			}
 		})
   }
 
   updateStatus = (id, status) => {
-    if (this.state.user.role !== 'ROLE_SUPER') {
-      message.warning('您没有权限哟')
-      return
-    }
-    Fetch.post(`category/updateStatus/${id}/${status}`).then((res) => {
+    Fetch.post(`project/updateStatus/${id}/${status}`).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
-				this.getCategoryList()
+				this.getProjectList()
 			}
 		})
   }
 
   openModal = (record) => {
-    if (this.state.user.role !== 'ROLE_SUPER') {
-      message.warning('您没有权限哟')
-      return
-    }
     let id = record && record.id
     if (id) {	// 编辑
-			let { name, rank, status, cover } = record
+			let { name, rank, status, cover, url, introduction, cycle } = record
 			this.props.form.setFieldsValue({
-				name, rank, status, cover
+				name, rank, status, cover, url, introduction, cycle
 			})
 		} else {
 			this.props.form.setFieldsValue({
@@ -159,29 +152,23 @@ class Category extends Component {
 		}
 		this.setState({
       visible: true,
-      categoryForm: record || {},
+      projectForm: record || {},
 			id
 		})
-  }
-
-  openListModal = () => {
-    this.setState({
-      listVisible: true
-    })
   }
 
   handleOk = e => {
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.state.id && (values.id = this.state.id)
-        values = Object.assign({}, this.state.categoryForm, values)
-				Fetch.post(`category/save`, values).then((res) => {
+        values = Object.assign({}, this.state.projectForm, values)
+				Fetch.post(`project/save`, values).then((res) => {
 					if (res.code === 0) {
 						message.success('保存成功')
 						this.setState({
 							visible: false
 						})
-						this.getCategoryList()
+						this.getProjectList()
 					}
 				})
       }
@@ -207,42 +194,9 @@ class Category extends Component {
 			cover
 		})
   }
-  
-  changeVisible = (list) => {
-    if (list) { // 确认
-      list = list.map((o) => {
-        return {
-          name: o.name,
-          rank: o.rank,
-          cover: o.cover
-        }
-      })
-      Fetch.post(`category/saveAll`, list).then((res) => {
-        if (res.code === 0) {
-          message.success("添加成功")
-          this.setState({
-            listVisible: false
-          })
-          this.getCategoryList()
-        }
-      })
-    } else {
-      this.setState({
-        listVisible: false
-      })
-    }
-  }
-
-  searchFn = (v) => {
-    this.setState({
-      name: v
-    }, () => {
-      this.getCategoryList()
-    })
-  }
 
   render() {
-    let { columns, categoryList, tableLoading, tableHeight, visible, categoryForm, listVisible } = this.state
+    let { columns, projectList, tableLoading, tableHeight, visible, projectForm } = this.state
     const formItemLayout = {
       labelCol: {
         xs: { span: 4 },
@@ -255,37 +209,29 @@ class Category extends Component {
 		};
 		const { getFieldDecorator } = this.props.form;
     return (
-      <div className="category-manage">
+      <div className="project-manage">
         <div className="top-tool">
           <div className="left">
           <MyButton type="error" onClick={ this.openModal }>添 加</MyButton>
-          {/* <MyButton type="primary" onClick={ this.openListModal }>从公共库添加</MyButton> */}
-          </div>
-          <div className="right">
-            <Input.Search
-              placeholder="请输入类型名称"
-              enterButton="搜索"
-              onSearch={this.searchFn.bind(this)}
-            />
           </div>
         </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={false}
             columns={columns}
-            dataSource={categoryList}
+            dataSource={projectList}
             scroll={{ x: 780, y: tableHeight }} 
           />
         </div>
         <Modal
-          title='添加/编辑类型'
+          title='添加/编辑项目'
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
           <div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-              <Form.Item label="类型名称">
+              <Form.Item label="项目名称">
                 {
                   getFieldDecorator('name', {
                     rules: [
@@ -302,9 +248,24 @@ class Category extends Component {
                   getFieldDecorator('cover')(
                     <Fragment>
                       <Input hidden/>
-                      <UploadImage imagePath={categoryForm.cover} folder="category_cover" uploadSuccess={this.uploadSuccess.bind()} />
+                      <UploadImage imagePath={projectForm.cover} folder="project_cover" uploadSuccess={this.uploadSuccess.bind()} />
                     </Fragment>
                   )
+                }
+              </Form.Item>
+              <Form.Item label="介绍">
+                {
+                  getFieldDecorator('introduction')(<Input/>)
+                }
+              </Form.Item>
+              <Form.Item label="周期">
+                {
+                  getFieldDecorator('cycle')(<Input/>)
+                }
+              </Form.Item>
+              <Form.Item label="链接">
+                {
+                  getFieldDecorator('url')(<Input/>)
                 }
               </Form.Item>
               <Form.Item label="序号">
@@ -331,10 +292,9 @@ class Category extends Component {
             </Form>
           </div>
         </Modal>
-        <CategoryModal visible={listVisible} onChange={this.changeVisible}/>
       </div>
     )
   }
 }
 
-export default withRouter(Form.create({ name: 'category' })(Category))
+export default withRouter(Form.create({ name: 'project' })(Project))

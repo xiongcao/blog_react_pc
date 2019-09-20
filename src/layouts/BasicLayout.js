@@ -7,6 +7,7 @@ import EssayDetail from '@pages/frontend/essay/essayDetail'
 import Archive from '@pages/frontend/archive/archive'
 import Personal from '@pages/frontend/personal/personal'
 import Setting from '@pages/frontend/setting/setting'
+import Project from '@pages/frontend/project/project'
 import store from '@/libs/store'
 import { oss } from '@/libs/publicPath.js'
 import { Menu, Icon, Button, Avatar, Dropdown } from 'antd';
@@ -40,14 +41,13 @@ class BasicLayout extends Component {
     let userId = this.state.user.id
     let pathname = this.props.history.location.pathname
     let paths = pathname.split("/")
-    if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
+    if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail' && paths[2] !== 'about' && paths[2] !== 'project') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
       this.props.history.push("/frontend")
     } else {
       this.setState({
         current: paths[2]
       })
     }
-
   }
 
   UNSAFE_componentWillMount () {
@@ -59,7 +59,7 @@ class BasicLayout extends Component {
         current: 'index'
       })
     } else {
-      if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
+      if (!userId && paths[1] === 'frontend' && paths[2] && paths[2] !== 'index' && paths[2] !== 'essay' && paths[2] !== 'archive' && paths[2] !== 'essayDetail' && paths[2] !== 'about' && paths[2] !== 'project') { // 如果不是导航条的这几个页面，则跳转到首页，并弹出登录框
         this.props.history.push("/frontend")
       }
       this.setState({
@@ -192,11 +192,6 @@ class BasicLayout extends Component {
                   <Icon type="question-circle" /> 项目
                 </Link>
               </Menu.Item>
-              {/* <Menu.Item key="message">
-                <Link to="/index">
-                  <Icon type="message" /> 留言
-                </Link>
-              </Menu.Item> */}
               <Menu.Item key="about">
                 <Link to="/frontend/about">
                   <Icon type="user" /> 关于
@@ -232,6 +227,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/archive" component={Archive}/>
           <Route path="/frontend/personal/:id" component={Personal}/>
           <Route path="/frontend/setting" component={Setting}/>
+          <Route path="/frontend/project" component={Project}/>
           <Route path="/frontend/about" component={EssayDetail}/>
         </article>
         <footer>全栈修炼 ©2018 Created by XiongChao</footer>

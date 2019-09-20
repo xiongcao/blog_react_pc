@@ -15,6 +15,7 @@ import Comment from '@pages/comment/comment.js'
 import Collect from '@pages/collect/collect.js'
 import Follow from '@pages/follow/follow.js'
 import Fans from '@pages/fans/fans.js'
+import Project from '@pages/project/project.js'
 
 export default [
   {
@@ -53,24 +54,12 @@ export default [
         title: '标签管理',
         component: TagComponent,
       },
-      // {
-      //   path: '/essay',
-      //   icon: 'file-markdown',
-      //   title: '文章管理',
-      //   children: [
-      //     {
-      //       path: '/essayList',
-      //       title: '文章列表',
-      //       component: EssayList,
-      //     },
-      //     {
-      //       path: '/essayEdit/:id',
-      //       title: '文章编辑',
-      //       hideInMenu: true,
-      //       component: EssayEdit,
-      //     }
-      //   ]
-      // },
+      {
+        path: '/project',
+        icon: 'profile',
+        title: '项目管理',
+        component: Project
+      },
       {
         path: '/essayList',
         icon: 'file-markdown',

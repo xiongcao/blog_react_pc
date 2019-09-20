@@ -14,8 +14,6 @@ class EssayItem extends Component {
   }
 
   geToEssayDetail = (id, i) => {
-    // this.props.history.push('/frontend/essayDetail/' + id)
-    // window.open(location.protocol + '//' + location.host + '/#/frontend/essayDetail/' + id, '_blank')
     this.setState({
       active: true
     })
@@ -37,7 +35,8 @@ class EssayItem extends Component {
               {/* <section className="created_time">{item.createdDate}</section> */}
             </div>
             <div className="meta">
-              <section className="created_time">发表于：{item.createdDate} · {item.categorys.length != 0 && item.categorys[0].name}/{item.tags.length != 0 && item.tags[0].name}</section>
+              <section className="created_time">发表于：{item.createdDate}&nbsp;&nbsp;{item.categorys.length != 0 && item.categorys[0].name} · 
+              &nbsp;{item.tags.length != 0 && item.tags[0].name}</section>
             </div>
           </div>
           <div className="cover" onClick={this.geToEssayDetail.bind(this, item.id)}>
