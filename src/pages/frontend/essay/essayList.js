@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Empty, Avatar } from 'antd';
+import { Icon, Empty, Avatar, Spin } from 'antd';
 import { MyTag, EssayItem, DropdownLoading } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import noResult from '@/assets/img/noResult.png'
@@ -12,7 +12,7 @@ class EssayList extends Component {
     super(props)
     this.state = {
       page: 0,
-      size: 20,
+      size: 10,
       categoryId: '',
       tagId: '',
       properties: 'star_count',
@@ -25,6 +25,7 @@ class EssayList extends Component {
       isEmpty: false, // 没有数据
       loading: false, // 数据加载中
       isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
+      spinLoading: true
     };
   }
   componentWillUnmount () {
@@ -59,7 +60,8 @@ class EssayList extends Component {
     Fetch.get(`tag/findTagNumbers`).then((res) => {
 			if (res.code === 0) {
         this.setState({
-          tagList: res.data
+          tagList: res.data,
+          spinLoading: false
         })
       }
     })
@@ -183,80 +185,82 @@ class EssayList extends Component {
   }
 
   render() {
-    let { loadingCompleted, essayList, tagList, categoryList, loading, isEmpty, tagId, categoryId, userInfo } = this.state
+    let { loadingCompleted, essayList, tagList, categoryList, loading, isEmpty, tagId, categoryId, userInfo, spinLoading } = this.state
 
     return (
-      <div className="frontend-essay">
-        <article>
-          <div className="essay-list">
-            {
-              essayList.length != 0 && essayList.map((item, i) => 
-                <EssayItem item={item} key={i}/>
-              )
-            }
-            {
-              isEmpty && <Empty style={{padding: '50px 0', color: 'rgb(153, 153, 153)'}} image={noResult} description={'啊哦，还没相关文章哟，赶快去写一篇吧！'}/>
-            }
-            <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
-          </div>
-          <div className="advert">
-            <section className="userInfo">
-              <div className="avatar">
+      <Spin spinning={spinLoading} size="large">
+        <div className="frontend-essay">
+          <article>
+            <div className="essay-list">
               {
-              userInfo.avatar ? (
-              <Avatar size={100} src={oss + userInfo.avatar}/>
-              ) : (
-              <Avatar size={100} icon="user"/>
-              )
+                essayList.length != 0 && essayList.map((item, i) => 
+                  <EssayItem item={item} key={i}/>
+                )
               }
-              </div>
-              <div className="username">{ userInfo.nickname ? userInfo.nickname : userInfo.name }</div>
-              <div className="motto">{ userInfo.motto }</div>
-            </section>
-            <section className="tags categorys">
-              <p>分 类</p>
-              <div>
+              {
+                isEmpty && <Empty style={{padding: '50px 0', color: 'rgb(153, 153, 153)'}} image={noResult} description={'啊哦，还没相关文章哟，赶快去写一篇吧！'}/>
+              }
+              <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
+            </div>
+            <div className="advert">
+              <section className="userInfo">
+                <div className="avatar">
                 {
-                  categoryList.map((item) => 
-                    <MyTag 
+                userInfo.avatar ? (
+                <Avatar size={100} src={oss + userInfo.avatar}/>
+                ) : (
+                <Avatar size={100} icon="user"/>
+                )
+                }
+                </div>
+                <div className="username">{ userInfo.nickname ? userInfo.nickname : userInfo.name }</div>
+                <div className="motto">{ userInfo.motto }</div>
+              </section>
+              <section className="tags categorys">
+                <p>分 类</p>
+                <div>
+                  {
+                    categoryList.map((item) => 
+                      <MyTag 
+                        key={item.id} 
+                        id={item.id}
+                        style={{marginRight: '8px', marginBottom: '8px'}} 
+                        checked={item.id === categoryId}
+                        onClick = {this.changeCategory.bind()}
+                      >{item.name}</MyTag>
+                    )
+                  }
+                </div>
+              </section>
+              <section className="tags">
+                <p>标 签</p>
+                <div>
+                  {
+                    tagList.map((item) => 
+                      <MyTag 
                       key={item.id} 
                       id={item.id}
-                      style={{marginRight: '8px', marginBottom: '8px'}} 
-                      checked={item.id === categoryId}
-                      onClick = {this.changeCategory.bind()}
+                      checked={item.id === tagId}
+                      style={{marginRight: '8px', marginBottom: '8px'}}
+                      onClick = {this.changeTag.bind()}
                     >{item.name}</MyTag>
-                  )
-                }
-              </div>
-            </section>
-            <section className="tags">
-              <p>标 签</p>
-              <div>
-                {
-                  tagList.map((item) => 
-                    <MyTag 
-                    key={item.id} 
-                    id={item.id}
-                    checked={item.id === tagId}
-                    style={{marginRight: '8px', marginBottom: '8px'}}
-                    onClick = {this.changeTag.bind()}
-                  >{item.name}</MyTag>
-                  )
-                }
-              </div>
-            </section>
-            <section className="aboutUs">
-              <p>关注我们</p>
-              <div>
-                <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="github" />
-                <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="wechat" />
-                <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="weibo-circle" />
-                <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="html5" theme="filled" />
-              </div>
-            </section>
-          </div>
-        </article>
-      </div>
+                    )
+                  }
+                </div>
+              </section>
+              <section className="aboutUs">
+                <p>关注我们</p>
+                <div>
+                  <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="github" />
+                  <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="wechat" />
+                  <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="weibo-circle" />
+                  <Icon style={{fontSize: '24px', cursor: 'pointer'}} type="html5" theme="filled" />
+                </div>
+              </section>
+            </div>
+          </article>
+        </div>
+      </Spin>
     )
   }
 }

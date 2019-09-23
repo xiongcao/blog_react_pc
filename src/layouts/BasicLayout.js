@@ -29,6 +29,7 @@ class BasicLayout extends Component {
       current: 'index',
       loginVisible: false
     };
+    console.log(store.getState().user, 1111)
 
     store.subscribe(() => {
       this.setState({
@@ -174,27 +175,27 @@ class BasicLayout extends Component {
               mode="horizontal">
               <Menu.Item key="index">
                 <Link to="/frontend/index">
-                  <Icon type="home" /> 首页
+                  首页
                 </Link>
               </Menu.Item>
               <Menu.Item key="essay">
                 <Link to="/frontend/essay">
-                  <Icon type="ordered-list" /> 文章
+                  文章
                 </Link>
               </Menu.Item>
               <Menu.Item key="archive">
                 <Link to="/frontend/archive">
-                  <Icon type="project" /> 归档
+                  归档
                 </Link>
               </Menu.Item>
               <Menu.Item key="project">
                 <Link to="/frontend/project">
-                  <Icon type="question-circle" /> 项目
+                  项目
                 </Link>
               </Menu.Item>
               <Menu.Item key="about">
                 <Link to="/frontend/about">
-                  <Icon type="user" /> 关于
+                  关于
                 </Link>
               </Menu.Item>
             </Menu>
@@ -205,7 +206,7 @@ class BasicLayout extends Component {
                     <Avatar className="notification" src={notification} onMouseEnter={this.handleEnter} onMouseLeave={this.handleOut}/>
                     <Dropdown overlay={menu} placement="bottomRight">
                       <div className="ant-dropdown-link" style={{display: 'inline-block', height: '100%', cursor: 'pointer'}}>
-                        { user.avatar ? <Avatar src={oss + user.avatar}/> : <Avatar  type="user"/> }
+                        { user.avatar ? <Avatar src={ oss + user.avatar}/> : <Avatar  type="user"/> }
                       </div>
                     </Dropdown>
                   </>

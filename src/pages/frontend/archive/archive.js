@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Timeline, Icon } from 'antd'
+import { Timeline, Icon, Spin } from 'antd'
 import * as Fetch from '@/libs/fetch';
 import moment from 'moment'
 import { DropdownLoading } from '@/components'
@@ -18,6 +18,7 @@ class Archive extends Component {
       isEmpty: false, // 没有数据
       loading: false, // 数据加载中
       isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
+      spinLoading: true
     }
   }
 
@@ -70,19 +71,22 @@ class Archive extends Component {
             page: page + 1,
             isScroll: true,
             loading: false,
-            isEmpty: false
+            isEmpty: false,
+            spinLoading: false
           }))
         } else {
           if (this.state.archiveList.length != 0) { // 有数据，但是最后一次请求没有数据
             this.setState({
               loadingCompleted: true,
-              loading: false
+              loading: false,
+              spinLoading: false
             })
           } else {  // 没有数据，显示空数据样式
             this.setState({
               isEmpty: true,
               loadingCompleted: false,
               loading: false,
+              spinLoading: false
             })
           }
         }
@@ -95,30 +99,35 @@ class Archive extends Component {
   }
 
   render() {
-    let { archiveList, loadingCompleted, loading } = this.state
+    let { archiveList, loadingCompleted, loading, spinLoading } = this.state
     return (
-      <div className="frontend-archive">
-        <Timeline>
+      <Spin spinning={spinLoading} size="large">
         {
-          archiveList.map((archive, i) => {
-            return (
-              archive.year ? (
-                <Timeline.Item color="#bbb" key={i}
-                  dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
-                  <p className="year">{archive.year}</p>
-                </Timeline.Item>
-              ) : (
-                <Timeline.Item color="#bbb" key={archive.id}>
-                  <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
-                  <p className="tiem-node">{archive.createdDate}</p>
-                </Timeline.Item>
-              )
-            )
-          })
+          spinLoading && <div style={{width: '100%', minHeight: 400}}></div>
         }
-        </Timeline>
-        <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
-      </div>
+        <div className="frontend-archive">
+          <Timeline>
+          {
+            archiveList.map((archive, i) => {
+              return (
+                archive.year ? (
+                  <Timeline.Item color="#bbb" key={i}
+                    dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
+                    <p className="year">{archive.year}</p>
+                  </Timeline.Item>
+                ) : (
+                  <Timeline.Item color="#bbb" key={archive.id}>
+                    <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
+                    <p className="tiem-node">{archive.createdDate}</p>
+                  </Timeline.Item>
+                )
+              )
+            })
+          }
+          </Timeline>
+          <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
+        </div>
+      </Spin>
     );
   }
 }

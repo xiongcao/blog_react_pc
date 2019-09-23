@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Avatar, Icon, Modal } from 'antd'
+import { Menu, Avatar, Icon, Modal, Spin } from 'antd'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath.js'
 import moment from 'moment'
@@ -20,6 +20,7 @@ class Personal extends Component {
       essayList: [],
       typeList: [], // 标签和类型的数据集合
       typeName: '', // 标签或者类型的名称， 用于在自页面头部显示
+      spinLoading: true
     }
   }
 
@@ -34,7 +35,7 @@ class Personal extends Component {
   }
 
   initData (current) {
-    this.setState({current, type: ''}, () => {
+    this.setState({current, type: '', spinLoading: true}, () => {
       switch(current) {
         case "personal" :
           this.getUserInfo()
@@ -62,7 +63,8 @@ class Personal extends Component {
     Fetch.get(`user/findAdmin`).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          userInfo: res.data
+          userInfo: res.data,
+          spinLoading: false
         }))
       }
     })
@@ -72,7 +74,8 @@ class Personal extends Component {
     Fetch.get(`collect/findAll`).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          collectList: res.data
+          collectList: res.data,
+          spinLoading: false
         }))
       }
     })
@@ -82,7 +85,8 @@ class Personal extends Component {
     Fetch.get(`follow/followList/${status}`).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          followList: res.data.content
+          followList: res.data.content,
+          spinLoading: false
         }))
       }
     })
@@ -92,7 +96,8 @@ class Personal extends Component {
     Fetch.get(`category/findCategoryEssayNumber`).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          typeList: res.data
+          typeList: res.data,
+          spinLoading: false
         }))
       }
     })
@@ -102,7 +107,8 @@ class Personal extends Component {
     Fetch.get(`tag/findTagEssayNumber`).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          typeList: res.data
+          typeList: res.data,
+          spinLoading: false
         }))
       }
     })
@@ -119,7 +125,8 @@ class Personal extends Component {
     Fetch.get(`essay/findAll`, data).then((res) => {
       if (res.code === 0) {
         this.setState(() => ({
-          essayList: res.data.content
+          essayList: res.data.content,
+          spinLoading: false
         }))
       }
     })
@@ -134,7 +141,8 @@ class Personal extends Component {
       this.setState({
         type,
         typeName: name,
-        tagId: id
+        tagId: id,
+        spinLoading: true
       }, () => {
         this.getArchiveList()
       })
@@ -142,7 +150,8 @@ class Personal extends Component {
       this.setState({
         type,
         typeName: name,
-        categoryId: id
+        categoryId: id,
+        spinLoading: true
       }, () => {
         this.getArchiveList()
       })
@@ -294,7 +303,7 @@ class Personal extends Component {
   }
 
   render() {
-    let { current, type, essayList, typeName } = this.state
+    let { current, type, essayList, typeName, spinLoading } = this.state
     return (
       <div className="frontend-personal">
         <section>
@@ -322,59 +331,61 @@ class Personal extends Component {
               </Menu.Item>
             </Menu>
           </div>
-          <div className="content">
-            {type === '' && this.renderContentHtml()}
-            {
-              type === 'category' && (
-                <div className="archive-category">
-                  <div className="header">
-                    <span className="title" onClick={this.backList.bind(this, 1)}><Icon type="left" size="small"/>返回分类列表</span>
-                    <span className="number"><span>{typeName} 标签，</span>共{essayList.length}篇文章</span>
-                  </div>
-                  {
-                    essayList.map((item) => {
-                      return (
-                        <div className="essay-card" key={item.id}>
-                          <div className="title">{item.title}</div>
-                          <div className="meta">
-                            <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
-                            <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
-                            <section className="follow_number"><Icon type="heart"/> {item.star || 0}</section>
-                            <section className="created_time">{item.createdDate}</section>
+            <div className="content">
+            <Spin spinning={spinLoading} size="large">
+              {type === '' && this.renderContentHtml()}
+              {
+                type === 'category' && (
+                  <div className="archive-category">
+                    <div className="header">
+                      <span className="title" onClick={this.backList.bind(this, 1)}><Icon type="left" size="small"/>返回分类列表</span>
+                      <span className="number"><span>{typeName} 标签，</span>共{essayList.length}篇文章</span>
+                    </div>
+                    {
+                      essayList.map((item) => {
+                        return (
+                          <div className="essay-card" key={item.id}>
+                            <div className="title">{item.title}</div>
+                            <div className="meta">
+                              <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
+                              <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
+                              <section className="follow_number"><Icon type="heart"/> {item.star || 0}</section>
+                              <section className="created_time">{item.createdDate}</section>
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              )
-            }
-            {
-              type === 'tag' && (
-                <div className="archive-category">
-                  <div className="header">
-                    <span className="title" onClick={this.backList.bind(this, 1)}><Icon type="left" size="small"/>返回标签列表</span>
-                    <span className="number">{typeName} 分类，共{essayList.length}篇文章</span>
+                        )
+                      })
+                    }
                   </div>
-                  {
-                    essayList.map((item) => {
-                      return (
-                        <div className="essay-card" key={item.id} onClick={this.goToEssayDetail.bind(this, item.id)}>
-                          <div className="title">{item.title}</div>
-                          <div className="meta">
-                            <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
-                            <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
-                            <section className="follow_number"><Icon type="heart"/> {item.star || 0}</section>
-                            <section className="created_time">{item.createdDate}</section>
+                )
+              }
+              {
+                type === 'tag' && (
+                  <div className="archive-category">
+                    <div className="header">
+                      <span className="title" onClick={this.backList.bind(this, 1)}><Icon type="left" size="small"/>返回标签列表</span>
+                      <span className="number">{typeName} 分类，共{essayList.length}篇文章</span>
+                    </div>
+                    {
+                      essayList.map((item) => {
+                        return (
+                          <div className="essay-card" key={item.id} onClick={this.goToEssayDetail.bind(this, item.id)}>
+                            <div className="title">{item.title}</div>
+                            <div className="meta">
+                              <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
+                              <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
+                              <section className="follow_number"><Icon type="heart"/> {item.star || 0}</section>
+                              <section className="created_time">{item.createdDate}</section>
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })
-                  }
-                </div>
-              )
-            }
-          </div>
+                        )
+                      })
+                    }
+                  </div>
+                )
+              }
+            </Spin>
+            </div>
         </section>
       </div>
     );

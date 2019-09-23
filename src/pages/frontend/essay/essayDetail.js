@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Modal, Badge } from 'antd';
+import { Icon, Modal, Badge, Spin } from 'antd';
 import { LoginModal } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
@@ -22,7 +22,9 @@ class EssayDetail extends Component {
     this.state = {
       id: this.props.match.params.id,
       user: store.getState().user,
-      essayData: { },
+      essayData: {
+        user: {}
+      },
       navList: [],
       renderer: {},
       mkTitlesLen: 0,
@@ -32,7 +34,8 @@ class EssayDetail extends Component {
       modalImg: '',
       loginVisible: false,
       star: {},
-      collect: {}
+      collect: {},
+      spinLoading: true
     };
   }
 
@@ -180,6 +183,7 @@ class EssayDetail extends Component {
     this.setState({
       navList,
       essayData: res.data,
+      spinLoading: false,
       star: res.data.star || {},
       collect: res.data.collect || {},
       markdownHtml,
@@ -226,91 +230,89 @@ class EssayDetail extends Component {
   }
 
   render () {
-    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect } = this.state
+    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect, spinLoading } = this.state
     return (
-      <div className="frontend-essayDetail">
-        <article>
-          <div className="left">
-            <div className="item" onClick={this.handleLike.bind()}>
-              <Icon type="like" theme="filled" className={ star.status === 1 ? 'like-active' : ''}/>
-              <Badge count={essayData.starCount} style={ star.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+      <Spin spinning={spinLoading} size="large">
+        <div className="frontend-essayDetail">
+          <article>
+            <div className="left">
+              <div className="item" onClick={this.handleLike.bind()}>
+                <Icon type="like" theme="filled" className={ star.status === 1 ? 'like-active' : ''}/>
+                <Badge count={essayData.starCount} style={ star.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+              </div>
+              <div className="item" onClick={this.handleComment.bind()}>
+                <Icon type="message" theme="filled" />
+                <Badge count={essayData.comments && essayData.comments.length} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
+              </div>
+              <div className="item" onClick={this.handleStar.bind()}>
+                <Icon type="star" theme="filled" className={ collect.status === 1 ? 'like-active' : ''}/>
+                <Badge count={essayData.collectCount} style={collect.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+              </div>
             </div>
-            <div className="item" onClick={this.handleComment.bind()}>
-              <Icon type="message" theme="filled" />
-              <Badge count={essayData.comments && essayData.comments.length} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
-            </div>
-            <div className="item" onClick={this.handleStar.bind()}>
-              <Icon type="star" theme="filled" className={ collect.status === 1 ? 'like-active' : ''}/>
-              <Badge count={essayData.collectCount} style={collect.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
-            </div>
-          </div>
-          <div className="content">
-            <h1>{essayData.title}</h1>
-            <div className="annotation">
-              <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
-              <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
-              <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
-              <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
-              <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
-            </div>
-            <section>
-              {
-                essayData.cover ? (
-                  <img src={oss + essayData.cover}/>
-                ) : (
-                  essayData.categorys && essayData.categorys[0].cover ? (
-                    <img src={oss + essayData.categorys[0].cover}/>
+            <div className="content">
+              <h1>{essayData.title}</h1>
+              <div className="annotation">
+                <span><Icon type="calendar"/> 发表于 {essayData.createdDate}</span> |
+                <span><Icon type="folder"/> 分类于 {essayData.categorys && essayData.categorys[0].name}</span> |
+                <span><Icon type="eye"/> 阅读次数 {essayData.browseNumber}</span> |
+                <span><Icon type="file-word"/> 字数统计 {essayData.content && essayData.content.length}字</span> |
+                <span><Icon type="clock-circle"/> 阅读时长 {essayData.content && parseInt(essayData.content.length/500)}分钟</span>
+              </div>
+              <section>
+                {
+                  essayData.user.avatar ? (
+                    <img src={oss + essayData.user.avatar}/>
                   ) : (
                     <img src="@/assets/img/defaultComm.png"/>
                   )
-                )
-              }
-              <div className="desc">
-                <div className="username">xiongchao</div>
-                <div className="position">全栈攻城狮</div>
-              </div>
-              <div className="tags">
-                <Icon type="tags" style={{fontSize: 16, verticalAlign: 'middle'}} />
+                }
+                <div className="desc">
+                  <div className="username">{ essayData.user.nickname ? essayData.user.nickname : essayData.user.name }</div>
+                  <div className="position">{essayData.user.position}</div>
+                </div>
+                <div className="tags">
+                  <Icon type="tags" style={{fontSize: 16, verticalAlign: 'middle'}} />
+                  {
+                    essayData.tags && essayData.tags.map((tag, i) => (
+                      <Fragment key={i}>
+                        <span className="tagName">{tag.name}</span><span className="split">|</span>
+                      </Fragment>
+                    ))
+                  }
+                </div>
+              </section>
+              <div className="cover">
                 {
-                  essayData.tags && essayData.tags.map((tag, i) => (
-                    <Fragment key={i}>
-                      <span className="tagName">{tag.name}</span><span className="split">|</span>
-                    </Fragment>
-                  ))
+                  essayData.cover ? (
+                    <img src={oss + essayData.cover}/>
+                  ) : (
+                    essayData.categorys && essayData.categorys[0].cover ? (
+                      <img src={oss + essayData.categorys[0].cover}/>
+                    ) : (
+                      <img src="@/assets/img/defaultComm.png"/>
+                    )
+                  )
                 }
               </div>
-            </section>
-            <div className="cover">
-              {
-                essayData.cover ? (
-                  <img src={oss + essayData.cover}/>
-                ) : (
-                  essayData.categorys && essayData.categorys[0].cover ? (
-                    <img src={oss + essayData.categorys[0].cover}/>
-                  ) : (
-                    <img src="@/assets/img/defaultComm.png"/>
-                  )
-                )
-              }
+              <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
+              {/* {this.commentHtml()} */}
+              {/* 评论系统参考百度贴吧 */}
             </div>
-            <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
-            {/* {this.commentHtml()} */}
-            {/* 评论系统参考百度贴吧 */}
-          </div>
-          <div className="right-nav">
-            <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
-          </div>
-          <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
-          <Modal
-            width="80vw"
-            visible={visible}
-            footer={null}
-            onCancel={this.handleCancel}
-          >
-            <img src={modalImg} style={{width: '100%'}}/>
-          </Modal>
-        </article>
-      </div>
+            <div className="right-nav">
+              <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>
+            </div>
+            <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
+            <Modal
+              width="80vw"
+              visible={visible}
+              footer={null}
+              onCancel={this.handleCancel}
+            >
+              <img src={modalImg} style={{width: '100%'}}/>
+            </Modal>
+          </article>
+        </div>
+      </Spin>
     )
   }
 }
