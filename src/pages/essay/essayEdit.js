@@ -201,7 +201,7 @@ class EssayEdit extends Component {
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="封面">
             {
-              getFieldDecorator('cover')(
+              getFieldDecorator('cover', {initialValue: essayData.cover})(
                 <Fragment>
                   <Input hidden/>
                   <UploadImage imagePath={essayData.cover} folder={'essay_cover'} uploadSuccess={this.uploadSuccess.bind()} />

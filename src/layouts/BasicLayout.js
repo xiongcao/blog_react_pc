@@ -29,7 +29,6 @@ class BasicLayout extends Component {
       current: 'index',
       loginVisible: false
     };
-    console.log(store.getState().user, 1111)
 
     store.subscribe(() => {
       this.setState({
