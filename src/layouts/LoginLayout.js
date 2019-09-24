@@ -15,6 +15,7 @@ class LoginLayout extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
     let { user } = store.getState()
     if (user.id) {
       this.props.history.push('/admin/home')

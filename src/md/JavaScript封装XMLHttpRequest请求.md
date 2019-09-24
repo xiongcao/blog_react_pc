@@ -1,4 +1,4 @@
-### 什么是 XMLHttpRequest 对象
+## 什么是 XMLHttpRequest 对象
 XMLHttpRequest 对象用于在后台与服务器交换数据。
 XMLHttpRequest 对象是开发者的梦想，因为您能够：
 * 在不重新加载页面的情况下更新网页
@@ -8,10 +8,10 @@ XMLHttpRequest 对象是开发者的梦想，因为您能够：
 
 所有现代的浏览器都支持 XMLHttpRequest 对象，XMLHttpRequest在 Ajax 编程中被大量使用。
 
-### 原生javascript（ES5）封装XMLHttpRequest对象
+## 原生javascript（ES5）封装XMLHttpRequest对象
 <!-- more -->
 
-1.创建ajax.js
+### 1.创建ajax.js
 
 ``` js
 function Ajax(){}
@@ -66,7 +66,7 @@ Ajax.prototype.ajax = function(obj){
 }
 ```
 
-2.引用ajax.js
+### 2.引用ajax.js
 
 ``` html
 <!DOCTYPE html>
@@ -142,15 +142,15 @@ Ajax.prototype.ajax = function(obj){
 </script>
 ```
 
-3.顺带看下后端写法（哈哈,虽然不需要前端开发人员操心）
-![](https://www.cwsoy.com/essay/201808161403_227.png)
+### 3.顺带看下后端写法（哈哈,虽然不需要前端开发人员操心）
+![](https://www.cwsoy.com/images/essay/201808161403_227.png)
 
-4.最后看下四种请求的结果 
-![](https://www.cwsoy.com/essay/201808161408_351.png)
+### 4.最后看下四种请求的结果 
+![](https://www.cwsoy.com/images/essay/201808161408_351.png)
 
-### ES6 封装XMLHttpRequest对象
+## ES6 封装XMLHttpRequest对象
 
-同样ajax.js 文件
+### 同样ajax.js 文件
 ``` js
 const ajax = function(obj){
   return new Promise((resolve,reject)=>{
@@ -205,7 +205,7 @@ const ajax = function(obj){
 export default ajax;
 ```
 
-引用ajax.js
+### 引用ajax.js
 ``` js
 <script type="module">
   import ajax from './ajax.js'

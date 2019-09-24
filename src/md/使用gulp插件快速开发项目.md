@@ -94,7 +94,7 @@ cmd命令提示符
 gulp test
 
 ```
-##### 如果只是简单的配置了上面部分，每当我们修改了代码都需要重新执行命令gulp test,而且如果有多个任务就要执行多个命令，为了避免这么繁琐的操作可以加上如下配置：
+如果只是简单的配置了上面部分，每当我们修改了代码都需要重新执行命令gulp test,而且如果有多个任务就要执行多个命令，为了避免这么繁琐的操作可以加上如下配置：
 ```
 gulp.task('auto', function () {
     gulp.watch('./src/**/*.js', ['test']);
@@ -109,13 +109,12 @@ gulp.task('default',['auto','test']); //定义默认任务
 
 ### 1.gulp-sass的使用：
 
-#### 1.简介：SASS是一种CSS的开发工具，提供了许多便利的写法，大大节省了设计者的时间，使得CSS的开发，变得简单和可维护。
+1.简介：SASS是一种CSS的开发工具，提供了许多便利的写法，大大节省了设计者的时间，使得CSS的开发，变得简单和可维护。
 
-#### 2.本地安转：npm install gulp-less --save-dev
+2.本地安转：npm install gulp-less --save-dev
 
-#### 3.配置gulpfile.js
-
-1.配置：
+3.配置gulpfile.js
+### 1.配置：
 
 ```js
 //导入sass工具包
@@ -136,7 +135,7 @@ gulp.task('sass', function () {
 
 ```
 
-2.sass使用示例：
+### 2.sass使用示例：
 
 ```css
 $blue : #1875e7;　
@@ -161,22 +160,22 @@ $blue : #1875e7;　
 
 ```
 
-#### 4.执行任务：   
+### 3.执行任务：   
 命令提示符：gulp sass
 
 
-#### 5.编译结果：
+### 4.编译结果：
 
-![mark](https://www.cwsoy.com/essay/170715/IaCJglCfag.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170715/IaCJglCfag.png?imageslim)
 
-### 2.gulp-minify-css的使用：
+## 2.gulp-minify-css的使用：
 
-#### 1.插件介绍：压缩css文件，减小文件大小，并给引用url添加版本号避免缓存  
+### 1.插件介绍：压缩css文件，减小文件大小，并给引用url添加版本号避免缓存  
 
 
-#### 2.本地安转：npm install gulp-minify-css --save-dev。
+### 2.本地安转：npm install gulp-minify-css --save-dev。
 
-#### 3.配置gulpfile.js    
+### 3.配置gulpfile.js    
 
 1.配置
 ```js
@@ -205,23 +204,23 @@ gulp.task('sass', function () {
 
 ```
 2.使用示例：
-![mark](https://www.cwsoy.com/essay/170715/GCLHfi4haD.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170715/GCLHfi4haD.png?imageslim)
 
-#### 4.执行任务：   
+### 4.执行任务：   
 命令提示符：gulp sass
 
-#### 5.编译结果：
-![mark](https://www.cwsoy.com/essay/170715/CHD62jD9kd.png?imageslim)
+### 5.编译结果：
+![mark](https://www.cwsoy.com/images/essay/170715/CHD62jD9kd.png?imageslim)
 编译之后的css文件被压缩了
 
-### 3.gulp-autoprefixer：
+## 3.gulp-autoprefixer：
 
-#### 1.插件介绍：根据设置浏览器版本自动处理浏览器前缀
+### 1.插件介绍：根据设置浏览器版本自动处理浏览器前缀
 
 
-#### 2.本地安转：npm install gulp-autoprefixer --save-dev。
+### 2.本地安转：npm install gulp-autoprefixer --save-dev。
 
-#### 3.配置gulpfile.js    
+### 3.配置gulpfile.js    
 
 1.配置
 ```js
@@ -248,17 +247,17 @@ gulp.task('sass', function () {
 
 ```
 2.使用示例：
-![mark](https://www.cwsoy.com/essay/170715/lhl9ajJEIA.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170715/lhl9ajJEIA.png?imageslim)
 
-#### 4.执行任务：   
+### 4.执行任务：   
 命令提示符：gulp sass
 
-#### 5.编译结果：
+### 5.编译结果：
 浏览器中的编译结果：
-![mark](https://www.cwsoy.com/essay/170715/IKCG8CDh46.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170715/IKCG8CDh46.png?imageslim)
 
 
-## 3.使用gulp编译js
+## 4.使用gulp编译js
 
 ### 1.gulp-babel的使用：
 
@@ -290,24 +289,24 @@ gulp.task('babel', function () {
 
 2.ES6使用示例：
 
-![mark](https://www.cwsoy.com/essay/170716/LBLjFGhFF5.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170716/LBLjFGhFF5.png?imageslim)
 
-#### 4.执行任务：   
+### 4.执行任务：   
 命令提示符：gulp babel
 
 
-#### 5.编译结果：
+### 5.编译结果：
 
-![mark](https://www.cwsoy.com/essay/170716/Hbd5lihjCL.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170716/Hbd5lihjCL.png?imageslim)
 
 
-### 2.gulp-uglify的使用：
+## 5.gulp-uglify的使用：
 
-#### 1.介绍：压缩js代码
+### 1.介绍：压缩js代码
 
-#### 2.本地安转： npm install gulp-uglify --save-dev  
+### 2.本地安转： npm install gulp-uglify --save-dev  
 
-#### 3.配置gulpfile.js
+### 3.配置gulpfile.js
 
 1.配置：
 
@@ -332,16 +331,16 @@ gulp.task('babel', function () {
 
 2.ES6使用示例：
 
-![mark](https://www.cwsoy.com/essay/170716/LBLjFGhFF5.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170716/LBLjFGhFF5.png?imageslim)
 
-#### 4.执行任务：   
+### 4.执行任务：   
 命令提示符：gulp babel
 
 
-#### 5.编译结果：
+### 5.编译结果：
 
-![mark](https://www.cwsoy.com/essay/170716/7Kg8hi0Jla.png?imageslim)
+![mark](https://www.cwsoy.com/images/essay/170716/7Kg8hi0Jla.png?imageslim)
 
 
-### gulp插件库还有其他很多优秀的插件，可以根据自己的需要引入。
-此dome在我的github上，可以下载自行查看<a href="https://github.com/xiongcao/project-gule" target="_blank">https://github.com/xiongcao/project-gule</a>
+gulp插件库还有其他很多优秀的插件，可以根据自己的需要引入。
+此dome在我的github上，可以下载自行查看<a href="https://github.com/xiongcao/project-gulp" target="_blank">https://github.com/xiongcao/project-gulp</a>

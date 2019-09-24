@@ -47,6 +47,7 @@ class EssayDetail extends Component {
         this.getEssayDetail()
       })
     } else {
+      document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
       this.getEssayDetail()
     }
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
@@ -70,6 +71,7 @@ class EssayDetail extends Component {
   }
 
   handleCancel = e => {
+    let htmlDom = document.getElementsByTagName("html")[0]
     this.setState({
       visible: false,
       loginVisible: false
@@ -203,24 +205,30 @@ class EssayDetail extends Component {
   }
 
   handleScroll = () => {
+    document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
     const idPrefix = 'titleAnchor'
-    const distance = 20
     let list = []
     for (let i = 0; i <= this.state.mkTitlesLen; i++) {
       let dom = document.getElementById(`${idPrefix}${i}`)
-      let domTitle = document.querySelector(`a[href="#titleAnchor${i}"]`)
+      let domTitle = document.querySelector(`span[name="titleAnchor${i}"]`)
       list.push({
-        y: dom && dom.getBoundingClientRect().top + 10, // 利用dom.getBoundingClientRect().top可以拿到元素相对于显示器的动态y轴坐标
+        y: dom && dom.getBoundingClientRect().top, // 利用dom.getBoundingClientRect().top可以拿到元素相对于显示器的动态y轴坐标
         index: i,
         domTitle
       })
     }
-    let readingVO = {}
-    readingVO = list.filter(item => item.y > distance).sort((a, b) => {
+    let readingVO = []
+    readingVO = list.filter(item => item.y < 100).sort((a, b) => {
       return a.y - b.y
-    })[0] // 对所有的y值为正标的题，按y值升序排序。第一个标题就是当前处于阅读中的段落的标题。也即要高亮的标题
-    if (readingVO) {
-      let domTitle = document.querySelector(`a[href="#titleAnchor${readingVO.index || 0}"]`)
+    })
+    let readingObj = {}
+    if (readingVO.length === 0) {
+      readingObj = list[0]
+    } else {
+      readingObj = readingVO[readingVO.length - 1]
+    }
+    if (readingObj) {
+      let domTitle = document.querySelector(`span[name="titleAnchor${readingObj.index || 0}"]`)
       let titles = document.getElementsByClassName("nav-list-a")
       for (let i = 0; i < titles.length; i++) {
         titles[i].classList.remove("active")
@@ -303,7 +311,7 @@ class EssayDetail extends Component {
             </div>
             <LoginModal visible={loginVisible} onOk={this.handleOk} onCancel={this.handleCancel}/>
             <Modal
-              width="80vw"
+              width="max-content"
               visible={visible}
               footer={null}
               onCancel={this.handleCancel}

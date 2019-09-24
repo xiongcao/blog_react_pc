@@ -3,7 +3,7 @@
   list-style: square;
   padding-left: 0;
 
-  a {
+  span {
     display: inline-block;
     color: #333;
     overflow: hidden;
@@ -11,17 +11,14 @@
     white-space: nowrap;
     width: 100%;
     vertical-align: bottom;
-
-    &:link, &:visited {
-      text-decoration: none;
-    }
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
     }
 
     &.active {
-      color: #FF4400;
+      color: #fc6423;
       font-weight: 600;
     }
   }

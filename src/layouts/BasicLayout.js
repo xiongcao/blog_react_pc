@@ -38,6 +38,7 @@ class BasicLayout extends Component {
   }
 
   UNSAFE_componentWillReceiveProps () {
+    document.getElementsByTagName("html")[0].style.overflowY = 'scroll'
     let userId = this.state.user.id
     let pathname = this.props.history.location.pathname
     let paths = pathname.split("/")
@@ -51,6 +52,7 @@ class BasicLayout extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.getElementsByTagName("html")[0].style.overflowY = 'scroll'
     let userId = this.state.user.id
     let pathname = this.props.location.pathname
     let paths = pathname.split("/")

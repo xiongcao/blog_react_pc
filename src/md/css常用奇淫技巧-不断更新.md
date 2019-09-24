@@ -1,6 +1,6 @@
-### 一、常用技巧
+## 一、常用技巧
 
-#### 清除浮动
+### 清除浮动
 1. 添加新的元素 、应用 clear：both; 
 2. 父级定义 overflow: auto;
 3. 父元素也设置浮动;
@@ -8,7 +8,7 @@
 5. 最高大上的方法，强烈推荐 parentDom:after{content: " ";display: block;clear: both;}
 
 
-#### 垂直居中
+### 垂直居中
 
 ``` html
 <div class="box box1">
@@ -23,7 +23,7 @@
 } 
 ```
 
-##### 方法1：table-cell
+#### 方法1：table-cell
 
 <!-- more -->
 
@@ -34,7 +34,7 @@
   text-align: center;
 }
 ```
-##### 方法2：display:flex（部分低版本浏览器不兼容）
+#### 方法2：display:flex（部分低版本浏览器不兼容）
 
 ``` css
 .box2 {
@@ -44,7 +44,7 @@
 }
 ```
 
-##### 方法3：绝对定位和负边距(已知元素高度)
+#### 方法3：绝对定位和负边距(已知元素高度)
 ``` css
 .box3 {position:relative;}
 .box3 span {
@@ -59,7 +59,7 @@
 }
 ```
 
-##### 方法4：绝对定位和0(已知元素高度)
+#### 方法4：绝对定位和0(已知元素高度)
 ``` css
 .box {position:relative;}
 
@@ -74,7 +74,7 @@
 }
 ```
 
-##### 方法5：display:flex和margin:auto
+#### 方法5：display:flex和margin:auto
 ``` css
 .box5 {
     display: flex;
@@ -83,9 +83,9 @@
 .box5 span {margin: auto;}
 ```
 
-#### 文本超出部分隐藏
+### 文本超出部分隐藏
 
-##### 单行文本超出部分隐藏
+#### 单行文本超出部分隐藏
 ``` css
 #ellipsis {
   overflow: hidden;   /*超出的文本隐藏*/
@@ -94,7 +94,7 @@
 }
 ```
 
-##### 多行文本超出部分隐藏
+#### 多行文本超出部分隐藏
 ``` css
 #ellipsis {
   overflow: hidden; 
@@ -104,9 +104,9 @@
 }
 ```
 
-### 二、形状技巧
+## 二、形状技巧
 
-##### 三角形
+### 三角形
 
 ``` css
 #triangle1 {
@@ -127,9 +127,9 @@
   border-left: 50px solid transparent;
 }
 ```
-![](https://www.cwsoy.com/essay/201810171448_18.png)
+![](https://www.cwsoy.com/images/essay/201810171448_18.png)
 
-##### 未读数量
+### 未读数量
 ``` css
 #superscript {
     width: 50px;
@@ -139,9 +139,9 @@
     border-radius: 20px;
 }
 ```
-![](https://www.cwsoy.com/essay/201810171448_144.png)
+![](https://www.cwsoy.com/images/essay/201810171448_144.png)
 
-##### 字体边框同色
+#### 字体边框同色
 ``` css
 #app{
     width: 100px;
@@ -156,9 +156,9 @@
     border: 10px solid;
   }
 ```
-![](https://www.cwsoy.com/essay/201810171448_736.png)
+![](https://www.cwsoy.com/images/essay/201810171448_736.png)
 
-##### 放大镜
+### 放大镜
 ``` css
 #div5{
     width: 50px;
@@ -181,4 +181,4 @@
     transform: rotate(-45deg);
 }
 ```
-![](https://www.cwsoy.com/essay/201810171449_641.png)
+![](https://www.cwsoy.com/images/essay/201810171449_641.png)

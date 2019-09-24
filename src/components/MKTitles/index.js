@@ -8,6 +8,11 @@ class MKTitles extends Component {
     this.state = { }
   }
 
+  handleAnchorPoint = (i) => {
+    let titleDom = document.getElementById("titleAnchor" + i)
+    document.scrollingElement.scrollTop = titleDom.offsetTop
+  }
+
   render() {
     let { list } = this.props
     return (
@@ -17,8 +22,7 @@ class MKTitles extends Component {
             list && list.map((nav, i) => {
               return (
                 <li key={i}>
-                  {/* <a href={'#titleAnchor'+ nav.index} dangerouslySetInnerHTML={{__html: nav.title}} className={highlightIndex === nav.index ? 'active' : ''} className="nav-list-a"></a> */}
-                  <a href={'#titleAnchor'+ nav.index} dangerouslySetInnerHTML={{__html: nav.title}} className="nav-list-a"></a>
+                  <span name={'titleAnchor'+ nav.index} dangerouslySetInnerHTML={{__html: nav.title}} className="nav-list-a" onClick={this.handleAnchorPoint.bind(this, nav.index)}></span>
                   <MKTitles list={nav.children}/>
                 </li>
               )

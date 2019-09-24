@@ -48,7 +48,7 @@ console.log('循环体外');
 注意：return 虽说可以结束循环，但是循环体后面的内容也无法执行了
 
 ##### 结果：
-![mark](https://www.cwsoy.com/essay/201807311448_240.png)
+![mark](https://www.cwsoy.com/images/essay/201807311448_240.png)
 
 ## 二.跳出多层循环
 ```js
@@ -65,7 +65,7 @@ for (var i = 0; i < arr.length; i++) {
 console.log("循环体外");
 ```
 #####结果：
-![mark](https://www.cwsoy.com/essay/201808010918_525.png)
+![mark](https://www.cwsoy.com/images/essay/201808010918_525.png)
 
 ### 使用break
 ```js
@@ -81,7 +81,7 @@ for (var i = 0; i < arr.length; i++) {
 ```
 结果： 只跳出了一层循环
 
-![mark](https://www.cwsoy.com/essay/201807311606_181.png)
+![mark](https://www.cwsoy.com/images/essay/201807311606_181.png)
 
 ### 我们可以使用以下方法跳出多层for循环
 ```js
@@ -101,7 +101,7 @@ for (var i = 0; i < arr.length; i++) {
 }
 ```
 结果： 只执行了一次j=0就结束了循环
-![mark](https://www.cwsoy.com/essay/201808010928_686.png)
+![mark](https://www.cwsoy.com/images/essay/201808010928_686.png)
 
 ### 使用return
 ```js
@@ -118,7 +118,7 @@ console.log('我在循环体外');
 ```
 结果： 虽然跳出了多层循环，但是循环体后面的内容都没有被执行
 
-![mark](https://www.cwsoy.com/essay/201807311646_81.png)
+![mark](https://www.cwsoy.com/images/essay/201807311646_81.png)
 
 ### 跳出多层forEach循环
 ```js
@@ -140,7 +140,7 @@ try {
 console.log('循环体外');
 ```
 结果： 正确跳出了多层循环
-![mark](https://www.cwsoy.com/essay/201808010928_686.png)
+![mark](https://www.cwsoy.com/images/essay/201808010928_686.png)
 
 ## 最后总结：
 1. break只能在for、for...in循环中使用不能再forEach里面使用，并且break只能跳出单层循环；

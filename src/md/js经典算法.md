@@ -1,7 +1,7 @@
-### 1.冒泡排序（Bubble Sort）
+## 1.冒泡排序（Bubble Sort）
 
 冒泡排序动图演示：
-![](https://www.cwsoy.com/essay/1867034-e19840224b331fae.gif)
+![](https://www.cwsoy.com/images/essay/1867034-e19840224b331fae.gif)
 
 ```
 定义： 比较相邻的前后二个数据，如果前面数据大于后面的数据，就将二个 数据交换。
@@ -24,10 +24,10 @@ function bubbleSort(arr){
 ```
 <!--more-->
 
-### 2.选择排序（Selection Sort）
+## 2.选择排序（Selection Sort）
 
 选择排序动图演示：
-![](https://www.cwsoy.com/essay/1867034-c6cc220cfb2b9ac8.gif)
+![](https://www.cwsoy.com/images/essay/1867034-c6cc220cfb2b9ac8.gif)
 
 ```js
 /**
@@ -54,10 +54,10 @@ function selectSort(arr){
 }
 ```
 
-### 3.插入排序（Insertion Sort）
+## 3.插入排序（Insertion Sort）
 
 插入排序动图演示：
-![](https://www.cwsoy.com/essay/1867034-d1537e355abdd298.gif)
+![](https://www.cwsoy.com/images/essay/1867034-d1537e355abdd298.gif)
 
 ```
 从第一个元素开始，该元素可以认为已经被排序； 
@@ -84,9 +84,9 @@ function insertionSort(arr) {
 }
 ```
 
-### 4.快速排序（Quick Sort）
+## 4.快速排序（Quick Sort）
 快速排序动图演示：
-![](https://www.cwsoy.com/essay/1867034-cd65e35d7dce5045.gif)
+![](https://www.cwsoy.com/images/essay/1867034-cd65e35d7dce5045.gif)
 
 ```
 先从数列中取出一个数作为基准数。
