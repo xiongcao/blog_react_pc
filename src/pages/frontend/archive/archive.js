@@ -66,6 +66,7 @@ class Archive extends Component {
               temp = obj.date
             }
           })
+          console.log(_list, '_list')
           this.setState(() => ({
             archiveList: _list,
             page: page + 1,
@@ -111,10 +112,16 @@ class Archive extends Component {
             archiveList.map((archive, i) => {
               return (
                 archive.year ? (
-                  <Timeline.Item color="#bbb" key={i}
-                    dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
-                    <p className="year">{archive.year}</p>
-                  </Timeline.Item>
+                  <>
+                    <Timeline.Item color="#bbb" key={i}
+                      dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
+                      <p className="year">{archive.year}</p>
+                    </Timeline.Item>
+                    <Timeline.Item color="#bbb" key={archive.id}>
+                      <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
+                      <p className="tiem-node">{archive.createdDate}</p>
+                    </Timeline.Item>
+                  </>
                 ) : (
                   <Timeline.Item color="#bbb" key={archive.id}>
                     <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>

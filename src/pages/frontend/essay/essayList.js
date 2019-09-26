@@ -15,7 +15,7 @@ class EssayList extends Component {
       size: 10,
       categoryId: '',
       tagId: '',
-      properties: 'star_count',
+      properties: 'star_count, created_date',
       userInfo: {},
       tagList: [],
       categoryList: [],
@@ -125,41 +125,6 @@ class EssayList extends Component {
         this.getEssayList();
       })
     }
-  }
-
-  handleNavClick = (index, field) => {
-    this.setState({
-      properties: field,
-      page: 0,
-      essayList: [],
-      isScrollLoad: false
-    }, () => {
-      this.getEssayList()
-    })
-  }
-
-  keydownHandle = (e) => {
-    e.persist()
-    if (e.keyCode === 13) {
-      this.search()
-    }
-  }
-
-  search = () => {
-    this.setState({
-      page: 0,
-      essayList: [],
-      isScrollLoad: false
-    }, () => {
-      this.getEssayList()
-    })
-  }
-
-  searchChange = (e) => {
-    e.persist()
-    this.setState({
-      title: e.target.value
-    })
   }
 
   changeCategory = (id) => {

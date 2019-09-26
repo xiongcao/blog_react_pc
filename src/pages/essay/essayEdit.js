@@ -264,7 +264,7 @@ class EssayEdit extends Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="描述">
+          {/* <Form.Item label="描述">
             {
               getFieldDecorator('des', {
                 rules: [
@@ -276,7 +276,7 @@ class EssayEdit extends Component {
                 initialValue: essayData.des
               })(<Input.TextArea autosize={{ minRows: 2, maxRows: 6 }}/>)
             }
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="序号">
             {
               getFieldDecorator('rank', { 
