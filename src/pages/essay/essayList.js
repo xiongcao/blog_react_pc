@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Form, Table, Popconfirm, message, Tag } from 'antd';
+import { Form, Table, Popconfirm, message, Tag, Input } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton } from '@/components'
 
@@ -12,6 +12,7 @@ class EssayList extends Component {
     this.state = {
       tableHeight: 0,
       essayList: [],
+      name: '',
       size: 50,
       page: 0,
       total: 0,
@@ -142,8 +143,8 @@ class EssayList extends Component {
   }
   
   getEssayList () {
-    let { page, size } = this.state
-    let data = { page, size }
+    let { page, size, name } = this.state
+    let data = { page, size, title: name }
     Fetch.get(`essay/admin/findAll`, data).then((res) => {
 			if (res.code === 0) {
 				this.setState({
@@ -152,6 +153,14 @@ class EssayList extends Component {
 				})
 			}
 		})
+  }
+
+  searchFn = (v) => {
+    this.setState({
+      name: v
+    }, () => {
+      this.getEssayList()
+    })
   }
 
   updateStatus = (id, status) => {
@@ -171,7 +180,21 @@ class EssayList extends Component {
     let { columns, essayList, tableLoading, tableHeight, total, page, size } = this.state
     return (
       <div className="essay-manage">
-        <div style={{marginBottom: '15px'}}><MyButton type="error" onClick={ this.essayEdit.bind(this, -1) }>添 加</MyButton></div>
+        {/* <div style={{marginBottom: '15px'}}>
+          <MyButton type="error" onClick={ this.essayEdit.bind(this, -1) }>添 加</MyButton>
+        </div> */}
+        <div className="top-tool">
+          <div className="left">
+          <MyButton type="error" onClick={ this.essayEdit.bind(this, -1) }>添 加</MyButton>
+          </div>
+          <div className="right">
+            <Input.Search
+              placeholder="请输入文章名称"
+              enterButton="搜索"
+              onSearch={this.searchFn.bind(this)}
+            />
+          </div>
+        </div>
         <div className="table">
           <Table bordered rowKey="id" size="middle" loading={tableLoading}
             pagination={{ total: total, showTotal: total => `共 ${total} 条，每页 ${size} 条`, defaultCurrent: page, defaultPageSize: size, showQuickJumper: true, size: 'default' }}

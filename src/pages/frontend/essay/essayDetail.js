@@ -39,6 +39,16 @@ class EssayDetail extends Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    if (props.match.params.id !== this.state.id) {
+      this.setState({
+        id: props.match.params.id
+      }, () => {
+        this.getEssayDetail()
+      })
+    }
+  }
+
   UNSAFE_componentWillMount () {
     if (this.props.location.pathname.indexOf('about') !== -1) {
       this.setState({
@@ -237,6 +247,10 @@ class EssayDetail extends Component {
     }
   }
 
+  goToEssayDetail = (id) => {
+    this.props.history.push({pathname: '/frontend/essayDetail/' + id})
+  }
+
   render () {
     let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect, spinLoading } = this.state
     return (
@@ -303,6 +317,28 @@ class EssayDetail extends Component {
                 }
               </div>
               <div className="markdown" dangerouslySetInnerHTML={{__html: markdownHtml}}></div>
+              <div className="post-nav">
+                <div className="post-nav-pre">
+                  {
+                    essayData.preEssay && essayData.preEssay.id !== 0 ? (
+                      <>
+                        <Icon type="left" onClick={this.goToEssayDetail.bind(this, essayData.preEssay.id)}/>
+                        <span className="pre" onClick={this.goToEssayDetail.bind(this, essayData.preEssay.id)}>{essayData.preEssay.title}</span>
+                      </>
+                    ) : (<></>)
+                  }
+                </div>
+                <div className="post-nav-next">
+                  {
+                    essayData.nextEssay ? (
+                      <>
+                        <span className="next" onClick={this.goToEssayDetail.bind(this, essayData.nextEssay.id)}>{essayData.nextEssay.title}</span>
+                        <Icon type="right" onClick={this.goToEssayDetail.bind(this, essayData.nextEssay.id)}/>
+                      </>
+                    ) : (<></>)
+                  }
+                </div>
+              </div>
               {/* {this.commentHtml()} */}
               {/* 评论系统参考百度贴吧 */}
             </div>

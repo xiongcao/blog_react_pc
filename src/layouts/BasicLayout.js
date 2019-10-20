@@ -232,7 +232,7 @@ class BasicLayout extends Component {
           <Route path="/frontend/project" component={Project}/>
           <Route path="/frontend/about" component={EssayDetail}/>
         </article>
-        <footer>全栈修炼 ©2018 Created by XiongChao</footer>
+        <footer>全栈修炼 ©2018-2019 Created by XiongChao</footer>
       </div>
     )
   }
