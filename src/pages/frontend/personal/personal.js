@@ -25,6 +25,7 @@ class Personal extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '小熊博客-个人中心'
     this.initData(this.state.current)
   }
 

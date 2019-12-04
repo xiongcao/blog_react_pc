@@ -15,6 +15,7 @@ class LoginLayout extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '登录·注册'
     document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
     let { user } = store.getState()
     if (user.id) {

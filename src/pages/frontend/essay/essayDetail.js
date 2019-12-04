@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Modal, Badge, Spin } from 'antd';
-import { LoginModal } from '@/components'
+import { Icon, Modal, Badge, Spin, Input, Button, message } from 'antd';
+import { LoginModal, ExampleComment } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
 
@@ -35,12 +35,14 @@ class EssayDetail extends Component {
       loginVisible: false,
       star: {},
       collect: {},
-      spinLoading: true
+      spinLoading: true,
+      commentTxt: '', // 输入框的值
+      commentCount: 0 // 评论总数
     };
   }
 
-  componentWillReceiveProps(props) {
-    if (props.match.params.id !== this.state.id) {
+  UNSAFE_componentWillReceiveProps(props) {
+    if (props.match.params.id && props.match.params.id !== this.state.id) {
       this.setState({
         id: props.match.params.id
       }, () => {
@@ -52,7 +54,7 @@ class EssayDetail extends Component {
   UNSAFE_componentWillMount () {
     if (this.props.location.pathname.indexOf('about') !== -1) {
       this.setState({
-        id: 0
+        id: 21
       }, () => {
         this.getEssayDetail()
       })
@@ -105,8 +107,9 @@ class EssayDetail extends Component {
     this.saveLike()
   }
 
-  handleComment = () => {
-    
+  onClickComment = () => {
+    let titleDom = document.getElementById("comments")
+    document.scrollingElement.scrollTop = titleDom.offsetTop - 100
   }
 
   handleStar = () => {
@@ -173,9 +176,67 @@ class EssayDetail extends Component {
     })
   }
 
+  showLoginModal = () => {
+    this.setState({
+      loginVisible: true,
+    });
+  }
+
+  commentSuccess = () => {
+    // 查询评论即可
+    this.getCommentList()
+  }
+
+  getCommentList = () => {
+    let id = this.state.id
+    Fetch.get(`comment/findAllByEssayId/${id}`).then((res) => {
+			if (res.code === 0) {
+        let comments = this.handleComments(res.data)
+        this.setState({
+          comments,
+          commentCount: res.data.length
+        });
+      }
+    })
+  }
+
+  changeCommentTxt = (e) => {
+    e.persist()
+    this.setState({
+      commentTxt: e.target.value
+    })
+  }
+
+  sendComment = () => {
+    let { commentTxt, id, essayData, user } = this.state
+    if (!user.id) {
+      this.setState({
+        loginVisible: true,
+      });
+      return
+    }
+    let data = {
+      pid: 0,
+      essayId: id,
+      toUserId: essayData.userId,
+      content: commentTxt
+    }
+    Fetch.post(`comment/save`, data).then((res) => {
+			if (res.code === 0) {
+        message.success('评论成功')
+        this.setState({
+          commentTxt: ''
+        }, () => {
+          this.getEssayDetail()
+        });
+      }
+    })
+  }
+
   getEssayDetail () {
     Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
 			if (res.code === 0) {
+        document.title = '小熊博客-' + res.data.title
         this.setMarkdwonTitle(res)
       }
     })
@@ -192,9 +253,12 @@ class EssayDetail extends Component {
     this.setRenderer(renderer)
     let markdownHtml = marked(res.data.content || ' ', { renderer: renderer })
     markdownHtml = markdownHtml.replace(/<img/g, '<img class="markdown-img"')
+    let comments = this.handleComments(res.data.commentDTOS)
     this.setState({
       navList,
       essayData: res.data,
+      comments,
+      commentCount: res.data.commentDTOS.length,
       spinLoading: false,
       star: res.data.star || {},
       collect: res.data.collect || {},
@@ -203,6 +267,26 @@ class EssayDetail extends Component {
     }, () => {
       this.handleClickEvent()
     })
+  }
+
+  handleComments (comments) {
+    let pIdList = comments.filter(o => {
+      return o.pid === 0
+    })
+    let otherList = comments.filter(o => {
+      return o.pid !== 0
+    })
+    pIdList.forEach(obj => {
+      otherList.forEach(o => {
+        if (o.pid === obj.id) {
+          if (!obj.children) {
+            obj.children = []
+          }
+          obj.children.push(o)
+        }
+      })
+    })
+    return pIdList
   }
 
   setRenderer = (renderer) => {
@@ -252,23 +336,23 @@ class EssayDetail extends Component {
   }
 
   render () {
-    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect, spinLoading } = this.state
+    let { essayData, navList, highlightIndex, markdownHtml, visible, modalImg, loginVisible, star, collect, spinLoading, comments, commentTxt, commentCount, user } = this.state
     return (
       <Spin spinning={spinLoading} size="large">
         <div className="frontend-essayDetail">
           <article>
             <div className="left">
               <div className="item" onClick={this.handleLike.bind()}>
-                <Icon type="like" theme="filled" className={ star.status === 1 ? 'like-active' : ''}/>
-                <Badge count={essayData.starCount} style={ star.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                <Icon type="like" theme="filled" className={ (star.status === 1 && user.id) ? 'like-active' : ''}/>
+                <Badge count={essayData.starCount} style={ (star.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
               </div>
-              <div className="item" onClick={this.handleComment.bind()}>
+              <div className="item" onClick={this.onClickComment.bind()}>
                 <Icon type="message" theme="filled" />
-                <Badge count={essayData.comments && essayData.comments.length} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                <Badge count={commentCount} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
               </div>
               <div className="item" onClick={this.handleStar.bind()}>
-                <Icon type="star" theme="filled" className={ collect.status === 1 ? 'like-active' : ''}/>
-                <Badge count={essayData.collectCount} style={collect.status === 1 ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                <Icon type="star" theme="filled" className={(collect.status === 1 && user.id) ? 'like-active' : ''}/>
+                <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
               </div>
             </div>
             <div className="content">
@@ -285,7 +369,7 @@ class EssayDetail extends Component {
                   essayData.user.avatar ? (
                     <img src={oss + essayData.user.avatar}/>
                   ) : (
-                    <img src="@/assets/img/defaultComm.png"/>
+                    <img src={require('@/assets/img/defaultComm.png')}/>
                   )
                 }
                 <div className="desc">
@@ -311,7 +395,7 @@ class EssayDetail extends Component {
                     essayData.categorys && essayData.categorys[0].cover ? (
                       <img src={oss + essayData.categorys[0].cover}/>
                     ) : (
-                      <img src="@/assets/img/defaultComm.png"/>
+                      <></>
                     )
                   )
                 }
@@ -339,8 +423,28 @@ class EssayDetail extends Component {
                   }
                 </div>
               </div>
-              {/* {this.commentHtml()} */}
-              {/* 评论系统参考百度贴吧 */}
+              <div className="comments" id="comments">
+                <div className="comments-author">
+                <Input.TextArea
+                  placeholder="写下你的评论..."
+                  autosize={{ minRows: 2, maxRows: 4 }}
+                  value={commentTxt}
+                  onChange={this.changeCommentTxt.bind(this)}
+                />
+                <Button type="primary" onClick={this.sendComment.bind()}>发布</Button>
+                </div>
+              {
+                comments && comments.map((list, i) =>
+                  <ExampleComment key={i} item={list} essayData={essayData} showLoginModal={this.showLoginModal.bind()} onSuccess={this.commentSuccess.bind()}>
+                    {
+                      list.children && list.children.map((o, j) => 
+                        <ExampleComment key={j} item={o} essayData={essayData} showLoginModal={this.showLoginModal.bind()} onSuccess={this.commentSuccess.bind()}/>
+                      )
+                    }
+                  </ExampleComment>
+                )
+              }
+              </div>
             </div>
             <div className="right-nav">
               <MKTitles list={navList.nav} highlightIndex={highlightIndex}/>

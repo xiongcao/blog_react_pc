@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-import { Icon } from 'antd'
+import { Icon, Tag } from 'antd'
 import { oss } from '@/libs/publicPath'
 import './index.less'
 
@@ -32,7 +32,13 @@ class EssayItem extends Component {
               <section className="browse_number"><Icon type="eye"/> {item.browseNumber || 0}</section>
               <section className="comment_number"><Icon type="message"/> {item.commentNumber || 0}</section>
               <section className="follow_number"><Icon type="heart"/> {item.starCount || 0}</section>
-              {/* <section className="created_time">{item.createdDate}</section> */}
+              {
+                item.type === 0 ? (
+                  <section className="type"><Tag color="blue">原创</Tag></section>
+                  ) : (
+                    <section className="type"><Tag color="geekblue">转发</Tag></section>
+                  )
+              }
             </div>
             <div className="meta">
               <section className="created_time">发表于：{item.createdDate}&nbsp;&nbsp;{item.categorys.length != 0 && item.categorys[0].name} · 
@@ -47,7 +53,6 @@ class EssayItem extends Component {
                 <img src={oss + item.categorys[0].cover}/>
               ) : '')
             }
-            {/* <img src={item.cover ? (oss + item.cover) : ((item.categorys.length != 0 && item.categorys[0].cover) ? (oss + item.categorys[0].cover) : require('@/assets/img/defaultComm.png'))} /> */}
           </div>
         </section>
       </>

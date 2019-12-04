@@ -21,6 +21,7 @@ class AdminLayout extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    this.setDocumentTitle()
     document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
     let { user } = store.getState()
     if (!user.id) {
@@ -29,7 +30,17 @@ class AdminLayout extends Component {
   }
 
   UNSAFE_componentWillReceiveProps () {
+    this.setDocumentTitle()
     document.getElementsByTagName("html")[0].style.overflowY = 'inherit'
+  }
+
+  setDocumentTitle = () => {
+    let routers = filterLayout('AdminLayout')
+    routers.children.forEach(o => {
+      if (o.path1 === this.props.history.location.pathname) {
+        document.title = '博客后台管理-' + o.title
+      }
+    });
   }
 
   toggle = () => {

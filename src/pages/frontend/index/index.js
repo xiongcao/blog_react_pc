@@ -29,6 +29,7 @@ class Index extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '小熊博客-首页'
     this.getEssayList()
     this.getTagList()
     this.getCategoryList()

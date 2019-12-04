@@ -20,6 +20,7 @@ class Setting extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '小熊博客-账号设置'
     this.initData()
   }
 

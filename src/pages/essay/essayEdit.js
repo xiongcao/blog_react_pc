@@ -128,9 +128,11 @@ class EssayEdit extends Component {
     Fetch.post(`essay/save`, data).then((res) => {
 			if (res.code === 0) {
         message.success("成功")
-        // setTimeout(() => {
-        //   this.props.history.push({pathname: '/admin/essayList'})
-        // }, 800)
+        setTimeout(() => {
+          if (Number(this.state.id) === -1) {
+            this.props.history.push({pathname: '/admin/essayList'})
+          }
+        }, 800)
 			}
 		})
   }

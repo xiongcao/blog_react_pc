@@ -16,6 +16,7 @@ class Project extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '小熊博客-我的项目'
     this.getProjectList()
   }
 

@@ -35,6 +35,7 @@ class EssayList extends Component {
   }
 
   UNSAFE_componentWillMount () {
+    document.title = '小熊博客-文章'
     this.getEssayList()
     this.getUserInfo()
     this.getTagList()

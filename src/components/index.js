@@ -15,6 +15,7 @@ import EssayItem from './EssayItem'
 import MKTitles from './MKTitles'
 import LoginModal from './LoginModal'
 import BaseComponent from './BaseComponent'
+import ExampleComment from './ExampleComment'
 
 export {
   MyHeader, 
@@ -33,5 +34,6 @@ export {
   EssayItem,
   MKTitles,
   LoginModal,
-  BaseComponent
+  BaseComponent,
+  ExampleComment
 }
