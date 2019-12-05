@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Table, message, Tag } from 'antd';
 import * as Fetch from '@/libs/fetch';
 import { MyButton, TableEdit } from '@/components'
-import { api, oss } from '@/libs/publicPath.js'
+import { oss } from '@/libs/publicPath.js'
 import './follow.less'
 
 class Follow extends Component {

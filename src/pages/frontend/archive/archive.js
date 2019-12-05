@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { Timeline, Icon, Spin } from 'antd'
+import React, { Component, Fragment } from 'react';
+import { Timeline, Icon, Spin, Empty } from 'antd'
 import * as Fetch from '@/libs/fetch';
 import moment from 'moment'
+import store from '@/libs/store'
 import { DropdownLoading } from '@/components'
+import noResult from '@/assets/img/noResult.png'
 import './index.less'
 
 class Archive extends Component {
@@ -18,7 +20,8 @@ class Archive extends Component {
       isEmpty: false, // 没有数据
       loading: false, // 数据加载中
       isScrollLoad: false, // 此次加载是切换加载还是滚动加载 true：滚动加载 false：切换加载
-      spinLoading: true
+      spinLoading: true,
+      userInfo: store.getState().user
     }
   }
 
@@ -48,6 +51,9 @@ class Archive extends Component {
   getArchiveListData () {
     let { page, size, isScrollLoad } = this.state
     let data = { page, size }
+    if (this.state.userInfo.id) {
+      data.id = this.state.userInfo.id
+    }
     this.setState(() => ({
       loading: isScrollLoad,
       loadingCompleted: false
@@ -101,38 +107,47 @@ class Archive extends Component {
   }
 
   render() {
-    let { archiveList, loadingCompleted, loading, spinLoading } = this.state
+    let { archiveList, loadingCompleted, loading, spinLoading, isEmpty } = this.state
     return (
       <Spin spinning={spinLoading} size="large">
         {
           spinLoading && <div style={{width: '100%', minHeight: 400}}></div>
         }
-        <div className="frontend-archive">
-          <Timeline>
+        <div className="frontend-archive" style={isEmpty ? {background: 'transparent'} : {}}>
           {
-            archiveList.map((archive, i) => {
-              return (
-                archive.year ? (
-                  <>
-                    <Timeline.Item color="#bbb" key={i}
-                      dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
-                      <p className="year">{archive.year}</p>
-                    </Timeline.Item>
-                    <Timeline.Item color="#bbb" key={archive.id}>
-                      <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
-                      <p className="tiem-node">{archive.createdDate}</p>
-                    </Timeline.Item>
-                  </>
-                ) : (
-                  <Timeline.Item color="#bbb" key={archive.id}>
-                    <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
-                    <p className="tiem-node">{archive.createdDate}</p>
-                  </Timeline.Item>
-                )
-              )
-            })
+            archiveList.length !== 0 ? (
+              <Timeline>
+              {
+                archiveList.map((archive, i) => {
+                  return (
+                    archive.year ? (
+                      <>
+                        <Timeline.Item color="#bbb" key={i}
+                          dot={<Icon type="clock-circle-o" style={{ fontSize: '20px' }} />}>
+                          <p className="year">{archive.year}</p>
+                        </Timeline.Item>
+                        <Timeline.Item color="#bbb" key={archive.id}>
+                          <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
+                          <p className="tiem-node">{archive.createdDate}</p>
+                        </Timeline.Item>
+                      </>
+                    ) : (
+                      <Timeline.Item color="#bbb" key={archive.id}>
+                        <p className="title" onClick={this.goToEssayDetail.bind(this, archive.id)}>{archive.title}</p>
+                        <p className="tiem-node">{archive.createdDate}</p>
+                      </Timeline.Item>
+                    )
+                  )
+                })
+              }
+              </Timeline>
+            ) : (<Fragment>
+              {
+                isEmpty && <Empty style={{padding: '100px 0', color: 'rgb(153, 153, 153)'}} image={noResult} description={'啊哦，还没相关文章哟，赶快去写一篇吧！'}/>
+              }
+            </Fragment>)
           }
-          </Timeline>
+          
           <DropdownLoading loadingCompleted={loadingCompleted} loading={loading}/>
         </div>
       </Spin>

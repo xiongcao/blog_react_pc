@@ -6,6 +6,7 @@
 /*********************** 后台页面 ************************ */
 import Home from '@pages/Home/Home.js'
 import setUser from '@pages/user/setUser.js'
+import AdminList from '@pages/user/admin.js'
 import Login from '@pages/login/login.js'
 import Category from '@pages/category/category.js'
 import TagComponent from '@pages/tagComponent/tagComponent.js'
@@ -98,6 +99,12 @@ export default [
       },
       {
         path: '/user',
+        icon: 'user',
+        title: '用户列表',
+        component: AdminList,
+      },
+      {
+        path: '/setting',
         icon: 'setting',
         title: '个人设置',
         component: setUser,

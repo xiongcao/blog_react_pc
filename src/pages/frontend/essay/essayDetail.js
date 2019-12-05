@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Modal, Badge, Spin, Input, Button, message } from 'antd';
+import { Icon, Modal, Badge, Spin, Input, Button, message, Tooltip } from 'antd';
 import { LoginModal, ExampleComment } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import { oss } from '@/libs/publicPath'
@@ -54,7 +54,7 @@ class EssayDetail extends Component {
   UNSAFE_componentWillMount () {
     if (this.props.location.pathname.indexOf('about') !== -1) {
       this.setState({
-        id: 21
+        id: 0
       }, () => {
         this.getEssayDetail()
       })
@@ -120,6 +120,34 @@ class EssayDetail extends Component {
       return
     }
     this.saveCollect()
+  }
+
+  handleForward = () => {
+    if (!this.state.user.id) {
+      this.setState({
+        loginVisible: true,
+      });
+      return
+    } else if (this.state.user.id === this.state.essayData.userId) {
+      message.error('无法转发自己的文章')
+      return
+    } else if (this.state.essayData.forward) {
+      message.error('你已转发过此文章')
+      return
+    }
+    this.forwardEssay()
+  }
+
+  forwardEssay = () => {
+    Fetch.post(`essay/forward/${this.state.essayData.id}`).then((res) => {
+			if (res.code === 0) {
+       message.success('转发成功')
+       let essayData = Object.assign({}, this.state.essayData, { forward: true })
+       this.setState({
+         essayData
+       })
+      }
+    })
   }
 
   saveCollect () {
@@ -234,10 +262,20 @@ class EssayDetail extends Component {
   }
 
   getEssayDetail () {
-    Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
+    let data = {}
+    if (this.state.id) {
+      data.id = this.state.id
+    } else {
+      data.status = 4
+    }
+    Fetch.get(`essay/detail`, data).then((res) => {
 			if (res.code === 0) {
         document.title = '熊博园-' + res.data.title
         this.setMarkdwonTitle(res)
+      } else {
+        this.setState({
+          spinLoading: false
+        })
       }
     })
   }
@@ -342,18 +380,30 @@ class EssayDetail extends Component {
         <div className="frontend-essayDetail">
           <article>
             <div className="left">
-              <div className="item" onClick={this.handleLike.bind()}>
-                <Icon type="like" theme="filled" className={ (star.status === 1 && user.id) ? 'like-active' : ''}/>
-                <Badge count={essayData.starCount} style={ (star.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
-              </div>
-              <div className="item" onClick={this.onClickComment.bind()}>
-                <Icon type="message" theme="filled" />
-                <Badge count={commentCount} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
-              </div>
-              <div className="item" onClick={this.handleStar.bind()}>
-                <Icon type="star" theme="filled" className={(collect.status === 1 && user.id) ? 'like-active' : ''}/>
-                <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
-              </div>
+              <Tooltip placement="topLeft" title="点赞">
+                <div className="item" onClick={this.handleLike.bind()}>
+                  <Icon type="like" theme="filled" className={ (star.status === 1 && user.id) ? 'like-active' : ''}/>
+                  <Badge count={essayData.starCount} style={ (star.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="评论">
+                <div className="item" onClick={this.onClickComment.bind()}>
+                  <Icon type="message" theme="filled" />
+                  <Badge count={commentCount} style={{ backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="收藏">
+                <div className="item" onClick={this.handleStar.bind()}>
+                  <Icon type="star" theme="filled" className={(collect.status === 1 && user.id) ? 'like-active' : ''}/>
+                  <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
+                </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="分享">
+                <div className="item" onClick={this.handleForward.bind()}>
+                  <Icon type="share-alt" className={(essayData.forward && user.id) ? 'like-active' : ''}/>
+                  {/* <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/> */}
+                </div>
+              </Tooltip>
             </div>
             <div className="content">
               <h1>{essayData.title}</h1>

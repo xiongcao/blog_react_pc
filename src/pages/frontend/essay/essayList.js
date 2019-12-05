@@ -4,6 +4,7 @@ import { MyTag, EssayItem, DropdownLoading } from '@/components'
 import * as Fetch from '@/libs/fetch';
 import noResult from '@/assets/img/noResult.png'
 import { oss } from '@/libs/publicPath'
+import store from '@/libs/store'
 import './index.less'
 import '../index/index.less'
 
@@ -16,7 +17,7 @@ class EssayList extends Component {
       categoryId: '',
       tagId: '',
       properties: 'star_count, created_date',
-      userInfo: {},
+      userInfo: store.getState().user,
       tagList: [],
       categoryList: [],
       essayList: [],
@@ -37,9 +38,11 @@ class EssayList extends Component {
   UNSAFE_componentWillMount () {
     document.title = '熊博园-文章'
     this.getEssayList()
-    this.getUserInfo()
     this.getTagList()
     this.getCategoryList()
+    if (this.state.userInfo.id) {
+      this.getUserInfo()
+    }
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }
 
@@ -48,7 +51,7 @@ class EssayList extends Component {
   }
 
   getUserInfo () {
-    Fetch.get(`user/findById?id=2`).then((res) => {
+    Fetch.get(`user/findById?id=${this.state.userInfo.id}`).then((res) => {
 			if (res.code === 0) {
 				this.setState({
 					userInfo: res.data
@@ -58,7 +61,11 @@ class EssayList extends Component {
   }
 
   getTagList () {
-    Fetch.get(`tag/findTagNumbers`).then((res) => {
+    let id = 2
+    if (this.state.userInfo.id) {
+      id = this.state.userInfo.id
+    }
+    Fetch.get(`tag/findTagNumbers?userId=${id}`).then((res) => {
 			if (res.code === 0) {
         this.setState({
           tagList: res.data,
@@ -69,7 +76,11 @@ class EssayList extends Component {
   }
 
   getCategoryList () {
-    Fetch.get(`category/findCategoryNumbers`).then((res) => {
+    let id = 2
+    if (this.state.userInfo.id) {
+      id = this.state.userInfo.id
+    }
+    Fetch.get(`category/findCategoryNumbers?userId=${id}`).then((res) => {
 			if (res.code === 0) {
         this.setState({
           categoryList: res.data
@@ -81,6 +92,9 @@ class EssayList extends Component {
   getEssayList () {
     let { page, size, categoryId, tagId, properties, isScrollLoad } = this.state
     let data = { page, size, categoryId, tagId, properties, direction: 'DESC' }
+    if (this.state.userInfo.id) {
+      data.id = this.state.userInfo.id
+    }
     this.setState(() => ({
       loading: isScrollLoad,
       loadingCompleted: false

@@ -87,7 +87,7 @@ class EssayList extends Component {
               html = '已删除'
             } else if (status === 1) {
               html = (
-                <Popconfirm placement="left" title={"是否设置为私密"} onConfirm={this.updateStatus.bind(this, record.id, 2)} okText="是" cancelText="否">
+                <Popconfirm placement="left" title={"设置为私密或自序"} onConfirm={this.updateStatus.bind(this, record.id, 2)} onCancel={this.updateStatus.bind(this, record.id, 4)} okText="私密" cancelText="自序">
                   <MyButton size="small" color="#2db7f5">公开</MyButton>
                 </Popconfirm>
               )
@@ -97,10 +97,12 @@ class EssayList extends Component {
                   <MyButton size="small" color="#f5222d">私密</MyButton>
                 </Popconfirm>
               )
-            } else {
+            } else if (status === 3) {
               html = (
                 <Tag>草稿</Tag>
               )
+            } else {
+              html = <Tag color="red">自序</Tag>
             }
 						return html
 					}
