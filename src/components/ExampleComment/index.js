@@ -121,7 +121,7 @@ class ExampleComment extends Component {
             <Tooltip title="点赞">
               <Icon
                 type="like"
-                theme={(item.likeFlag === 1 && user.id) ? 'filled' : 'outlined'}
+                theme={(item.commentLikeStatus === 1 && user.id) ? 'filled' : 'outlined'}
                 onClick={this.handleLike.bind(this, item.id)}
               />
             </Tooltip>
@@ -131,7 +131,7 @@ class ExampleComment extends Component {
             <Tooltip title="踩踩">
               <Icon
                 type="dislike"
-                theme={(item.dislikeFlag === 1 && user.id) ? 'filled' : 'outlined'}
+                theme={(item.commentLikeStatus === 0 && user.id) ? 'filled' : 'outlined'}
                 onClick={this.handleDislike.bind(this, item.id)}
               />
             </Tooltip>
@@ -143,7 +143,7 @@ class ExampleComment extends Component {
             {
               show && (
                 <Fragment>
-                  <TextArea value={commentTxt} onChange={this.changeCommentTxt.bind(this)} placeholder={'回复' + item.user.nickname + '：'} autosize />
+                  <TextArea value={commentTxt} onChange={this.changeCommentTxt.bind(this)} placeholder={'回复' + (item.user.nickname || item.user.name) + '：'} autosize={{ minRows: 1, maxRows: 3 }} />
                   <Button type="primary" onClick={this.sendComment.bind(this, item.pid === 0 ? item.id : item.pid)}>发布</Button>
                 </Fragment>
               )
@@ -156,8 +156,8 @@ class ExampleComment extends Component {
           </Tooltip>
         }
         author={item.pid === 0 ? 
-          (<a className="username">{item.user.nickname}</a>) : 
-          (<><a className="username">{item.user.nickname}</a><span>&nbsp;&nbsp;回复&nbsp;&nbsp;</span><a className="username">{item.toUser.nickname}</a></>)}
+          (<a className="username">{item.user.nickname || item.user.name}</a>) : 
+          (<><a className="username">{item.user.nickname || item.user.name}</a><span>&nbsp;&nbsp;回复&nbsp;&nbsp;</span><a className="username">{item.toUser.nickname || item.toUser.name}</a></>)}
         avatar={<Avatar src={oss + item.user.avatar} alt="作者" />}
         content={ item.content }
       >

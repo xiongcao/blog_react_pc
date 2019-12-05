@@ -236,7 +236,7 @@ class EssayDetail extends Component {
   getEssayDetail () {
     Fetch.get(`essay/detail/${this.state.id}`).then((res) => {
 			if (res.code === 0) {
-        document.title = '小熊博客-' + res.data.title
+        document.title = '熊博园-' + res.data.title
         this.setMarkdwonTitle(res)
       }
     })

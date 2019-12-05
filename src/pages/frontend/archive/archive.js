@@ -23,7 +23,7 @@ class Archive extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    document.title = '小熊博客-归档'
+    document.title = '熊博园-归档'
     this.getArchiveListData()
     window.addEventListener('scroll', this.handleScroll.bind(this)) //监听滚动
   }

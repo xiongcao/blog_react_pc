@@ -12,7 +12,7 @@ class EssayList extends Component {
     super(props)
     this.state = {
       page: 0,
-      size: 10,
+      size: 20,
       categoryId: '',
       tagId: '',
       properties: 'star_count, created_date',
@@ -35,7 +35,7 @@ class EssayList extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    document.title = '小熊博客-文章'
+    document.title = '熊博园-文章'
     this.getEssayList()
     this.getUserInfo()
     this.getTagList()

@@ -25,7 +25,7 @@ class Personal extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    document.title = '小熊博客-个人中心'
+    document.title = '熊博园-个人中心'
     this.initData(this.state.current)
   }
 
@@ -225,7 +225,7 @@ class Personal extends Component {
                     <div className="left">
                       <div className="title" onClick={this.goToEssayDetail.bind(this, o.essayId)}>{o.title}</div>
                       <div className="left-btm">
-                        <span className="author">作者：{o.name}</span>
+                        <span className="author">作者：{o.nickname || o.name}</span>
                         <span className="date">收藏日期：{moment(o.createdDate).format("YYYY-MM-DD")}</span>
                       </div>
                     </div>
@@ -256,7 +256,7 @@ class Personal extends Component {
                     <div className="avatar">
                       <Avatar size={50} src={oss + o.avatar}/>
                     </div>
-                    <div className="nickname">{o.name}</div>
+                    <div className="nickname">{o.nickname || o.name}</div>
                     <div className="btn">
                       {
                         current === 'fans' ? (

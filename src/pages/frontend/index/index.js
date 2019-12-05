@@ -11,7 +11,7 @@ class Index extends Component {
     this.state = {
       navActiveIndex: 2,
       page: 0,
-      size: 10,
+      size: 20,
       title: '',
       categoryId: '',
       tagId: '',
@@ -29,7 +29,7 @@ class Index extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    document.title = '小熊博客-首页'
+    document.title = '熊博园-首页'
     this.getEssayList()
     this.getTagList()
     this.getCategoryList()
