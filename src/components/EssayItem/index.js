@@ -17,7 +17,7 @@ class EssayItem extends Component {
     this.setState({
       active: true
     })
-    window.open('/#/frontend/essayDetail/' + id, '_blank')
+    window.open('/frontend/essayDetail/' + id, '_blank')
   }
 
   render() {

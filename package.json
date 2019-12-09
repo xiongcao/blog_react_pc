@@ -38,6 +38,7 @@
     "builtin-status-codes": "^3.0.0",
     "china-division": "^2.2.0",
     "core-js": "^3.2.1",
+    "fetch-jsonp": "^1.1.3",
     "highlight.js": "^9.15.8",
     "markdown-it": "^9.0.1",
     "normalize.css": "^8.0.1",

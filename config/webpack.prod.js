@@ -9,7 +9,9 @@ const WorkboxPlugin = require('workbox-webpack-plugin'); // 离线状态下使�
 
 module.exports = merge(common, {
   mode: 'production',
-  // output: {},
+  output: {
+    publicPath: '/'
+  },
   devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(),

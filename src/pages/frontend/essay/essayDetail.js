@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Icon, Modal, Badge, Spin, Input, Button, message, Tooltip } from 'antd';
 import { LoginModal, ExampleComment } from '@/components'
 import * as Fetch from '@/libs/fetch';
+import  fetchJsonp  from  'fetch-jsonp'
 import { oss } from '@/libs/publicPath'
 
 import hljs from 'highlight.js'
@@ -15,6 +16,10 @@ import store from '@/libs/store'
 
 import '@/assets/styles/markdown.less'
 import './index.less'
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1548735_d1rrjzq1qc.js'
+})
 
 class EssayDetail extends Component {
   constructor(props) {
@@ -37,7 +42,8 @@ class EssayDetail extends Component {
       collect: {},
       spinLoading: true,
       commentTxt: '', // 输入框的值
-      commentCount: 0 // 评论总数
+      commentCount: 0, // 评论总数
+      shortUrl: '' // 短链接
     };
   }
 
@@ -148,6 +154,24 @@ class EssayDetail extends Component {
        })
       }
     })
+  }
+
+  handleShare = (type) => {
+    let { essayData } = this.state
+    let content = essayData.title
+    let title = document.title
+    let url = document.location.href
+    let picurl = essayData.cover ? (oss + essayData.cover) : (oss + essayData.categorys[0].cover)
+    if (type == 'qqzone') {
+      let shareqqzonestring = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?summary='+content+'&title='+title+'&url='+url+'&pics='+picurl;
+      window.open(shareqqzonestring,'newwindow','height=400,width=400,top=100,left=100'); 
+    } else if (type === 'sina') {
+      let sharesinastring = 'http://v.t.sina.com.cn/share/share.php?title='+content+'&url='+url+'&content=utf-8&sourceUrl='+url+'&pic='+picurl;
+      window.open(sharesinastring,'newwindow','height=400,width=400,top=100,left=100'); 
+    } else if (type === 'qq') {
+      let sharesinastring = 'https://connect.qq.com/widget/shareqq/iframe_index.html?url='+url+'&title='+title+'&pics='+picurl+'&summary='+content
+      window.open(sharesinastring,'newwindow','height=560,width=720,top=100,left=100'); 
+    }
   }
 
   saveCollect () {
@@ -262,6 +286,7 @@ class EssayDetail extends Component {
   }
 
   getEssayDetail () {
+    this.getShortUrl()
     let data = {}
     if (this.state.id) {
       data.id = this.state.id
@@ -277,6 +302,24 @@ class EssayDetail extends Component {
           spinLoading: false
         })
       }
+    })
+  }
+
+  getShortUrl = () => {
+    // let url = "http://api.t.sina.com.cn/short_url/shorten.json"
+    // let app_key = "5890e1a4d609373c0b1387d2fa75ab05" // app_key无效可能会导致无反应；
+    // let cmd = url + "?source=" + app_key + "&url_long=" + location.href
+    let url = 'http://mrw.so/api.htm?url=urlencode("'+location.href+'")&key=5de9d26a9f9594418772bee9@e82544a854104fd694346ae8bf0cfd27&format=json'
+    console.log(url, 'url')
+    fetch(url, {
+      method: 'GET'
+    }).then(res => {
+      console.log(res.json(), 'res')
+      return res;
+    }).then(res => {
+      console.log(res, 'request')
+    }).catch(err => {
+      console.log(err)
     })
   }
 
@@ -398,10 +441,25 @@ class EssayDetail extends Component {
                   <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/>
                 </div>
               </Tooltip>
-              <Tooltip placement="topLeft" title="分享">
+              <Tooltip placement="topLeft" title="转发">
                 <div className="item" onClick={this.handleForward.bind()}>
-                  <Icon type="share-alt" className={(essayData.forward && user.id) ? 'like-active' : ''}/>
-                  {/* <Badge count={essayData.collectCount} style={(collect.status === 1 && user.id) ? { backgroundColor: '#74ca46' } : { backgroundColor: '#b2bac2' }} overflowCount={999}/> */}
+                  {/* <Icon type="share-alt" className={(essayData.forward && user.id) ? 'like-active' : ''}/> */}
+                  <IconFont type="icon-fenxiang"/>
+                </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="QQ">
+                <div className="item" onClick={this.handleShare.bind(this, 'qq')}>
+                  <Icon type="qq" style={{fontSize: '18px'}}/>
+                </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="QQ Zone">
+              <div className="item" onClick={this.handleShare.bind(this, 'qqzone')}>
+                <IconFont type="icon-qq-zone" style={{fontSize: '18px'}}/>
+              </div>
+              </Tooltip>
+              <Tooltip placement="topLeft" title="weibo">
+                <div className="item" onClick={this.handleShare.bind(this, 'sina')}>
+                  <Icon type="weibo-circle" style={{fontSize: '18px'}}/>
                 </div>
               </Tooltip>
             </div>
