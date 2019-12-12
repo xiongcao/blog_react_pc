@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="referrer" content="no-referrer"/>
+  <meta name="referrer" content="no-referrer" />
   <title>熊博园</title>
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?23cd02b9e3692260fc0d10ae25be1daf";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+      shouldTrackUrlChange: function (newPath, oldPath) {
+        return newPath && oldPath;
+      }}
+    ]);
+  </script>
+
 </head>
+
 <body>
   <div id="app"></div>
 </body>
+
 </html>
