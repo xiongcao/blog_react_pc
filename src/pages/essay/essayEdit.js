@@ -61,8 +61,11 @@ class EssayEdit extends Component {
 			if (res.code === 0) {
         let tags = res.data.tags.map((tag) => tag.name)
         let categorys = res.data.categorys.map((category) => category.name)
+        let content = res.data.content
+        content = content.replace(/https:\/\/www\.cwsoy\.com\/images/igm, 'https://www.cwsoy.com:8090/images')
+        res.data.content = content
         let essayData = Object.assign({}, res.data, {
-          categorys, tags
+          categorys, tags, content
         })
 				this.setState({
 					essayData

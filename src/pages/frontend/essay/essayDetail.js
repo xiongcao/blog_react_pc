@@ -286,7 +286,7 @@ class EssayDetail extends Component {
   }
 
   getEssayDetail () {
-    this.getShortUrl()
+    // this.getShortUrl()
     let data = {}
     if (this.state.id) {
       data.id = this.state.id
@@ -330,6 +330,9 @@ class EssayDetail extends Component {
         return hljs.highlightAuto(code).value
       }
     })
+    let content = res.data.content
+    content = content.replace(/https:\/\/www\.cwsoy\.com\/images/igm, 'https://www.cwsoy.com:8090/images')
+    res.data.content = content
     let navList = getMKTitles(res.data.content)
     this.setRenderer(renderer)
     let markdownHtml = marked(res.data.content || ' ', { renderer: renderer })

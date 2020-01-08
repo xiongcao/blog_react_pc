@@ -1,12 +1,12 @@
   /** *************** 部署环境 *************** */
 
   const requestApi ='https://www.cwsoy.com:81/'
-  const oss ='https://www.cwsoy.com/images/' // 官网
+  const oss ='https://www.cwsoy.com:8090/images/' // 官网
   const replaceHttp = false
 
   // const oss ='http://192.168.1.215:8899/'
   // // const oss ='http://192.168.2.119:8899/'
-  // const replaceHttp =false
+  // const replaceHttp = false
 
   /** *************** 开发环境 *************** */
   // const devRequestApi ='http://192.168.1.87:8899/'
